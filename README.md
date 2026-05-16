@@ -1,10 +1,10 @@
-# struções de Execução - Atividades de Sistemas Distribuídos
+# Atividades Sistemas Distribuídos
 
 Este documento contém todos os comandos necessários para compilar e executar as atividades de Sockets e Threads.
 
 ---
 
-## 🔌 1. Atividades de Sockets
+## 1. Atividades de Sockets
 
 **Local da pasta:** `C:\Distribuidos\EntregaSockets`
 
@@ -29,7 +29,7 @@ javac -d bin src/*/*.java
 
 ---
 
-## 🧵 2. Atividades de Threads
+## 2. Atividades de Threads
 
 **Local da pasta:** `C:\Distribuidos\EntregaThreads`
 
