@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 
 public class ServidorBanco {
     private static final int PORTA = 12348;
-    private static Map<String, Double> contas = new ConcurrentHashMap<>();
+    private static Map<String, Double> contas = new HashMap<>();
 
     static {
         contas.put("123", 1000.0);
@@ -37,9 +37,12 @@ public class ServidorBanco {
                 String contaInput = in.readLine();
                 if (contaInput == null) return;
                 String conta = contaInput.trim();
-                if (!contas.containsKey(conta)) {
-                    out.println("ERRO: Conta inexistente. Encerrando.");
-                    return;
+                
+                synchronized (contas) {
+                    if (!contas.containsKey(conta)) {
+                        out.println("ERRO: Conta inexistente. Encerrando.");
+                        return;
+                    }
                 }
 
                 String cmd;
@@ -53,7 +56,9 @@ public class ServidorBanco {
 
                     switch (operacao) {
                         case "1":
-                            out.println("SALDO ATUAL: " + contas.get(conta));
+                            synchronized (contas) {
+                                out.println("SALDO ATUAL: " + contas.get(conta));
+                            }
                             break;
                         case "2":
                             if (partes.length < 2) { out.println("ERRO: Informe o valor."); }
@@ -80,17 +85,21 @@ public class ServidorBanco {
             }
         }
 
-        private synchronized void depositar(String conta, double valor) {
-            contas.put(conta, contas.get(conta) + valor);
+        private void depositar(String conta, double valor) {
+            synchronized (contas) {
+                contas.put(conta, contas.get(conta) + valor);
+            }
         }
 
-        private synchronized boolean sacar(String conta, double valor) {
-            double atual = contas.get(conta);
-            if (atual >= valor) {
-                contas.put(conta, atual - valor);
-                return true;
+        private boolean sacar(String conta, double valor) {
+            synchronized (contas) {
+                double atual = contas.get(conta);
+                if (atual >= valor) {
+                    contas.put(conta, atual - valor);
+                    return true;
+                }
+                return false;
             }
-            return false;
         }
     }
 }

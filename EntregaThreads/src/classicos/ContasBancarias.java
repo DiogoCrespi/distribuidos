@@ -1,7 +1,6 @@
 package classicos;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.*;
 
 public class ContasBancarias {
     public static void main(String[] args) {
@@ -25,43 +24,27 @@ public class ContasBancarias {
 class Conta {
     private String nome;
     private double saldo;
-    private final Lock lock = new ReentrantLock();
 
     public Conta(String n, double s) { this.nome = n; this.saldo = s; }
 
-    public void depositar(double valor) {
-        lock.lock();
-        try {
-            saldo += valor;
-            System.out.println(nome + ": Depositado " + valor + ". Novo saldo: " + saldo);
-        } finally {
-            lock.unlock();
+    public synchronized void depositar(double valor) {
+        saldo += valor;
+        System.out.println(nome + ": Depositado " + valor + ". Novo saldo: " + saldo);
+    }
+
+    public synchronized void sacar(double valor) {
+        if (saldo >= valor) {
+            saldo -= valor;
+            System.out.println(nome + ": Sacado " + valor + ". Novo saldo: " + saldo);
+        } else {
+            System.out.println(nome + ": Saldo insuficiente para saque de " + valor);
         }
     }
 
-    public void sacar(double valor) {
-        lock.lock();
-        try {
-            if (saldo >= valor) {
-                saldo -= valor;
-                System.out.println(nome + ": Sacado " + valor + ". Novo saldo: " + saldo);
-            } else {
-                System.out.println(nome + ": Saldo insuficiente para saque de " + valor);
-            }
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public void creditarJuros(double taxa) {
-        lock.lock();
-        try {
-            double juros = saldo * taxa;
-            saldo += juros;
-            System.out.println(nome + ": Juros de " + juros + " creditados. Novo saldo: " + saldo);
-        } finally {
-            lock.unlock();
-        }
+    public synchronized void creditarJuros(double taxa) {
+        double juros = saldo * taxa;
+        saldo += juros;
+        System.out.println(nome + ": Juros de " + juros + " creditados. Novo saldo: " + saldo);
     }
 
     public void transferir(Conta destino, double valor) {
@@ -69,17 +52,14 @@ class Conta {
         Conta primeira = this.nome.compareTo(destino.nome) < 0 ? this : destino;
         Conta segunda = primeira == this ? destino : this;
 
-        primeira.lock.lock();
-        segunda.lock.lock();
-        try {
-            if (saldo >= valor) {
-                this.saldo -= valor;
-                destino.saldo += valor;
-                System.out.println("Transferencia de " + valor + " de " + this.nome + " para " + destino.nome + " OK.");
+        synchronized (primeira) {
+            synchronized (segunda) {
+                if (saldo >= valor) {
+                    this.saldo -= valor;
+                    destino.saldo += valor;
+                    System.out.println("Transferencia de " + valor + " de " + this.nome + " para " + destino.nome + " OK.");
+                }
             }
-        } finally {
-            segunda.lock.unlock();
-            primeira.lock.unlock();
         }
     }
 }
