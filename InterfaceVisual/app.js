@@ -5,6 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let isRunning = false;
     let bufferItems = [];
 
+    // --- SOCKET STATE VARIABLES ---
+    let currentSocketSessionId = null;
+    let forcaSessionId = null;
+    let bankSessionId = null;
+    let bankAccountNum = null;
+    let chatSessionId = null;
+    let activeChatNickname = '';
+    let integersList = [];
+    let uploadedFiles = [];
+    let forcaErros = 0;
+
     // --- ELEMENTOS DOM ---
     const menuButtons = document.querySelectorAll('.menu-btn');
     const currentTitle = document.getElementById('current-title');
@@ -203,6 +214,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initMenuNavigation();
 
+    // Toggle menu de sockets
+    const categorySockets = document.getElementById('category-sockets');
+    const socketsMenuList = document.getElementById('sockets-menu-list');
+    if (categorySockets && socketsMenuList) {
+        categorySockets.addEventListener('click', () => {
+            const isCollapsed = categorySockets.classList.toggle('collapsed');
+            if (isCollapsed) {
+                socketsMenuList.classList.add('collapsed');
+            } else {
+                socketsMenuList.classList.remove('collapsed');
+            }
+        });
+    }
+
     // --- CONTROLE DE PROCESSOS (INICIAR/PARAR) ---
     btnStart.addEventListener('click', async () => {
         btnStart.disabled = true;
@@ -216,6 +241,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         resetAllUIs();
+        if (EXERCISES[currentExerciseId] && EXERCISES[currentExerciseId].isSocket) {
+            renderSocketClientUI(currentExerciseId);
+        }
 
         try {
             const response = await fetch(`/api/start?id=${startId}`, { method: 'POST' });
@@ -1026,17 +1054,6 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadedFiles = [];
         forcaErros = 0;
     }
-
-    // --- SOCKET STATE VARIABLES ---
-    let currentSocketSessionId = null;
-    let forcaSessionId = null;
-    let bankSessionId = null;
-    let bankAccountNum = null;
-    let chatSessionId = null;
-    let activeChatNickname = '';
-    let integersList = [];
-    let uploadedFiles = [];
-    let forcaErros = 0;
 
     // --- SOCKETS UI RENDERING & LOGIC ---
     function renderSocketClientUI(id) {

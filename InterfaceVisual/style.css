@@ -93,6 +93,47 @@ body {
     text-transform: uppercase;
 }
 
+.menu-category.collapsible {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    transition: color 0.15s ease;
+}
+
+.menu-category.collapsible:hover {
+    color: var(--text-primary);
+}
+
+.menu-category.collapsible .category-arrow {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: rotate(90deg); /* points down when open */
+}
+
+.menu-category.collapsible.collapsed .category-arrow {
+    transform: rotate(0deg); /* points right when collapsed */
+}
+
+#sockets-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, margin-top 0.3s ease;
+    max-height: 500px;
+    opacity: 1;
+    overflow: hidden;
+}
+
+#sockets-menu-list.collapsed {
+    max-height: 0 !important;
+    opacity: 0 !important;
+    margin-top: 0 !important;
+    pointer-events: none;
+}
+
 .menu-btn {
     display: flex;
     align-items: center;
