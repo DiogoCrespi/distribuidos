@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistemas Distribuídos - Threads</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar para seleção de exercícios -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-indicator"></span>
+                <h1>COM1034 - Threads</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="menu-category">SIMULAÇÕES DE CONCORRÊNCIA</div>
+                
+                <button class="menu-btn active" data-id="bar">
+                    <span class="btn-label">Atendimento no Bar</span>
+                </button>
+                <button class="menu-btn" data-id="barbearia">
+                    <span class="btn-label">Barbeiro Dorminhoco</span>
+                </button>
+                <button class="menu-btn" data-id="filosofos">
+                    <span class="btn-label">Jantar dos Filósofos</span>
+                </button>
+                <button class="menu-btn" data-id="roletas">
+                    <span class="btn-label">Problema das Roletas</span>
+                </button>
+                <button class="menu-btn" data-id="contas">
+                    <span class="btn-label">Contas Bancárias</span>
+                </button>
+                <button class="menu-btn" data-id="prodcons">
+                    <span class="btn-label">Produtor / Consumidor</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>Status do Servidor: <span id="server-status" class="online">ONLINE</span></p>
+                <p class="footer-sub">UFPR - Distribuidos</p>
+            </div>
+        </aside>
+
+        <!-- Área Principal de Controle e Visualização -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="exercise-info">
+                    <h2 id="current-title">Atendimento no Bar</h2>
+                    <p id="current-desc">Simula a concorrência entre Clientes, Garçons e Bartender usando Monitores.</p>
+                </div>
+                <div class="controls">
+                    <div id="status-badge" class="badge idle">Ocioso</div>
+                    <button id="btn-start" class="btn btn-primary">Iniciar</button>
+                    <button id="btn-stop" class="btn btn-danger" disabled>Parar</button>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <!-- Painel de Visualização Gráfica -->
+                <section class="visualizer-panel card">
+                    
+                    <!-- 1. Visualizador do Bar -->
+                    <div id="panel-bar" class="sim-panel active">
+                        <div class="sim-header">
+                            <h3>Arena do Bar</h3>
+                            <div class="bar-stats">
+                                <span>Rodada: <strong id="bar-rodada" class="mono">0/5</strong></span>
+                                <span class="divider-dot"></span>
+                                <span>Capacidade: <strong id="bar-capacidade" class="mono">3</strong></span>
+                            </div>
+                        </div>
+                        <div class="bar-layout">
+                            <div class="bar-area table-zone">
+                                <h4>Clientes</h4>
+                                <div id="bar-clients" class="clients-grid">
+                                    <!-- Gerado dinamicamente -->
+                                </div>
+                            </div>
+                            <div class="bar-area waitstaff-zone">
+                                <h4>Garçons</h4>
+                                <div id="bar-waiters" class="waiters-list">
+                                    <!-- Gerado dinamicamente -->
+                                </div>
+                            </div>
+                            <div class="bar-area counter-zone">
+                                <h4>Copa / Balcão</h4>
+                                <div class="copa-counter">
+                                    <div class="copa-orders">
+                                        <h5>Fila de Pedidos</h5>
+                                        <div id="bar-orders-queue" class="orders-queue-line">
+                                            <!-- Pedidos aguardando -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Visualizador da Barbearia -->
+                    <div id="panel-barbearia" class="sim-panel">
+                        <div class="sim-header">
+                            <h3>Salão da Barbearia</h3>
+                        </div>
+                        <div class="barbearia-layout">
+                            <div class="barber-station">
+                                <h4>Cadeira do Barbeiro</h4>
+                                <div class="station-box">
+                                    <div id="barbeiro-actor" class="actor sleeping">
+                                        <span class="actor-status-label">Dormindo</span>
+                                        <span class="actor-name">Barbeiro</span>
+                                    </div>
+                                    <div id="chair-client" class="chair-slot empty">
+                                        Cadeira Vazia
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="waiting-room">
+                                <h4>Sala de Espera (Cadeiras: 3)</h4>
+                                <div id="waiting-chairs" class="chairs-row">
+                                    <div class="chair-spot-visual" data-index="0"></div>
+                                    <div class="chair-spot-visual" data-index="1"></div>
+                                    <div class="chair-spot-visual" data-index="2"></div>
+                                </div>
+                                <div class="arriving-clients-zone">
+                                    <h5>Fluxo de Eventos</h5>
+                                    <div id="barber-clients-list" class="clients-list-flow font-mono">
+                                        <!-- Fluxo de clientes -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Visualizador do Jantar dos Filósofos -->
+                    <div id="panel-filosofos" class="sim-panel">
+                        <div class="sim-header">
+                            <h3>Mesa Redonda</h3>
+                        </div>
+                        <div class="philosophers-layout">
+                            <div class="table-container">
+                                <div class="dinner-table">
+                                    <div class="dinner-table-inner">Mesa</div>
+                                </div>
+                                <div id="philosophers-ring" class="philosophers-ring">
+                                    <!-- Filósofos e Hashis gerados dinamicamente via JS -->
+                                </div>
+                            </div>
+                            <div class="hashis-status-area">
+                                <h4>Estado dos Hashis</h4>
+                                <div class="hashis-list" id="hashis-list">
+                                    <!-- Lista auxiliar de estados dos hashis -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Visualizador do Problema das Roletas -->
+                    <div id="panel-roletas" class="sim-panel">
+                        <div class="sim-header">
+                            <h3>Problema das Roletas</h3>
+                        </div>
+                        <div class="roletas-layout">
+                            <div class="counter-display-card">
+                                <span class="counter-title">Contador Global</span>
+                                <span class="counter-value font-mono" id="roletas-contador">0</span>
+                                <div class="counter-meta">
+                                    <span>Esperado: <strong id="roletas-esperado" class="font-mono">5000</strong></span>
+                                </div>
+                            </div>
+                            <div class="roletas-threads-visual">
+                                <h4>Threads de Roletas (5 ativas)</h4>
+                                <div class="roletas-grid" id="roletas-grid">
+                                    <div class="roleta-node active-roleta" id="roleta-0">
+                                        <span class="roleta-name">Roleta 0</span>
+                                        <span class="roleta-status-text">Concluído</span>
+                                    </div>
+                                    <div class="roleta-node active-roleta" id="roleta-1">
+                                        <span class="roleta-name">Roleta 1</span>
+                                        <span class="roleta-status-text">Concluído</span>
+                                    </div>
+                                    <div class="roleta-node active-roleta" id="roleta-2">
+                                        <span class="roleta-name">Roleta 2</span>
+                                        <span class="roleta-status-text">Concluído</span>
+                                    </div>
+                                    <div class="roleta-node active-roleta" id="roleta-3">
+                                        <span class="roleta-name">Roleta 3</span>
+                                        <span class="roleta-status-text">Concluído</span>
+                                    </div>
+                                    <div class="roleta-node active-roleta" id="roleta-4">
+                                        <span class="roleta-name">Roleta 4</span>
+                                        <span class="roleta-status-text">Concluído</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Visualizador das Contas Bancárias -->
+                    <div id="panel-contas" class="sim-panel">
+                        <div class="sim-header">
+                            <h3>Contas Bancárias Concorrentes</h3>
+                        </div>
+                        <div class="contas-layout">
+                            <div class="accounts-grid">
+                                <div class="account-card" id="account-a">
+                                    <span class="account-label">Conta A</span>
+                                    <span class="account-balance font-mono" id="balance-a">R$ 1000,00</span>
+                                </div>
+                                <div class="account-card" id="account-b">
+                                    <span class="account-label">Conta B</span>
+                                    <span class="account-balance font-mono" id="balance-b">R$ 500,00</span>
+                                </div>
+                            </div>
+                            <div class="transactions-log-area">
+                                <h4>Registro de Transações Recentes</h4>
+                                <div class="transactions-list font-mono" id="transactions-list">
+                                    <p class="empty-log">Aguardando início da simulação...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Visualizador do Produtor / Consumidor -->
+                    <div id="panel-prodcons" class="sim-panel">
+                        <div class="sim-header">
+                            <h3>Produtor / Consumidor</h3>
+                            <div class="prodcons-selector">
+                                <label class="radio-label">
+                                    <input type="radio" name="prodcons-mode" value="monitor" checked>
+                                    <span>Monitores</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="prodcons-mode" value="semaforo">
+                                    <span>Semáforos</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="prodcons-layout">
+                            <div class="prodcons-status-cards">
+                                <div class="actor-card font-mono" id="prodcons-producer">
+                                    <span class="actor-label">Produtor</span>
+                                    <span class="actor-state">Parado</span>
+                                </div>
+                                <div class="actor-card font-mono" id="prodcons-consumer">
+                                    <span class="actor-label">Consumidor</span>
+                                    <span class="actor-state">Parado</span>
+                                </div>
+                            </div>
+                            <div class="buffer-visual-area">
+                                <h4>Buffer Compartilhado (Limite: 5)</h4>
+                                <div class="buffer-slots" id="buffer-slots">
+                                    <div class="buffer-slot" data-index="0"><span class="slot-idx">0</span><span class="slot-val">-</span></div>
+                                    <div class="buffer-slot" data-index="1"><span class="slot-idx">1</span><span class="slot-val">-</span></div>
+                                    <div class="buffer-slot" data-index="2"><span class="slot-idx">2</span><span class="slot-val">-</span></div>
+                                    <div class="buffer-slot" data-index="3"><span class="slot-idx">3</span><span class="slot-val">-</span></div>
+                                    <div class="buffer-slot" data-index="4"><span class="slot-idx">4</span><span class="slot-val">-</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- Console de Logs em Tempo Real -->
+                <section class="console-panel card">
+                    <div class="console-header">
+                        <h4>Terminal Console (Saída Java)</h4>
+                        <button id="btn-clear-console" class="btn btn-mini">Limpar</button>
+                    </div>
+                    <div id="console-output" class="console-body font-mono">
+                        <div class="line system">[Interface] Selecione um exercício e clique em 'Iniciar' para começar.</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
