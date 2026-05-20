@@ -54,3 +54,15 @@ javac -d bin src/*/*.java
 
 ---
 
+## 3. Interface Visual (Web)
+
+**Local da pasta:** `C:\Distribuidos\InterfaceVisual`
+
+### Execução:
+```bash
+node server.js
+```
+
+### No navegador:
+[http://localhost:3000](http://localhost:3000)
+
