@@ -127,33 +127,81 @@ document.addEventListener('DOMContentLoaded', () => {
     resetAllUIs();
 
     // --- NAVEGAÇÃO ENTRE ABAS ---
-    menuButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const id = btn.getAttribute('data-id');
-            if (id === currentExerciseId) return;
+    function selectExercise(id, btnElement) {
+        if (id === currentExerciseId) return;
 
-            // Se estiver rodando algo, para
-            if (isRunning) {
-                stopCurrentExercise();
-            }
+        if (isRunning) {
+            stopCurrentExercise();
+        }
 
-            // Altera botão ativo na sidebar
-            document.querySelector('.menu-btn.active').classList.remove('active');
-            btn.classList.add('active');
+        const activeBtn = document.querySelector('.menu-btn.active');
+        if (activeBtn) activeBtn.classList.remove('active');
+        btnElement.classList.add('active');
 
-            // Altera visualizadores de painéis
-            document.querySelector('.sim-panel.active').classList.remove('active');
-            document.getElementById(EXERCISES[id].panelId).classList.add('active');
+        const activePanel = document.querySelector('.sim-panel.active');
+        if (activePanel) activePanel.classList.remove('active');
+        
+        const targetPanelId = EXERCISES[id].panelId;
+        const targetPanel = document.getElementById(targetPanelId);
+        if (targetPanel) {
+            targetPanel.classList.add('active');
+        }
 
-            currentExerciseId = id;
-            currentTitle.textContent = EXERCISES[id].title;
-            currentDesc.textContent = EXERCISES[id].desc;
+        currentExerciseId = id;
+        currentTitle.textContent = EXERCISES[id].title;
+        currentDesc.textContent = EXERCISES[id].desc;
 
-            // Reseta telas
-            resetAllUIs();
-            appendLog(`[Interface] Alternado para ${EXERCISES[id].title}`, 'system');
+        resetAllUIs();
+        
+        if (EXERCISES[id].isSocket) {
+            renderSocketClientUI(id);
+        }
+
+        appendLog(`[Interface] Alternado para ${EXERCISES[id].title}`, 'system');
+    }
+
+    function initMenuNavigation() {
+        const originalButtons = document.querySelectorAll('.nav-menu > button.menu-btn');
+        originalButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectExercise(btn.getAttribute('data-id'), btn);
+            });
         });
-    });
+
+        fetch('/api/exercises')
+            .then(res => res.json())
+            .then(exercises => {
+                const listContainer = document.getElementById('sockets-menu-list');
+                if (!listContainer) return;
+                listContainer.innerHTML = '';
+
+                exercises.forEach(ex => {
+                    if (ex.isSocket) {
+                        EXERCISES[ex.id] = {
+                            title: ex.name,
+                            desc: ex.description,
+                            panelId: 'panel-sockets',
+                            isSocket: true,
+                            port: ex.port,
+                            folder: ex.folder,
+                            class: ex.class
+                        };
+
+                        const btn = document.createElement('button');
+                        btn.className = 'menu-btn';
+                        btn.setAttribute('data-id', ex.id);
+                        btn.innerHTML = `<span class="btn-label">${ex.name}</span>`;
+                        btn.addEventListener('click', () => {
+                            selectExercise(ex.id, btn);
+                        });
+                        listContainer.appendChild(btn);
+                    }
+                });
+            })
+            .catch(err => console.error('Error fetching exercises:', err));
+    }
+
+    initMenuNavigation();
 
     // --- CONTROLE DE PROCESSOS (INICIAR/PARAR) ---
     btnStart.addEventListener('click', async () => {
@@ -233,6 +281,49 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        sseSource.addEventListener('socket_connected', (e) => {
+            const data = JSON.parse(e.data);
+            appendLog(`[Proxy] Socket cliente conectado: Session ${data.sessionId}`, 'system');
+        });
+
+        sseSource.addEventListener('socket_data', (e) => {
+            const data = JSON.parse(e.data);
+            const { sessionId, data: text } = data;
+            
+            if (sessionId.startsWith('fortune_')) {
+                if (typeof handleFortuneData === 'function') handleFortuneData(text);
+            } else if (sessionId.startsWith('inteiros_')) {
+                if (typeof handleInteirosData === 'function') handleInteirosData(text);
+            } else if (sessionId.startsWith('forca_')) {
+                if (typeof handleForcaData === 'function') handleForcaData(text);
+            } else if (sessionId.startsWith('banco_')) {
+                if (typeof handleBancoData === 'function') handleBancoData(text);
+            }
+        });
+
+        sseSource.addEventListener('socket_closed', (e) => {
+            const data = JSON.parse(e.data);
+            appendLog(`[Proxy] Socket cliente fechado: Session ${data.sessionId}`, 'system');
+            
+            if (data.sessionId.startsWith('forca_')) {
+                if (typeof handleForcaClose === 'function') handleForcaClose();
+            } else if (data.sessionId.startsWith('banco_')) {
+                if (typeof handleBancoClose === 'function') handleBancoClose();
+            }
+        });
+
+        sseSource.addEventListener('socket_error', (e) => {
+            const data = JSON.parse(e.data);
+            appendLog(`[Proxy Erro] Session ${data.sessionId}: ${data.error}`, 'stderr');
+        });
+
+        sseSource.addEventListener('chat_message', (e) => {
+            const data = JSON.parse(e.data);
+            if (typeof handleChatMessage === 'function') {
+                handleChatMessage(data.text);
+            }
+        });
+
         sseSource.onerror = (err) => {
             console.error('SSE connection error:', err);
             document.getElementById('server-status').textContent = 'OFFLINE';
@@ -265,6 +356,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'prodcons':
                     parseProdConsLine(line);
+                    break;
+                case 'socket_lojas':
+                    parseLojasLine(line);
                     break;
             }
         });
@@ -914,8 +1008,920 @@ document.addEventListener('DOMContentLoaded', () => {
         prodconsProducer.querySelector('.actor-state').textContent = 'Parado';
         prodconsConsumer.className = 'actor-card';
         prodconsConsumer.querySelector('.actor-state').textContent = 'Parado';
+
+        // 7. Reset Sockets
+        const socketContainer = document.getElementById('socket-client-container');
+        if (socketContainer) {
+            socketContainer.innerHTML = '<div style="font-size: 0.85rem; color: var(--text-muted); padding: 16px; text-align: center;">Selecione um exercício de socket, clique em "Iniciar" acima e interaja por aqui.</div>';
+        }
+        
+        // Clean active socket variables
+        currentSocketSessionId = null;
+        forcaSessionId = null;
+        bankSessionId = null;
+        bankAccountNum = null;
+        chatSessionId = null;
+        activeChatNickname = '';
+        integersList = [];
+        uploadedFiles = [];
+        forcaErros = 0;
     }
 
+    // --- SOCKET STATE VARIABLES ---
+    let currentSocketSessionId = null;
+    let forcaSessionId = null;
+    let bankSessionId = null;
+    let bankAccountNum = null;
+    let chatSessionId = null;
+    let activeChatNickname = '';
+    let integersList = [];
+    let uploadedFiles = [];
+    let forcaErros = 0;
+
+    // --- SOCKETS UI RENDERING & LOGIC ---
+    function renderSocketClientUI(id) {
+        const container = document.getElementById('socket-client-container');
+        if (!container) return;
+
+        if (id === 'socket_fortune') {
+            container.innerHTML = `
+                <div class="socket-card">
+                    <h4>Visualização do Biscoito da Sorte</h4>
+                    <div class="fortune-wrapper">
+                        <div id="fortune-cookie" class="fortune-cookie-graphic"></div>
+                        <div id="fortune-paper" class="fortune-paper">Clique no biscoito para abri-lo e receber sua sorte!</div>
+                    </div>
+                </div>
+                <div class="socket-card">
+                    <h4>Gerenciar Banco de Frases (Porta 12345)</h4>
+                    <div class="socket-control-row">
+                        <button id="btn-fortune-get" class="btn">Obter Frase (GET)</button>
+                        <button id="btn-fortune-list" class="btn btn-secondary">Listar Frases (LST)</button>
+                    </div>
+                    <div class="socket-control-row" style="margin-top: 16px;">
+                        <input type="text" id="fortune-add-input" placeholder="Nova frase do biscoito..." style="flex: 1;">
+                        <button id="btn-fortune-add" class="btn btn-success">Adicionar (ADD)</button>
+                    </div>
+                    <div class="socket-control-row" style="margin-top: 12px;">
+                        <input type="number" id="fortune-upd-index" placeholder="Posição" style="width: 80px;">
+                        <input type="text" id="fortune-upd-input" placeholder="Novo texto..." style="flex: 1;">
+                        <button id="btn-fortune-upd" class="btn btn-warning">Editar (UPD)</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('fortune-cookie').addEventListener('click', getFortuneCookie);
+            document.getElementById('btn-fortune-get').addEventListener('click', getFortuneCookie);
+            document.getElementById('btn-fortune-list').addEventListener('click', listFortunes);
+            document.getElementById('btn-fortune-add').addEventListener('click', addFortune);
+            document.getElementById('btn-fortune-upd').addEventListener('click', updateFortune);
+        }
+        else if (id === 'socket_inteiros') {
+            container.innerHTML = `
+                <div class="socket-card">
+                    <h4>Calculadora de Inteiros Concorrente (Porta 12346)</h4>
+                    <p style="font-size: 0.8rem; margin-bottom: 12px; color: var(--text-secondary);">
+                        Insira números e selecione a operação. O envio finaliza com EOF para disparar o cálculo no servidor.
+                    </p>
+                    <div class="socket-control-row">
+                        <input type="number" id="inteiros-number-input" placeholder="Digite um número..." style="flex: 1;">
+                        <button id="btn-inteiros-add-list" class="btn">Adicionar</button>
+                    </div>
+                    
+                    <div style="margin: 12px 0;">
+                        <strong>Números na Lista:</strong>
+                        <div id="inteiros-list-display" class="file-list-box" style="margin-top: 6px; min-height: 80px; max-height: 100px; padding: 6px;">
+                            <div style="font-size: 0.75rem; color: var(--text-muted); padding: 8px;">Nenhum número adicionado.</div>
+                        </div>
+                    </div>
+
+                    <div class="socket-control-row">
+                        <label class="radio-label">
+                            <input type="radio" name="inteiros-op" value="SOMA" checked> <span>Soma (+)</span>
+                        </label>
+                        <label class="radio-label" style="margin-left: 12px;">
+                            <input type="radio" name="inteiros-op" value="MULT"> <span>Multiplicação (×)</span>
+                        </label>
+                    </div>
+
+                    <div class="socket-control-row" style="margin-top: 16px;">
+                        <button id="btn-inteiros-process" class="btn btn-success" style="flex: 1;">Enviar para Processamento (EOF)</button>
+                        <button id="btn-inteiros-clear" class="btn btn-secondary">Limpar Lista</button>
+                    </div>
+                    
+                    <div style="margin-top: 16px; display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 6px;">
+                        <span>Resultado da Operação:</span>
+                        <strong id="inteiros-result" class="font-mono text-success" style="font-size: 1.2rem;">-</strong>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('btn-inteiros-add-list').addEventListener('click', addIntegerToList);
+            document.getElementById('btn-inteiros-process').addEventListener('click', processIntegers);
+            document.getElementById('btn-inteiros-clear').addEventListener('click', clearIntegersList);
+        }
+        else if (id === 'socket_forca') {
+            container.innerHTML = `
+                <div class="socket-card">
+                    <h4>Jogo da Forca Remoto (Porta 12347)</h4>
+                    <div class="forca-layout">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.15); border-radius: 6px; padding: 12px;">
+                            <svg width="100" height="150" id="forca-svg" style="stroke: var(--text-primary); stroke-width: 3; fill: none;">
+                                <line x1="10" y1="140" x2="90" y2="140" />
+                                <line x1="30" y1="140" x2="30" y2="20" />
+                                <line x1="30" y1="20" x2="70" y2="20" />
+                                <line x1="70" y1="20" x2="70" y2="40" />
+                                <circle cx="70" cy="50" r="10" id="hang-head" style="display: none;" />
+                                <line x1="70" y1="60" x2="70" y2="100" id="hang-body" style="display: none;" />
+                                <line x1="70" y1="70" x2="50" y2="90" id="hang-l-arm" style="display: none;" />
+                                <line x1="70" y1="70" x2="90" y2="90" id="hang-r-arm" style="display: none;" />
+                                <line x1="70" y1="100" x2="55" y2="130" id="hang-l-leg" style="display: none;" />
+                                <line x1="70" y1="100" x2="85" y2="130" id="hang-r-leg" style="display: none;" />
+                            </svg>
+                            <div style="margin-top: 10px; font-size: 0.75rem; color: var(--text-secondary);" id="forca-erros-counter">Erros: 0/6</div>
+                        </div>
+                        <div>
+                            <div class="forca-word-display" id="forca-word">_ _ _ _ _ _</div>
+                            <div class="forca-kbd" id="forca-keyboard"></div>
+                            <div class="forca-status-msg" id="forca-status">Aguardando conexão... Clique em Conectar e Jogar!</div>
+                            <button id="btn-forca-play" class="btn btn-success" style="width: 100%; margin-top: 16px;">Conectar e Jogar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('btn-forca-play').addEventListener('click', connectForcaGame);
+        }
+        else if (id === 'socket_banco') {
+            container.innerHTML = `
+                <div class="socket-card">
+                    <h4>Cliente de Instituição Financeira (Porta 12348)</h4>
+                    
+                    <div id="bank-login-panel" class="bank-login-card">
+                        <label style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px;">Insira o número da conta para conectar:</label>
+                        <input type="text" id="bank-account-number" placeholder="Ex: 123 ou 456" style="text-align: center; font-size: 1.1rem; width: 180px; margin-bottom: 8px;">
+                        <button id="btn-bank-login" class="btn btn-success" style="width: 180px;">Entrar na Conta</button>
+                    </div>
+
+                    <div id="bank-dashboard-panel" class="bank-dashboard" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <span class="bank-acc-info">Conta Ativa</span>
+                                <div id="bank-active-acc-label" style="font-weight: bold; font-size: 1rem;">N/A</div>
+                            </div>
+                            <button id="btn-bank-logout" class="btn btn-mini btn-danger">Sair</button>
+                        </div>
+                        
+                        <div style="margin: 20px 0; text-align: center;">
+                            <span class="bank-acc-info">Saldo Disponível</span>
+                            <div id="bank-balance-display" class="bank-balance">R$ 0,00</div>
+                        </div>
+
+                        <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 16px;">
+                            <div class="socket-control-row">
+                                <input type="number" id="bank-amount-input" placeholder="Valor (R$)" style="flex: 1; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--border-strong);">
+                            </div>
+                            <div class="bank-grid-actions">
+                                <button id="btn-bank-get-balance" class="btn btn-secondary">Atualizar Saldo</button>
+                                <button id="btn-bank-deposit" class="btn btn-success">Depositar</button>
+                                <button id="btn-bank-withdraw" class="btn btn-warning">Sacar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('btn-bank-login').addEventListener('click', connectBank);
+            document.getElementById('btn-bank-logout').addEventListener('click', disconnectBank);
+            document.getElementById('btn-bank-get-balance').addEventListener('click', () => sendBankCommand('1'));
+            document.getElementById('btn-bank-deposit').addEventListener('click', () => {
+                const val = document.getElementById('bank-amount-input').value;
+                sendBankCommand(`2 ${val}`);
+            });
+            document.getElementById('btn-bank-withdraw').addEventListener('click', () => {
+                const val = document.getElementById('bank-amount-input').value;
+                sendBankCommand(`3 ${val}`);
+            });
+        }
+        else if (id === 'socket_lojas') {
+            container.innerHTML = `
+                <div class="socket-card">
+                    <h4>Rede de Lojas - Dashboard de Integração (Porta 12349)</h4>
+                    <p style="font-size: 0.8rem; margin-bottom: 12px; color: var(--text-secondary);">
+                        Inicie o Sistema Central (Servidor) e depois dispare as filiais. A central somará em tempo real todas as transações concorrentes.
+                    </p>
+                    <div class="stores-dashboard">
+                        <div>
+                            <h5 style="font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase; color: var(--text-muted);">Filiais Ativas</h5>
+                            <div class="filial-cards-container">
+                                <div class="filial-card-node" id="filial-card-0">
+                                    <h5>Filial 0</h5>
+                                    <div class="filial-val" id="filial-val-0">R$ 0,00</div>
+                                </div>
+                                <div class="filial-card-node" id="filial-card-1">
+                                    <h5>Filial 1</h5>
+                                    <div class="filial-val" id="filial-val-1">R$ 0,00</div>
+                                </div>
+                                <div class="filial-card-node" id="filial-card-2">
+                                    <h5>Filial 2</h5>
+                                    <div class="filial-val" id="filial-val-2">R$ 0,00</div>
+                                </div>
+                                <div class="filial-card-node" id="filial-card-3">
+                                    <h5>Filial 3</h5>
+                                    <div class="filial-val" id="filial-val-3">R$ 0,00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.15); border-radius: 6px; padding: 16px;">
+                            <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary);">TOTAL ACUMULADO</span>
+                            <div id="central-total-sales" style="font-size: 1.8rem; font-weight: bold; color: var(--accent-success); margin-top: 8px; font-family: var(--font-mono);">R$ 0,00</div>
+                            <button id="btn-stores-trigger-clients" class="btn btn-success" style="margin-top: 16px; width: 100%;">Disparar 4 Filiais (Clientes)</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('btn-stores-trigger-clients').addEventListener('click', triggerStoresClients);
+        }
+        else if (id === 'socket_arquivos') {
+            container.innerHTML = `
+                <div class="socket-card">
+                    <h4>Servidor de Arquivos (Porta 12350)</h4>
+                    <div class="files-layout">
+                        <div>
+                            <h5 style="font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase; color: var(--text-muted);">Área Local (Enviar)</h5>
+                            <div class="file-list-box">
+                                <div class="file-item-row">
+                                    <span class="file-name-label">contrato.txt</span>
+                                    <button class="btn btn-mini btn-success btn-upload" data-name="contrato.txt" data-content="Este é um arquivo de teste de contrato de prestação de serviços.">Upload</button>
+                                </div>
+                                <div class="file-item-row">
+                                    <span class="file-name-label">relatorio.txt</span>
+                                    <button class="btn btn-mini btn-success btn-upload" data-name="relatorio.txt" data-content="Relatório de Vendas: Filial 1 faturou R$ 15.000, Filial 2 faturou R$ 12.000.">Upload</button>
+                                </div>
+                                <div class="file-item-row">
+                                    <span class="file-name-label">dados.json</span>
+                                    <button class="btn btn-mini btn-success btn-upload" data-name="dados.json" data-content='{"status": "OK", "timestamp": 129038012}'>Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 style="font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase; color: var(--text-muted);">Arquivos no Servidor</h5>
+                            <div class="file-list-box" id="server-files-list">
+                                <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 20px;">Nenhum arquivo no servidor.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="file-content-preview-card" style="margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.25); border-radius: 6px; display: none;">
+                        <strong>Visualizando Arquivo Baixado (<span id="downloaded-filename"></span>):</strong>
+                        <pre id="downloaded-file-content" style="margin-top: 6px; font-size: 0.75rem; color: #a1a1aa; white-space: pre-wrap; word-break: break-all; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;"></pre>
+                    </div>
+                </div>
+            `;
+
+            container.querySelectorAll('.btn-upload').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    uploadFile(btn.getAttribute('data-name'), btn.getAttribute('data-content'));
+                });
+            });
+
+            renderServerFiles();
+        }
+        else if (id === 'socket_chat') {
+            container.innerHTML = `
+                <div class="socket-card">
+                    <h4>Chat Multicast UTFPR (Grupo: 224.0.0.1 - Porta 12351)</h4>
+                    
+                    <div id="chat-join-panel" class="chat-welcome-card">
+                        <label style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px;">Escolha um Apelido para Entrar no Chat:</label>
+                        <input type="text" id="chat-nickname-input" placeholder="Ex: Diogo" style="width: 200px; text-align: center; margin-bottom: 8px;">
+                        <button id="btn-chat-join" class="btn btn-success" style="width: 200px;">Entrar no Grupo</button>
+                    </div>
+
+                    <div id="chat-active-panel" class="chat-layout" style="display: none;">
+                        <div id="chat-messages" class="chat-messages-container"></div>
+                        <div class="chat-input-bar">
+                            <input type="text" id="chat-message-input" placeholder="Digite sua mensagem...">
+                            <button id="btn-chat-send" class="btn btn-success">Enviar</button>
+                            <button id="btn-chat-leave" class="btn btn-danger">Sair</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('btn-chat-join').addEventListener('click', joinChat);
+            document.getElementById('btn-chat-leave').addEventListener('click', leaveChat);
+            document.getElementById('btn-chat-send').addEventListener('click', sendChatMessage);
+            document.getElementById('chat-message-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+        }
+    }
+
+    // --- FORTUNE COOKIE HANDLERS ---
+    async function getFortuneCookie() {
+        const cookie = document.getElementById('fortune-cookie');
+        const paper = document.getElementById('fortune-paper');
+        if (cookie) cookie.classList.remove('cracked');
+        if (paper) paper.classList.remove('show');
+
+        const sessionId = 'fortune_' + Date.now();
+        currentSocketSessionId = sessionId;
+
+        appendLog(`[Biscoito] Conectando ao Servidor Fortune...`, 'system');
+        const connRes = await fetch('/api/socket/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, port: 12345 })
+        });
+        const connData = await connRes.json();
+        if (!connData.success) {
+            appendLog(`[Biscoito Erro] Falha na conexão: ${connData.error}`, 'stderr');
+            return;
+        }
+
+        await fetch('/api/socket/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, data: 'GET-FORTUNE\n' })
+        });
+    }
+
+    function handleFortuneData(text) {
+        appendLog(`[Biscoito] Resposta: ${text}`);
+        
+        // Se for listagem ou outra resposta, não quebra biscoito
+        if (text.startsWith('[') || text.includes('Adicionado') || text.includes('Editado')) {
+            return;
+        }
+
+        const paper = document.getElementById('fortune-paper');
+        if (paper) {
+            paper.textContent = text;
+            paper.classList.add('show');
+        }
+        const cookie = document.getElementById('fortune-cookie');
+        if (cookie) {
+            cookie.classList.add('cracked');
+        }
+        if (currentSocketSessionId) {
+            fetch('/api/socket/disconnect', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sessionId: currentSocketSessionId })
+            }).catch(() => {});
+            currentSocketSessionId = null;
+        }
+    }
+
+    async function listFortunes() {
+        const sessionId = 'fortune_' + Date.now();
+        currentSocketSessionId = sessionId;
+        appendLog(`[Biscoito] Solicitando lista de frases...`, 'system');
+        await fetch('/api/socket/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, port: 12345 })
+        });
+        await fetch('/api/socket/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, data: 'LST-FORTUNE\n', closeWrite: true })
+        });
+    }
+
+    async function addFortune() {
+        const val = document.getElementById('fortune-add-input').value.trim();
+        if (!val) return;
+        const sessionId = 'fortune_' + Date.now();
+        currentSocketSessionId = sessionId;
+        appendLog(`[Biscoito] Adicionando nova frase...`, 'system');
+        await fetch('/api/socket/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, port: 12345 })
+        });
+        await fetch('/api/socket/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, data: `ADD-FORTUNE ${val}\n`, closeWrite: true })
+        });
+        document.getElementById('fortune-add-input').value = '';
+    }
+
+    async function updateFortune() {
+        const idx = document.getElementById('fortune-upd-index').value.trim();
+        const val = document.getElementById('fortune-upd-input').value.trim();
+        if (!idx || !val) return;
+        const sessionId = 'fortune_' + Date.now();
+        currentSocketSessionId = sessionId;
+        appendLog(`[Biscoito] Atualizando frase na posição ${idx}...`, 'system');
+        await fetch('/api/socket/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, port: 12345 })
+        });
+        await fetch('/api/socket/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, data: `UPD-FORTUNE ${idx};${val}\n`, closeWrite: true })
+        });
+        document.getElementById('fortune-upd-index').value = '';
+        document.getElementById('fortune-upd-input').value = '';
+    }
+
+    // --- INTEIROS HANDLERS ---
+    function addIntegerToList() {
+        const input = document.getElementById('inteiros-number-input');
+        const num = parseFloat(input.value);
+        if (isNaN(num)) return;
+        integersList.push(num);
+        input.value = '';
+        renderIntegersList();
+    }
+
+    function renderIntegersList() {
+        const listDisplay = document.getElementById('inteiros-list-display');
+        if (!listDisplay) return;
+        if (integersList.length === 0) {
+            listDisplay.innerHTML = '<div style="font-size: 0.75rem; color: var(--text-muted); padding: 8px;">Nenhum número adicionado.</div>';
+            return;
+        }
+        listDisplay.innerHTML = integersList.map((num, idx) => `
+            <div class="file-item-row" style="margin-bottom: 4px;">
+                <span class="file-name-label">Número [${idx}]: <strong>${num}</strong></span>
+                <button class="btn btn-mini btn-danger" id="btn-remove-int-${idx}">Remover</button>
+            </div>
+        `).join('');
+
+        // Bind delete events
+        integersList.forEach((_, idx) => {
+            document.getElementById(`btn-remove-int-${idx}`).addEventListener('click', () => {
+                integersList.splice(idx, 1);
+                renderIntegersList();
+            });
+        });
+    }
+
+    function clearIntegersList() {
+        integersList = [];
+        renderIntegersList();
+        document.getElementById('inteiros-result').textContent = '-';
+    }
+
+    async function processIntegers() {
+        if (integersList.length === 0) {
+            appendLog(`[Inteiros Erro] Adicione ao menos um número!`, 'stderr');
+            return;
+        }
+        const sessionId = 'inteiros_' + Date.now();
+        currentSocketSessionId = sessionId;
+        appendLog(`[Inteiros] Enviando inteiros para o processamento...`, 'system');
+        
+        await fetch('/api/socket/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, port: 12346 })
+        });
+
+        for (let i = 0; i < integersList.length; i++) {
+            await fetch('/api/socket/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sessionId, data: integersList[i] + '\n' })
+            });
+        }
+
+        const op = document.querySelector('input[name="inteiros-op"]:checked').value;
+        await fetch('/api/socket/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, data: op + '\n', closeWrite: true })
+        });
+    }
+
+    function handleInteirosData(text) {
+        appendLog(`[Inteiros] Resultado: ${text}`);
+        const display = document.getElementById('inteiros-result');
+        if (display) {
+            display.textContent = text.replace('RESULTADO DA OPERACAO:', '').trim();
+        }
+    }
+
+    // --- FORCA GAME HANDLERS ---
+    async function connectForcaGame() {
+        forcaSessionId = 'forca_' + Date.now();
+        forcaErros = 0;
+        
+        document.getElementById('hang-head').style.display = 'none';
+        document.getElementById('hang-body').style.display = 'none';
+        document.getElementById('hang-l-arm').style.display = 'none';
+        document.getElementById('hang-r-arm').style.display = 'none';
+        document.getElementById('hang-l-leg').style.display = 'none';
+        document.getElementById('hang-r-leg').style.display = 'none';
+        
+        document.getElementById('forca-erros-counter').textContent = 'Erros: 0/6';
+        document.getElementById('forca-status').textContent = 'Conectando ao jogo da forca...';
+
+        const connRes = await fetch('/api/socket/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId: forcaSessionId, port: 12347 })
+        });
+        const connData = await connRes.json();
+        if (!connData.success) {
+            document.getElementById('forca-status').textContent = 'Erro ao conectar no servidor de Forca.';
+            appendLog(`[Forca Erro] ${connData.error}`, 'stderr');
+            return;
+        }
+
+        renderForcaKeyboard();
+        document.getElementById('btn-forca-play').disabled = true;
+    }
+
+    function renderForcaKeyboard() {
+        const kbd = document.getElementById('forca-keyboard');
+        if (!kbd) return;
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        kbd.innerHTML = alphabet.split('').map(letter => `
+            <button class="forca-key" id="forca-key-${letter}" data-letter="${letter}">${letter}</button>
+        `).join('');
+
+        kbd.querySelectorAll('.forca-key').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.disabled = true;
+                const letter = btn.getAttribute('data-letter');
+                sendForcaLetter(letter);
+            });
+        });
+    }
+
+    async function sendForcaLetter(letter) {
+        if (!forcaSessionId) return;
+        await fetch('/api/socket/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId: forcaSessionId, data: letter + '\n' })
+        });
+    }
+
+    function handleForcaData(text) {
+        appendLog(`[Forca] ${text}`);
+        const statusEl = document.getElementById('forca-status');
+        const wordEl = document.getElementById('forca-word');
+        const errorsEl = document.getElementById('forca-erros-counter');
+
+        const lines = text.split('\n');
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line) return;
+
+            if (line.startsWith('BEM-VINDO')) {
+                statusEl.textContent = 'Jogo iniciado! Adivinhe a palavra.';
+            } else if (line.startsWith('TAMANHO:')) {
+                const len = parseInt(line.split(':')[1]);
+                wordEl.textContent = '_ '.repeat(len).trim();
+            } else if (line.includes('ESTADO:')) {
+                const stateMatch = line.match(/ESTADO:(.+)\s+ERROS:(\d+)\/(\d+)/);
+                if (stateMatch) {
+                    const state = stateMatch[1].trim();
+                    const erros = parseInt(stateMatch[2]);
+                    wordEl.textContent = state;
+                    errorsEl.textContent = `Erros: ${erros}/6`;
+                    
+                    forcaErros = erros;
+                    if (erros >= 1) document.getElementById('hang-head').style.display = 'block';
+                    if (erros >= 2) document.getElementById('hang-body').style.display = 'block';
+                    if (erros >= 3) document.getElementById('hang-l-arm').style.display = 'block';
+                    if (erros >= 4) document.getElementById('hang-r-arm').style.display = 'block';
+                    if (erros >= 5) document.getElementById('hang-l-leg').style.display = 'block';
+                    if (erros >= 6) document.getElementById('hang-r-leg').style.display = 'block';
+                }
+            } else if (line.startsWith('AVISO:')) {
+                statusEl.textContent = line.replace('AVISO:', '').trim();
+            } else if (line.startsWith('VITORIA:')) {
+                statusEl.innerHTML = `<span style="color: var(--accent-success); font-weight:bold;">${line}</span>`;
+                disableForcaKeyboard();
+            } else if (line.startsWith('DERROTA:')) {
+                statusEl.innerHTML = `<span style="color: var(--accent-danger); font-weight:bold;">${line}</span>`;
+                document.getElementById('hang-l-leg').style.display = 'block';
+                document.getElementById('hang-r-leg').style.display = 'block';
+                disableForcaKeyboard();
+            }
+        });
+    }
+
+    function disableForcaKeyboard() {
+        document.querySelectorAll('.forca-key').forEach(btn => btn.disabled = true);
+        document.getElementById('btn-forca-play').disabled = false;
+        forcaSessionId = null;
+    }
+
+    function handleForcaClose() {
+        disableForcaKeyboard();
+    }
+
+    // --- BANCO HANDLERS ---
+    async function connectBank() {
+        const accInput = document.getElementById('bank-account-number');
+        const account = accInput.value.trim();
+        if (!account) return;
+
+        bankAccountNum = account;
+        bankSessionId = 'banco_' + Date.now();
+
+        appendLog(`[Banco] Conectando e acessando conta ${account}...`, 'system');
+        const connRes = await fetch('/api/socket/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId: bankSessionId, port: 12348 })
+        });
+        const connData = await connRes.json();
+        if (!connData.success) {
+            appendLog(`[Banco Erro] Falha na conexão: ${connData.error}`, 'stderr');
+            return;
+        }
+    }
+
+    async function sendBankCommand(cmd) {
+        if (!bankSessionId) return;
+        await fetch('/api/socket/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId: bankSessionId, data: cmd + '\n' })
+        });
+        document.getElementById('bank-amount-input').value = '';
+    }
+
+    function handleBancoData(text) {
+        appendLog(`[Banco] ${text}`);
+        const loginPanel = document.getElementById('bank-login-panel');
+        const dashboardPanel = document.getElementById('bank-dashboard-panel');
+        const balanceDisplay = document.getElementById('bank-balance-display');
+        const activeAccLabel = document.getElementById('bank-active-acc-label');
+
+        const lines = text.split('\n');
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line) return;
+
+            if (line.includes('DIGITE O NUMERO DA CONTA:')) {
+                fetch('/api/socket/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sessionId: bankSessionId, data: bankAccountNum + '\n' })
+                });
+            } else if (line.includes('MENU:')) {
+                if (loginPanel && loginPanel.style.display !== 'none') {
+                    loginPanel.style.display = 'none';
+                    dashboardPanel.style.display = 'block';
+                    activeAccLabel.textContent = `Conta #${bankAccountNum}`;
+                    sendBankCommand('1');
+                }
+            } else if (line.includes('SALDO ATUAL:')) {
+                const bal = line.replace('SALDO ATUAL:', '').trim();
+                balanceDisplay.textContent = `R$ ${parseFloat(bal).toFixed(2)}`;
+            } else if (line.includes('SUCESSO:')) {
+                appendLog(`[Banco Sucesso] ${line}`, 'system');
+                sendBankCommand('1');
+            } else if (line.startsWith('ERRO:')) {
+                appendLog(`[Banco Erro] ${line}`, 'stderr');
+                if (line.includes('inexistente')) {
+                    alert('Conta inexistente! Tente as contas iniciais "123" ou "456".');
+                    disconnectBank();
+                }
+            }
+        });
+    }
+
+    async function disconnectBank() {
+        if (!bankSessionId) return;
+        await fetch('/api/socket/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId: bankSessionId, data: '4\n', closeWrite: true })
+        });
+        handleBancoClose();
+    }
+
+    function handleBancoClose() {
+        const loginPanel = document.getElementById('bank-login-panel');
+        const dashboardPanel = document.getElementById('bank-dashboard-panel');
+        if (loginPanel) {
+            loginPanel.style.display = 'flex';
+            dashboardPanel.style.display = 'none';
+        }
+        bankSessionId = null;
+        bankAccountNum = null;
+    }
+
+    // --- LOJAS HANDLERS ---
+    async function triggerStoresClients() {
+        appendLog(`[Lojas] Conectando 4 filiais simuladoras ao Sistema Central...`, 'system');
+        
+        for (let i = 0; i < 4; i++) {
+            const card = document.getElementById(`filial-card-${i}`);
+            if (card) card.className = 'filial-card-node';
+            const val = document.getElementById(`filial-val-${i}`);
+            if (val) val.textContent = 'R$ 0,00';
+        }
+
+        document.getElementById('central-total-sales').textContent = 'Calculando...';
+
+        for (let i = 0; i < 4; i++) {
+            fetch('/api/socket/run-client', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    clientClass: 'lojas.FilialSimulador',
+                    args: [`Filial_${i}`]
+                })
+            }).catch(e => console.error(e));
+        }
+    }
+
+    function parseLojasLine(line) {
+        if (line.includes('Recebendo dados da Filial:')) {
+            const filialId = line.split(':')[1].trim();
+            const index = filialId.split('_')[1];
+            const card = document.getElementById(`filial-card-${index}`);
+            if (card) {
+                card.className = 'filial-card-node sending';
+                card.querySelector('.filial-val').textContent = 'Transmitindo...';
+            }
+        }
+        else if (line.includes('Finalizado Filial')) {
+            const match = line.match(/Finalizado Filial\s+Filial_(\d+)/);
+            if (match) {
+                const idx = match[1];
+                const card = document.getElementById(`filial-card-${idx}`);
+                if (card) {
+                    card.className = 'filial-card-node';
+                    card.querySelector('.filial-val').textContent = 'Finalizado';
+                }
+            }
+        }
+        else if (line.includes('TOTAL ACUMULADO NO SISTEMA CENTRAL:')) {
+            const total = line.split('R$')[1].trim();
+            const centralTotal = document.getElementById('central-total-sales');
+            if (centralTotal) {
+                centralTotal.textContent = `R$ ${parseFloat(total).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            }
+        }
+    }
+
+    // --- ARQUIVOS HANDLERS ---
+    function renderServerFiles() {
+        const container = document.getElementById('server-files-list');
+        if (!container) return;
+        if (uploadedFiles.length === 0) {
+            container.innerHTML = '<div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 20px;">Nenhum arquivo no servidor.</div>';
+            return;
+        }
+        container.innerHTML = uploadedFiles.map(file => `
+            <div class="file-item-row">
+                <span class="file-name-label">${file}</span>
+                <button class="btn btn-mini btn-secondary btn-download-file" id="btn-download-${file.replace('.', '_')}" data-name="${file}">Download</button>
+            </div>
+        `).join('');
+
+        uploadedFiles.forEach(file => {
+            document.getElementById(`btn-download-${file.replace('.', '_')}`).addEventListener('click', () => {
+                downloadFile(file);
+            });
+        });
+    }
+
+    async function uploadFile(filename, content) {
+        appendLog(`[Arquivos] Fazendo upload de ${filename}...`, 'system');
+        const res = await fetch('/api/socket/file-upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename, content })
+        });
+        const data = await res.json();
+        if (data.success) {
+            appendLog(`[Arquivos] Sucesso: ${data.message}`);
+            if (!uploadedFiles.includes(filename)) {
+                uploadedFiles.push(filename);
+            }
+            renderServerFiles();
+        } else {
+            appendLog(`[Arquivos Erro] ${data.error}`, 'stderr');
+        }
+    }
+
+    async function downloadFile(filename) {
+        appendLog(`[Arquivos] Solicitando download de ${filename}...`, 'system');
+        const res = await fetch('/api/socket/file-download', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename })
+        });
+        const data = await res.json();
+        if (data.success) {
+            appendLog(`[Arquivos] ${filename} baixado com sucesso.`);
+            const card = document.getElementById('file-content-preview-card');
+            if (card) {
+                card.style.display = 'block';
+                document.getElementById('downloaded-filename').textContent = filename;
+                document.getElementById('downloaded-file-content').textContent = data.content;
+            }
+        } else {
+            appendLog(`[Arquivos Erro] ${data.error}`, 'stderr');
+        }
+    }
+
+    // --- CHAT MULTICAST HANDLERS ---
+    async function joinChat() {
+        const input = document.getElementById('chat-nickname-input');
+        const nick = input.value.trim();
+        if (!nick) return;
+
+        activeChatNickname = nick;
+        appendLog(`[Chat] Entrando no grupo multicast UTFPR com nick "${nick}"...`, 'system');
+        
+        const res = await fetch('/api/socket/chat-join', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nickname: nick })
+        });
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('chat-join-panel').style.display = 'none';
+            document.getElementById('chat-active-panel').style.display = 'flex';
+            appendLog(`[Chat] Conectado e escutando canal multicast!`, 'system');
+            
+            handleChatMessage(`SISTEMA: ${nick} entrou no chat.`);
+        } else {
+            appendLog(`[Chat Erro] ${data.error}`, 'stderr');
+        }
+    }
+
+    async function sendChatMessage() {
+        const input = document.getElementById('chat-message-input');
+        const msg = input.value.trim();
+        if (!msg) return;
+
+        await fetch('/api/socket/chat-send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+        });
+        input.value = '';
+    }
+
+    function handleChatMessage(text) {
+        const container = document.getElementById('chat-messages');
+        if (!container) return;
+
+        const bubble = document.createElement('div');
+        let isMine = false;
+        let displayNick = 'Sistema';
+        let displayMsg = text;
+
+        if (text.startsWith('SISTEMA:')) {
+            bubble.className = 'chat-bubble other';
+            bubble.style.borderLeft = '3px solid var(--accent-info)';
+            displayNick = 'Sistema';
+            displayMsg = text.replace('SISTEMA:', '').trim();
+        } else {
+            const separatorIdx = text.indexOf(':');
+            if (separatorIdx !== -1) {
+                const nick = text.substring(0, separatorIdx).trim();
+                const msg = text.substring(separatorIdx + 1).trim();
+                
+                displayNick = nick;
+                displayMsg = msg;
+                if (nick === activeChatNickname) {
+                    isMine = true;
+                }
+            }
+            bubble.className = isMine ? 'chat-bubble mine' : 'chat-bubble other';
+        }
+
+        bubble.innerHTML = `
+            <div class="chat-bubble-nickname">${displayNick}</div>
+            <div>${displayMsg}</div>
+        `;
+
+        container.appendChild(bubble);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    async function leaveChat() {
+        appendLog(`[Chat] Saindo do canal multicast...`, 'system');
+        await fetch('/api/socket/chat-leave', { method: 'POST' }).catch(() => {});
+        
+        document.getElementById('chat-join-panel').style.display = 'flex';
+        document.getElementById('chat-active-panel').style.display = 'none';
+        document.getElementById('chat-messages').innerHTML = '';
+        
+        activeChatNickname = '';
+    }
+
+    // --- ORIGINAL UTILITIES ---
     function updateBadge(state, text) {
         statusBadge.className = `badge ${state}`;
         statusBadge.textContent = text;
@@ -925,7 +1931,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.className = `line ${className}`;
         
-        // Limpa sequências ANSI de controle de terminal
         const cleanText = text.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
         
         div.textContent = cleanText;
