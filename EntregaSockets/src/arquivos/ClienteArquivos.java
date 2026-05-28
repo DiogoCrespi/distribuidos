@@ -40,7 +40,10 @@ public class ClienteArquivos {
                 long tam = dis.readLong();
                 if (tam == -1) System.out.println("Erro: Arquivo nao encontrado.");
                 else {
-                    try (FileOutputStream fos = new FileOutputStream("baixado_" + nome)) {
+                    File dir = new File("armazenamento/baixados");
+                    dir.mkdirs();
+                    File destino = new File(dir, "baixado_" + nome);
+                    try (FileOutputStream fos = new FileOutputStream(destino)) {
                         byte[] buf = new byte[4096];
                         long total = 0;
                         while (total < tam) {
@@ -49,7 +52,7 @@ public class ClienteArquivos {
                             total += r;
                         }
                     }
-                    System.out.println("Arquivo baixado com sucesso.");
+                    System.out.println("Arquivo baixado com sucesso em: " + destino.getPath());
                 }
             }
         } catch (IOException e) {

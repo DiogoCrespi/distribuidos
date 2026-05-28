@@ -59,10 +59,11 @@ javac -d bin src/*/*.java
 **Local da pasta:** `C:\Distribuidos\InterfaceVisual`
 
 ### Execução:
+
 ```bash
 node server.js
 ```
 
 ### No navegador:
-[http://localhost:3000](http://localhost:3000)
 
+[http://localhost:3000](http://localhost:3000)
