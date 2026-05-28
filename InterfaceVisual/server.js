@@ -567,6 +567,19 @@ const server = http.createServer((req, res) => {
                         res.end(JSON.stringify({ error: 'Arquivo não encontrado' }));
                     } else {
                         const fileContent = responseData.toString('utf8', 8);
+                        
+                        try {
+                            const downloadDir = path.join(WORKSPACE_DIR, 'EntregaSockets', 'armazenamento', 'baixados');
+                            if (!fs.existsSync(downloadDir)) {
+                                fs.mkdirSync(downloadDir, { recursive: true });
+                            }
+                            const filePath = path.join(downloadDir, 'baixado_' + filename);
+                            const fileBuffer = responseData.subarray(8);
+                            fs.writeFileSync(filePath, fileBuffer);
+                        } catch (writeErr) {
+                            console.error('Erro ao salvar arquivo baixado localmente:', writeErr);
+                        }
+
                         res.writeHead(200, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ success: true, content: fileContent }));
                     }
