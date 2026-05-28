@@ -4,8 +4,8 @@ import java.io.*;
 import java.net.*;
 
 public class ServidorArquivos {
-    private static final int PORTA = 12350;
-    private static final String DIR_BASE = "c:/Users/Admin/Downloads/distribuidos/EntregaSockets/armazenamento/";
+    private static final int PORTA = 8350;
+    private static final String DIR_BASE = "armazenamento/";
 
     public static void main(String[] args) {
         new File(DIR_BASE).mkdirs();

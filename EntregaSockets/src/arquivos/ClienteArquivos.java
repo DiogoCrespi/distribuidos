@@ -7,11 +7,16 @@ import java.util.Scanner;
 public class ClienteArquivos {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
+        System.out.print("IP do servidor (Enter para localhost): ");
+        String ipServidor = sc.nextLine().trim();
+        if (ipServidor.isEmpty()) ipServidor = "localhost";
+
         System.out.println("1. UPLOAD  2. DOWNLOAD");
         int op = sc.nextInt();
         sc.nextLine();
 
-        try (Socket socket = new Socket("localhost", 12350);
+        try (Socket socket = new Socket(ipServidor, 8350);
              DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
              DataInputStream dis = new DataInputStream(socket.getInputStream())) {
 

@@ -76,7 +76,7 @@ function scanSocketExercises() {
         } else if (folder === 'arquivos') {
             name = 'Servidor de Arquivos';
             desc = 'Serviço de upload e download de arquivos no servidor.';
-            port = 12350;
+            port = 8350;
         } else if (folder === 'chat') {
             name = 'Chat Multicast';
             desc = 'Chat em grupo em tempo real usando comunicação via Multicast UDP.';
@@ -492,7 +492,7 @@ const server = http.createServer((req, res) => {
                 }
 
                 const socket = new net.Socket();
-                socket.connect(12350, '127.0.0.1', () => {
+                socket.connect(8350, '127.0.0.1', () => {
                     writeJavaUTF(socket, "UPLOAD");
                     writeJavaUTF(socket, filename);
                     const fileBuf = Buffer.from(content, 'utf8');
@@ -536,7 +536,7 @@ const server = http.createServer((req, res) => {
                 }
 
                 const socket = new net.Socket();
-                socket.connect(12350, '127.0.0.1', () => {
+                socket.connect(8350, '127.0.0.1', () => {
                     writeJavaUTF(socket, "DOWNLOAD");
                     writeJavaUTF(socket, filename);
                 });
