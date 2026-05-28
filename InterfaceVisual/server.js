@@ -249,6 +249,15 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    if (pathname === '/REFERENCIA/biscoito_da_sorte_fechado.png' || pathname === '/REFERENCIA/biscoito_da_sorte_aberto.png') {
+        const filePath = path.join(__dirname, pathname);
+        if (fs.existsSync(filePath)) {
+            res.writeHead(200, { 'Content-Type': 'image/png' });
+            res.end(fs.readFileSync(filePath));
+            return;
+        }
+    }
+
     // --- API REST ---
     if (pathname === '/api/exercises' && req.method === 'GET') {
         const allExercises = [

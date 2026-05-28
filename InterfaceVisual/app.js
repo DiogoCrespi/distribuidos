@@ -15,6 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let integersList = [];
     let uploadedFiles = [];
     let forcaErros = 0;
+    let fortuneTimeout = null;
+
+    // --- FILÓSOFOS STATE ---
+    const philosopherStates = {
+        0: 'meditating',
+        1: 'meditating',
+        2: 'meditating',
+        3: 'meditating',
+        4: 'meditating'
+    };
 
     // --- ELEMENTOS DOM ---
     const menuButtons = document.querySelectorAll('.menu-btn');
@@ -616,36 +626,95 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 3. PARSER: O JANTAR DOS FILÓSOFOS
     // ==========================================
+    function getHeldHashis(philId, state) {
+        if (state === 'meditating') {
+            return [];
+        }
+        if (philId === 4) {
+            // F4 inverte a ordem para evitar deadlock: pega H0 primeiro, depois H4
+            if (state === 'trying') {
+                return [0];
+            } else if (state === 'eating') {
+                return [0, 4];
+            }
+        } else {
+            // Filósofos 0, 1, 2, 3 pegam H_id primeiro, depois H_{id+1}
+            if (state === 'trying') {
+                return [philId];
+            } else if (state === 'eating') {
+                return [philId, (philId + 1) % 5];
+            }
+        }
+        return [];
+    }
+
+    function syncFilosofosUI() {
+        const hashiHolders = { 0: null, 1: null, 2: null, 3: null, 4: null };
+        
+        for (let i = 0; i < 5; i++) {
+            const state = philosopherStates[i];
+            const held = getHeldHashis(i, state);
+            held.forEach(h => {
+                hashiHolders[h] = i;
+            });
+        }
+
+        for (let i = 0; i < 5; i++) {
+            const state = philosopherStates[i];
+            let statusText = 'Meditando';
+            let heldText = 'Sem hashis';
+            let cssClass = 'meditating';
+            
+            if (state === 'trying') {
+                statusText = 'Aguardando';
+                const held = getHeldHashis(i, state);
+                heldText = `Pego: H${held[0]}`;
+                cssClass = 'trying';
+            } else if (state === 'eating') {
+                statusText = 'Comendo';
+                const held = getHeldHashis(i, state);
+                heldText = `Pegos: H${held[0]}, H${held[1]}`;
+                cssClass = 'eating';
+            }
+            
+            updatePhilosopherCardUI(i, cssClass, statusText, heldText);
+        }
+
+        for (let h = 0; h < 5; h++) {
+            const holder = hashiHolders[h];
+            if (holder !== null) {
+                updateHashiElementUI(h, `Em uso (F${holder})`);
+            } else {
+                updateHashiElementUI(h, 'Livre');
+            }
+        }
+    }
+
     function parseFilosofosLine(line) {
         // Meditando
         if (line.match(/Filosofo\s+(\d+):\s+Meditando\.\.\./)) {
             const match = line.match(/Filosofo\s+(\d+):\s+Meditando\.\.\./);
             const id = parseInt(match[1]);
-            updatePhilosopherCard(id, 'meditating', 'Meditando', 'Sem hashis');
-            const n = document.querySelectorAll('#philosophers-ring .phil-circle-node').length || 5;
-            // Libera hashis do filósofo
-            updateHashiUI(id, 'Livre');
-            updateHashiUI((id + 1) % n, 'Livre');
+            philosopherStates[id] = 'meditating';
+            syncFilosofosUI();
         }
         // Tentando comer (pegou esquerdo)
         else if (line.match(/Filosofo\s+(\d+):\s+Pegou hachi esquerdo\.\s*Tentando o direito\.\.\./)) {
             const match = line.match(/Filosofo\s+(\d+):\s+Pegou hachi esquerdo\.\s*Tentando o direito\.\.\./);
             const id = parseInt(match[1]);
-            updatePhilosopherCard(id, 'trying', 'Aguardando', `Pego: H${id}`);
-            updateHashiUI(id, `Em uso (F${id})`);
+            philosopherStates[id] = 'trying';
+            syncFilosofosUI();
         }
         // Comendo
         else if (line.match(/Filosofo\s+(\d+):\s+Comendo arroz\.\.\./)) {
             const match = line.match(/Filosofo\s+(\d+):\s+Comendo arroz\.\.\./);
             const id = parseInt(match[1]);
-            const n = document.querySelectorAll('#philosophers-ring .phil-circle-node').length || 5;
-            updatePhilosopherCard(id, 'eating', 'Comendo', `Pegos: H${id}, H${(id+1)%n}`);
-            updateHashiUI(id, `Em uso (F${id})`);
-            updateHashiUI((id + 1) % n, `Em uso (F${id})`);
+            philosopherStates[id] = 'eating';
+            syncFilosofosUI();
         }
     }
 
-    function updatePhilosopherCard(id, cssClass, status, hashis) {
+    function updatePhilosopherCardUI(id, cssClass, status, hashis) {
         let card = document.getElementById(`phil-${id}`);
         if (!card) {
             const ring = document.getElementById('philosophers-ring');
@@ -669,7 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function updateHashiUI(hashiId, statusText) {
+    function updateHashiElementUI(hashiId, statusText) {
         // Atualiza lista auxiliar
         let listEl = document.getElementById(`hashi-list-item-${hashiId}`);
         if (!listEl) {
@@ -978,6 +1047,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="hashi-item" id="hashi-list-item-${i}">Hashi ${i}: <span class="status-val text-success">Livre</span></div>
                 `;
             }
+        }
+        for (let i = 0; i < 5; i++) {
+            philosopherStates[i] = 'meditating';
         }
         setTimeout(repositionPhilosophersRing, 0);
 
@@ -1312,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     <div id="chat-join-panel" class="chat-welcome-card">
                         <label style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px;">Escolha um Apelido para Entrar no Chat:</label>
-                        <input type="text" id="chat-nickname-input" placeholder="Ex: Diogo" style="width: 200px; text-align: center; margin-bottom: 8px;">
+                        <input type="text" id="chat-nickname-input" placeholder="Ex: Maria" style="width: 200px; text-align: center; margin-bottom: 8px;">
                         <button id="btn-chat-join" class="btn btn-success" style="width: 200px;">Entrar no Grupo</button>
                     </div>
 
@@ -1338,6 +1410,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FORTUNE COOKIE HANDLERS ---
     async function getFortuneCookie() {
+        if (fortuneTimeout) {
+            clearTimeout(fortuneTimeout);
+            fortuneTimeout = null;
+        }
+
         const cookie = document.getElementById('fortune-cookie');
         const paper = document.getElementById('fortune-paper');
         if (cookie) cookie.classList.remove('cracked');
@@ -1390,6 +1467,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }).catch(() => {});
             currentSocketSessionId = null;
         }
+
+        // Fecha automaticamente o biscoito após 5 segundos
+        fortuneTimeout = setTimeout(() => {
+            if (cookie) cookie.classList.remove('cracked');
+            if (paper) paper.classList.remove('show');
+            fortuneTimeout = null;
+        }, 5000);
     }
 
     async function listFortunes() {

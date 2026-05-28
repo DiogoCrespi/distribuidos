@@ -9,7 +9,7 @@ public class SistemaBarbearia {
         
         new Thread(new Barbeiro(barbearia), "Barbeiro").start();
         
-        String[] nomes = {"Fernando", "Rodrigo", "Alfonsinho", "Marcos", "Nathan", "Douglas", "Maria", "Gabriel", "Lucas", "Arthur"};
+        String[] nomes = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
         
         // Gerador de clientes com nomes reais
         for (int i = 0; i < nomes.length; i++) {
