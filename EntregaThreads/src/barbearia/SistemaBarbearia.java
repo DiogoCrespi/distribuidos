@@ -25,6 +25,7 @@ class Barbearia {
     private final int cadeirasEspera;
     private final List<String> filaClientes = new LinkedList<>();
     private boolean barbeiroOcupado = false;
+    private boolean clientePronto = false;
 
     public Barbearia(int n) {
         this.cadeirasEspera = n;
@@ -44,25 +45,32 @@ class Barbearia {
             
             filaClientes.remove(0);
             barbeiroOcupado = true;
+            clientePronto = true;
             System.out.println("Cliente " + nome + " esta cortando o cabelo.");
-            notifyAll(); // Notifica outras threads da alteração de estado
+            notifyAll(); // Notifica o barbeiro de que o cliente sentou na cadeira de corte
+            
+            // Espera o barbeiro terminar de cortar o cabelo
+            while (barbeiroOcupado) {
+                wait();
+            }
         } else {
             System.out.println("Barbearia lotada. Cliente " + nome + " foi embora.");
         }
     }
 
     public synchronized void cortarCabelo() throws InterruptedException {
-        while (filaClientes.isEmpty()) {
+        while (filaClientes.isEmpty() && !clientePronto) {
             System.out.println("Barbeiro esta dormindo... ZzzZz");
             wait();
         }
+        clientePronto = false; // Consome o sinal
         System.out.println("Barbeiro acordou e comecou a trabalhar.");
     }
 
     public synchronized void finalizarCorte() {
         System.out.println("Barbeiro terminou o corte.");
         barbeiroOcupado = false;
-        notifyAll(); // Avisa que a cadeira liberou
+        notifyAll(); // Avisa que o corte terminou e libera a cadeira
     }
 }
 

@@ -6,6 +6,13 @@ package classicos;
  
      public static void main(String[] args) throws InterruptedException {
          int nRoletas = 5;
+         if (args.length >= 1) {
+             try {
+                 nRoletas = Integer.parseInt(args[0]);
+             } catch (NumberFormatException e) {
+                 System.out.println("Erro ao converter argumento de roletas. Usando o valor padrao.");
+             }
+         }
          int girosPorRoleta = 1000;
          Thread[] threads = new Thread[nRoletas];
  

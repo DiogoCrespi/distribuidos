@@ -25,7 +25,7 @@ public class BarPrincipal {
         System.out.println("--- Simulacao do Bar Iniciada ---");
         System.out.println("Clientes: " + nClientes + " | Garcons: " + xGarcons + " | Capacidade: " + cCapacidade);
 
-        Bar bar = new Bar(nRodadas, cCapacidade, nClientes);
+        Bar bar = new Bar(nRodadas, cCapacidade, nClientes, xGarcons);
 
         // Inicia a thread do Bartender
         new Bartender(bar).start();
@@ -61,20 +61,23 @@ class Bar {
     private boolean barAberto = true;
 
     // Listas e mapas de controle de concorrência com Monitor
-    private final List<Integer> filaPedidos = new LinkedList<>();
+    private final List<List<Integer>> filasGarcons = new ArrayList<>();
     private final Set<Integer> pedidosEntregues = new HashSet<>();
     private final String[] estadoCliente;
 
     // Fila da copa para o Bartender
     private final List<CopaJob> copaQueue = new LinkedList<>();
 
-    public Bar(int rodadas, int cap, int clientes) {
+    public Bar(int rodadas, int cap, int clientes, int garcons) {
         this.maxRodadas = rodadas;
         this.capacidadeGarcom = cap;
         this.totalClientes = clientes;
         this.estadoCliente = new String[clientes];
         for (int i = 0; i < clientes; i++) {
             estadoCliente[i] = "PENSANDO";
+        }
+        for (int i = 0; i < garcons; i++) {
+            filasGarcons.add(new LinkedList<>());
         }
     }
 
@@ -94,7 +97,18 @@ class Bar {
     // Cliente faz o pedido e aguarda o garçom entregar
     public synchronized void fazerPedido(int clienteId) throws InterruptedException {
         pedidosEntregues.remove(clienteId);
-        filaPedidos.add(clienteId);
+        
+        // Escolhe o garçom com a menor fila de pedidos
+        int garcomId = 0;
+        int menorTamanho = Integer.MAX_VALUE;
+        for (int i = 0; i < filasGarcons.size(); i++) {
+            int sz = filasGarcons.get(i).size();
+            if (sz < menorTamanho) {
+                menorTamanho = sz;
+                garcomId = i;
+            }
+        }
+        filasGarcons.get(garcomId).add(clienteId);
         estadoCliente[clienteId] = "NA_FILA";
         System.out.println("Cliente " + clienteId + " fez um pedido.");
         notifyAll(); // Notifica garçons que há novos pedidos
@@ -106,22 +120,23 @@ class Bar {
     }
 
     // Garçom coleta pedidos respeitando o FIFO
-    public synchronized List<Integer> coletarPedidos() throws InterruptedException {
-        // Aguarda enquanto o bar estiver aberto e a fila de pedidos estiver vazia
+    public synchronized List<Integer> coletarPedidos(int garcomId) throws InterruptedException {
+        List<Integer> fila = filasGarcons.get(garcomId);
+        // Aguarda enquanto o bar estiver aberto e a fila de pedidos deste garçom estiver vazia
         // ou enquanto a fila não atingir a capacidade máxima de atendimento do garçom,
         // desde que ainda existam clientes em estado de "PENSANDO" que possam fazer novos pedidos.
-        while (barAberto && (filaPedidos.isEmpty() || (filaPedidos.size() < capacidadeGarcom && temClientesPensando()))) {
+        while (barAberto && (fila.isEmpty() || (fila.size() < capacidadeGarcom && temClientesPensando()))) {
             wait();
         }
 
         List<Integer> pedidos = new ArrayList<>();
-        if (filaPedidos.isEmpty()) {
+        if (fila.isEmpty()) {
             return pedidos;
         }
 
-        int coletar = Math.min(filaPedidos.size(), capacidadeGarcom);
+        int coletar = Math.min(fila.size(), capacidadeGarcom);
         for (int i = 0; i < coletar; i++) {
-            int cId = filaPedidos.remove(0);
+            int cId = fila.remove(0);
             pedidos.add(cId);
             estadoCliente[cId] = "ESPERANDO_ENTREGA";
         }
@@ -221,7 +236,7 @@ class Garcom extends Thread {
     public void run() {
         try {
             while (bar.estaAberto()) {
-                List<Integer> pedidos = bar.coletarPedidos();
+                List<Integer> pedidos = bar.coletarPedidos(id);
                 if (!pedidos.isEmpty()) {
                     // Log idêntico para o parser da Interface Visual
                     System.out.println("Garcom " + id + " levando " + pedidos.size() + " pedidos para a copa.");
