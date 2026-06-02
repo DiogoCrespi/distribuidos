@@ -9,7 +9,7 @@ public class ClienteArquivos {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("IP do servidor (Enter para localhost): ");
-        String ipServidor = sc.nextLine().trim();
+        String ipServidor = sc.nextLine().trim().replaceAll("[^a-zA-Z0-9\\.\\-:]", "");
         if (ipServidor.isEmpty()) ipServidor = "localhost";
 
         System.out.println("1. UPLOAD  2. DOWNLOAD");
@@ -19,6 +19,23 @@ public class ClienteArquivos {
         try (Socket socket = new Socket(ipServidor, 8350);
              DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
              DataInputStream dis = new DataInputStream(socket.getInputStream())) {
+
+            System.out.print("Login: ");
+            String login = sc.nextLine();
+            System.out.print("Senha: ");
+            String senha = sc.nextLine();
+
+            // Envia credenciais
+            dos.writeUTF("LOGIN");
+            dos.writeUTF(login);
+            dos.writeUTF(senha);
+
+            String respostaAuth = dis.readUTF();
+            System.out.println("Servidor: " + respostaAuth);
+            if (respostaAuth.startsWith("ERRO")) {
+                System.out.println("Acesso negado. Conexao encerrada.");
+                return;
+            }
 
             if (op == 1) {
                 System.out.print("Caminho do arquivo local: ");

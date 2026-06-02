@@ -1,0 +1,186 @@
+<mxfile host="app.diagrams.net" pages="1">
+  <diagram id="arquivos_activity" name="Activity Diagram">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1019" pageHeight="1320" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Swimlanes for Client and Server -->
+        <mxCell id="swimlanes" value="Sistema de Arquivos" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;horizontalStack=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="760" height="960" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane_cliente" value="Cliente (ClienteArquivos.java)" style="swimlane;startSize=20;html=1;" parent="swimlanes" vertex="1">
+          <mxGeometry x="20" y="20" width="370" height="940" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane_servidor" value="Servidor (ServidorArquivos.java)" style="swimlane;startSize=20;html=1;" parent="swimlanes" vertex="1">
+          <mxGeometry x="390" y="20" width="370" height="940" as="geometry" />
+        </mxCell>
+
+        <!-- CLIENT FLOW -->
+        <mxCell id="act_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="170" y="30" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_ask_ip" value="Solicitar IP e Operação (1 ou 2)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="110" y="90" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_connect" value="Conectar ao Servidor e pedir login/senha" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="100" y="160" width="170" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_send_login" value="Enviar comando LOGIN(user, senha)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="100" y="230" width="170" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- SERVER AUTH FLOW -->
+        <mxCell id="act_recv_login" value="Receber credenciais" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_servidor">
+          <mxGeometry x="110" y="230" width="150" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="act_validate" value="autenticar(user, pass)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_servidor">
+          <mxGeometry x="110" y="300" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dec_auth" value="Válido?" style="rhombus;" vertex="1" parent="lane_servidor">
+          <mxGeometry x="150" y="370" width="70" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_auth_ok" value="Retornar SUCESSO" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_servidor">
+          <mxGeometry x="40" y="460" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_auth_fail" value="Retornar ERRO e Fechar conexão" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_servidor">
+          <mxGeometry x="200" y="460" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- CLIENT AUTH RESPONSE -->
+        <mxCell id="dec_client_auth" value="Autenticado?" style="rhombus;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="145" y="450" width="80" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_client_fail" value="Exibir Erro e Encerrar" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="20" y="540" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_end_fail" value="End" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="70" y="610" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- BRANCH OPERACAO -->
+        <mxCell id="dec_op" value="Qual Operação?" style="rhombus;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="220" y="530" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- BRANCH UPLOAD -->
+        <mxCell id="act_client_upload" value="Enviar UPLOAD(nome, tamanho) e bytes" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="140" y="630" width="110" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_srv_upload" value="Gravar arquivo em armazenamento/&lt;user&gt;/ e retornar sucesso" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_servidor">
+          <mxGeometry x="20" y="630" width="180" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- BRANCH DOWNLOAD -->
+        <mxCell id="act_client_download" value="Enviar DOWNLOAD(nome)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="260" y="630" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_srv_download" value="Ler arquivo e enviar tamanho + bytes (ou -1 se inexistente)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_servidor">
+          <mxGeometry x="190" y="700" width="170" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dec_download_ok" value="Arquivo Existe?" style="rhombus;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="240" y="730" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_download_save" value="Salvar em armazenamento/baixados/" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="160" y="820" width="130" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_download_err" value="Exibir 'Arquivo não encontrado'" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="280" y="820" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- MERGE AND END -->
+        <mxCell id="act_end_success" value="End" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="lane_cliente">
+          <mxGeometry x="230" y="900" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- EDGES WITH PARENT='1' AND MXGEOMETRY -->
+        <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_start" target="act_ask_ip">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_ask_ip" target="act_connect">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_connect" target="act_send_login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_send_login" target="act_recv_login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_recv_login" target="act_validate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_validate" target="dec_auth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_auth" target="act_auth_ok" value="sim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_auth" target="act_auth_fail" value="não">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_auth_ok" target="dec_client_auth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_auth_fail" target="dec_client_auth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_client_auth" target="act_client_fail" value="não">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_client_fail" target="act_end_fail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_client_auth" target="dec_op" value="sim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_op" target="act_client_upload" value="1 (UPLOAD)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_client_upload" target="act_srv_upload">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_op" target="act_client_download" value="2 (DOWNLOAD)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_client_download" target="act_srv_download">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_srv_download" target="dec_download_ok">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_download_ok" target="act_download_save" value="sim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_download_ok" target="act_download_err" value="não">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_download_save" target="act_end_success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_download_err" target="act_end_success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_srv_upload" target="act_end_success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -28,23 +28,45 @@ public class ServidorArquivos {
             try (DataInputStream dis = new DataInputStream(socket.getInputStream());
                  DataOutputStream dos = new DataOutputStream(socket.getOutputStream())) {
                 
+                String usuarioLogado = "";
                 String comando = dis.readUTF();
+                if (comando.startsWith("LOGIN")) {
+                    String user = dis.readUTF();
+                    String pass = dis.readUTF();
+                    if (autenticar(user, pass)) {
+                        dos.writeUTF("SUCESSO: Autenticado.");
+                        usuarioLogado = user;
+                        comando = dis.readUTF(); // Ler o proximo comando após login
+                    } else {
+                        dos.writeUTF("ERRO: Credenciais invalidas.");
+                        return;
+                    }
+                }
+
+                String subDir = usuarioLogado.isEmpty() ? "" : usuarioLogado + "/";
+
                 if (comando.startsWith("UPLOAD")) {
                     String nome = dis.readUTF();
                     long tamanho = dis.readLong();
-                    receberArquivo(nome, tamanho, dis);
+                    receberArquivo(subDir, nome, tamanho, dis);
                     dos.writeUTF("SUCESSO: Arquivo recebido.");
                 } else if (comando.startsWith("DOWNLOAD")) {
                     String nome = dis.readUTF();
-                    enviarArquivo(nome, dos);
+                    enviarArquivo(subDir, nome, dos);
                 }
             } catch (IOException e) {
-                System.err.println("Erro no processo de arquivo.");
+                System.err.println("Erro no processo de arquivo: " + e.getMessage());
             }
         }
 
-        private void receberArquivo(String nome, long tamanho, DataInputStream dis) throws IOException {
-            File f = new File(DIR_BASE + nome);
+        private boolean autenticar(String user, String pass) {
+            return (user.equals("admin") && pass.equals("1234")) || (user.equals("user") && pass.equals("123"));
+        }
+
+        private void receberArquivo(String subDir, String nome, long tamanho, DataInputStream dis) throws IOException {
+            File dir = new File(DIR_BASE + subDir);
+            dir.mkdirs();
+            File f = new File(dir, nome);
             try (FileOutputStream fos = new FileOutputStream(f)) {
                 byte[] buffer = new byte[4096];
                 long lidoTotal = 0;
@@ -56,8 +78,8 @@ public class ServidorArquivos {
             }
         }
 
-        private void enviarArquivo(String nome, DataOutputStream dos) throws IOException {
-            File f = new File(DIR_BASE + nome);
+        private void enviarArquivo(String subDir, String nome, DataOutputStream dos) throws IOException {
+            File f = new File(DIR_BASE + subDir + nome);
             if (!f.exists()) {
                 dos.writeLong(-1); // Sinaliza erro
                 return;

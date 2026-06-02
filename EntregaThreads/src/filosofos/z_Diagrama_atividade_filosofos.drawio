@@ -1,0 +1,154 @@
+<mxfile host="app.diagrams.net" pages="1">
+  <diagram id="filosofos_activity" name="Activity Diagram">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Swimlanes for Normal Philosopher and Last Philosopher -->
+        <mxCell id="swimlanes" value="Jantar dos Filósofos" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;horizontalStack=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="760" height="700" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane_filosofo_normal" value="Filósofo Padrão (id &lt; n - 1)" style="swimlane;startSize=20;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="swimlanes" vertex="1">
+          <mxGeometry x="20" y="20" width="370" height="680" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane_filosofo_ultimo" value="Filósofo Último (id == n - 1)" style="swimlane;startSize=20;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="swimlanes" vertex="1">
+          <mxGeometry x="390" y="20" width="370" height="680" as="geometry" />
+        </mxCell>
+
+        <!-- FILOSOFO NORMAL FLOW -->
+        <mxCell id="act_f_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" vertex="1" parent="lane_filosofo_normal">
+          <mxGeometry x="170" y="30" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_meditate" value="Meditar (realizarAcao)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_filosofo_normal">
+          <mxGeometry x="95" y="90" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_lock_l" value="Travar Hashi Esquerdo&#xa;(synchronized(hachiEsquerdo))" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_filosofo_normal">
+          <mxGeometry x="95" y="160" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_got_l" value="Notificar: Pegou esquerdo" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_filosofo_normal">
+          <mxGeometry x="105" y="230" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_lock_r" value="Travar Hashi Direito&#xa;(synchronized(hachiDireito))" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_filosofo_normal">
+          <mxGeometry x="95" y="300" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_eat" value="Comer arroz (realizarAcao)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_filosofo_normal">
+          <mxGeometry x="95" y="370" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_unlock_r" value="Liberar Hashi Direito" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_filosofo_normal">
+          <mxGeometry x="110" y="440" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_unlock_l" value="Liberar Hashi Esquerdo" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_filosofo_normal">
+          <mxGeometry x="110" y="510" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- FILOSOFO ULTIMO FLOW -->
+        <mxCell id="act_lu_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" vertex="1" parent="lane_filosofo_ultimo">
+          <mxGeometry x="170" y="30" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_lu_meditate" value="Meditar (realizarAcao)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_filosofo_ultimo">
+          <mxGeometry x="95" y="90" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_lu_lock_r" value="Travar Hashi Direito primeiro&#xa;(synchronized(hachiDireito))" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_filosofo_ultimo">
+          <mxGeometry x="95" y="160" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_lu_got_r" value="Notificar: Pegou direito" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_filosofo_ultimo">
+          <mxGeometry x="105" y="230" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_lu_lock_l" value="Travar Hashi Esquerdo segundo&#xa;(synchronized(hachiEsquerdo))" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_filosofo_ultimo">
+          <mxGeometry x="95" y="300" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_lu_eat" value="Comer arroz (realizarAcao)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_filosofo_ultimo">
+          <mxGeometry x="95" y="370" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_lu_unlock_l" value="Liberar Hashi Esquerdo" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_filosofo_ultimo">
+          <mxGeometry x="110" y="440" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_lu_unlock_r" value="Liberar Hashi Direito" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_filosofo_ultimo">
+          <mxGeometry x="110" y="510" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- EDGES WITH parent="1" -->
+
+        <!-- Normal Philosopher Transitions -->
+        <mxCell id="en1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_start" target="act_f_meditate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_meditate" target="act_f_lock_l">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_lock_l" target="act_f_got_l">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_got_l" target="act_f_lock_r">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_lock_r" target="act_f_eat">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_eat" target="act_f_unlock_r">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_unlock_r" target="act_f_unlock_l">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="en8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="act_f_unlock_l" target="act_f_meditate">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="80" y="530" />
+              <mxPoint x="80" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Last Philosopher Transitions -->
+        <mxCell id="el1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_lu_start" target="act_lu_meditate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="el2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_lu_meditate" target="act_lu_lock_r">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="el3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_lu_lock_r" target="act_lu_got_r">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="el4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_lu_got_r" target="act_lu_lock_l">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="el5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_lu_lock_l" target="act_lu_eat">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="el6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_lu_eat" target="act_lu_unlock_l">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="el7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_lu_unlock_l" target="act_lu_unlock_r">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="el8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="act_lu_unlock_r" target="act_lu_meditate">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="780" y="530" />
+              <mxPoint x="780" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

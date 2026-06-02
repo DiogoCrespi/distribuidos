@@ -1,0 +1,246 @@
+<mxfile host="app.diagrams.net" pages="1">
+  <diagram id="bar_activity" name="Activity Diagram">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Swimlanes for Fregues, Garcom and Bartender -->
+        <mxCell id="swimlanes" value="Simulação de Bar Concorrente" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;horizontalStack=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="1100" height="1060" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane_fregues" value="Freguês (Fregues.java)" style="swimlane;startSize=20;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="swimlanes" vertex="1">
+          <mxGeometry x="20" y="20" width="350" height="1040" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane_garcom" value="Garçom (Garcom.java)" style="swimlane;startSize=20;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="swimlanes" vertex="1">
+          <mxGeometry x="370" y="20" width="350" height="1040" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="lane_bartender" value="Bartender (Bartender.java)" style="swimlane;startSize=20;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="swimlanes" vertex="1">
+          <mxGeometry x="720" y="20" width="360" height="1040" as="geometry" />
+        </mxCell>
+
+        <!-- FREGUES FLOW -->
+        <mxCell id="act_f_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" vertex="1" parent="lane_fregues">
+          <mxGeometry x="160" y="30" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dec_f_loop" value="bar.estaAberto()?" style="rhombus;" vertex="1" parent="lane_fregues">
+          <mxGeometry x="115" y="90" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_sleep1" value="Atraso para pedir (sleep)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_fregues">
+          <mxGeometry x="100" y="180" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_pedido" value="Fazer pedido: fazerPedido()&#xa;[bloqueia no monitor]" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_fregues">
+          <mxGeometry x="90" y="260" width="170" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_consumir" value="Consumir pedido (sleep)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="lane_fregues">
+          <mxGeometry x="100" y="700" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_f_end" value="End" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="lane_fregues">
+          <mxGeometry x="160" y="960" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- GARCOM FLOW -->
+        <mxCell id="act_g_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" vertex="1" parent="lane_garcom">
+          <mxGeometry x="160" y="30" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dec_g_loop" value="bar.estaAberto()?" style="rhombus;" vertex="1" parent="lane_garcom">
+          <mxGeometry x="115" y="90" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_g_coletar" value="Coletar pedidos: coletarPedidos()&#xa;[bloqueia se fila vazia]" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_garcom">
+          <mxGeometry x="85" y="180" width="180" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_g_pedir_copa" value="Enviar à copa: pedirCopa()&#xa;[bloqueia aguardando preparo]" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_garcom">
+          <mxGeometry x="85" y="340" width="180" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_g_entregar" value="Entregar pedidos: entregarPedidos()&#xa;[acorda os clientes]" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_garcom">
+          <mxGeometry x="80" y="700" width="190" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_g_inc_rodada" value="Incrementar rodada" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="lane_garcom">
+          <mxGeometry x="110" y="780" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_g_end" value="End" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="lane_garcom">
+          <mxGeometry x="160" y="960" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- BARTENDER FLOW -->
+        <mxCell id="act_b_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" vertex="1" parent="lane_bartender">
+          <mxGeometry x="165" y="30" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dec_b_loop" value="Bar aberto ou&#xa;copa pendente?" style="rhombus;" vertex="1" parent="lane_bartender">
+          <mxGeometry x="100" y="90" width="160" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_b_pegar" value="Buscar trabalho: pegarTrabalhoCopa()&#xa;[bloqueia se fila vazia]" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_bartender">
+          <mxGeometry x="80" y="220" width="200" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_b_preparar" value="Preparar bebida (sleep 1000ms)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_bartender">
+          <mxGeometry x="90" y="420" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_b_finalizar" value="Finalizar copa: finalizarCopa()&#xa;[acorda o garçom]" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane_bartender">
+          <mxGeometry x="90" y="490" width="180" height="45" as="geometry" />
+        </mxCell>
+
+        <mxCell id="act_b_end" value="End" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="lane_bartender">
+          <mxGeometry x="165" y="960" width="30" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- EDGES WITH parent="1" -->
+
+        <!-- Fregues transitions -->
+        <mxCell id="ef1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_start" target="dec_f_loop">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ef2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_f_loop" target="act_f_sleep1" value="Sim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ef3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_sleep1" target="act_f_pedido">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ef4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_f_pedido" target="act_f_consumir">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ef5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="act_f_consumir" target="dec_f_loop">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="80" y="720" />
+              <mxPoint x="80" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ef6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_f_loop" target="act_f_end" value="Não">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="115" />
+              <mxPoint x="320" y="900" />
+              <mxPoint x="180" y="900" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Garcom transitions -->
+        <mxCell id="eg1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_g_start" target="dec_g_loop">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eg2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_g_loop" target="act_g_coletar" value="Sim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eg3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_g_coletar" target="act_g_pedir_copa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eg4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_g_pedir_copa" target="act_g_entregar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eg5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_g_entregar" target="act_g_inc_rodada">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eg6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="act_g_inc_rodada" target="dec_g_loop">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="800" />
+              <mxPoint x="430" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eg7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_g_loop" target="act_g_end" value="Não">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="115" />
+              <mxPoint x="670" y="900" />
+              <mxPoint x="530" y="900" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Bartender transitions -->
+        <mxCell id="eb1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_b_start" target="dec_b_loop">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eb2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_b_loop" target="act_b_pegar" value="Sim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eb3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_b_pegar" target="act_b_preparar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eb4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="act_b_preparar" target="act_b_finalizar">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eb5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="act_b_finalizar" target="dec_b_loop">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1040" y="512" />
+              <mxPoint x="1040" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eb6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dec_b_loop" target="act_b_end" value="Não">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1040" y="115" />
+              <mxPoint x="1040" y="900" />
+              <mxPoint x="905" y="900" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- SYNCHRONIZATION AND INTERACTION LINES (Dashed) -->
+        
+        <!-- Fregues pedido notifies/releases Garcom collect -->
+        <mxCell id="e_syn_f_to_g" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_f_pedido" target="act_g_coletar">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="282" />
+              <mxPoint x="320" y="202" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Garcom pedirCopa notifies Bartender pegar -->
+        <mxCell id="e_syn_g_to_b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_g_pedir_copa" target="act_b_pegar">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="362" />
+              <mxPoint x="670" y="242" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Bartender finalizar notifies/releases Garcom blocked in pedirCopa -->
+        <mxCell id="e_syn_b_to_g" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_b_finalizar" target="act_g_pedir_copa">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="512" />
+              <mxPoint x="670" y="362" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Garcom entregarPedidos releases Fregues blocked in fazerPedido -->
+        <mxCell id="e_syn_g_to_f" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="act_g_entregar" target="act_f_consumir">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="722" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
