@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" pages="1">
+  <diagram id="banco_collaboration" name="Collaboration Diagram">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Frame container -->
+        <mxCell id="frame_container" value="co Transações Bancárias via Sockets (Diagrama de Colaboração)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=430;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1000" height="650" as="geometry" />
+        </mxCell>
+
+        <!-- Objects (Nodes) -->
+        
+        <!-- cliente : Cliente (Active Object - user terminal) -->
+        <mxCell id="obj_cliente" value="&lt;u&gt;cliente : Cliente&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- servidor : Servidor (Active Object - thread-per-client socket handler) -->
+        <mxCell id="obj_servidor" value="&lt;u&gt;servidor : Servidor&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- contas : Map (Passive Object - synchronized shared map) -->
+        <mxCell id="obj_contas" value="&lt;u&gt;contas : Map&lt;/u&gt;" style="whiteSpace=wrap;html=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Note Box: Concurrency & Map Synchronization notes -->
+        <mxCell id="note_concurrency" value="&lt;b&gt;Transações Bancárias Concorrentes via Sockets:&lt;/b&gt;&lt;br&gt;- &lt;b&gt;cliente:&lt;/b&gt; Processo cliente ativo (Thread principal) rodando localmente no terminal do usuário.&lt;br&gt;- &lt;b&gt;servidor:&lt;/b&gt; Processo servidor ativo que escuta na porta 12348. Cria uma &lt;i&gt;ThreadCliente&lt;/i&gt; para cada conexão TCP.&lt;br&gt;- &lt;b&gt;contas (Map):&lt;/b&gt; Recurso passivo compartilhado contendo saldos em memória.&lt;br&gt;- &lt;b&gt;Sincronização (Monitor Map):&lt;/b&gt; O acesso ao mapa &lt;i&gt;contas&lt;/i&gt; é sincronizado via bloco &lt;i&gt;synchronized(contas)&lt;/i&gt; em todas as consultas e escritas (saldo, depósito, saque), garantindo exclusão mútua e evitando condições de corrida (Race Conditions) entre múltiplos clientes." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="420" width="450" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="note_legend" value="&lt;b&gt;Legenda de Cores e Estereótipos:&lt;/b&gt;&lt;br&gt;- &lt;font color=&quot;#d79b00&quot;&gt;&lt;b&gt;Laranja:&lt;/b&gt;&lt;/font&gt; Classe Ativa Cliente (Terminal Local)&lt;br&gt;- &lt;font color=&quot;#6c8ebf&quot;&gt;&lt;b&gt;Azul:&lt;/b&gt;&lt;/font&gt; Classe Ativa Servidor (Processo Concorrente)&lt;br&gt;- &lt;font color=&quot;#82b366&quot;&gt;&lt;b&gt;Verde:&lt;/b&gt;&lt;/font&gt; Mapa de Contas em Memória (Sincronizado)&lt;br&gt;- &lt;b&gt;Setas Sólidas:&lt;/b&gt; Chamadas Síncronas / Mensagens por Socket TCP&lt;br&gt;- &lt;b&gt;Setas Tracejadas:&lt;/b&gt; Retornos de Métodos / Respostas do Socket" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="420" width="370" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Edges (Links with Messages) -->
+
+        <!-- Link 1: cliente to servidor (connect, send account, commands) -->
+        <mxCell id="edge_cliente_servidor" edge="1" parent="1" source="obj_cliente" target="obj_servidor" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;exitX=1;exitY=0.3;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_cliente_servidor" connectable="0" parent="edge_cliente_servidor" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1: Conectar&lt;br&gt;1.2: Envia conta&lt;br&gt;2.1: Envia cmd (1, 2 ou 3)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 1 Return: servidor to cliente (responses) -->
+        <mxCell id="edge_cliente_servidor_ret" edge="1" parent="1" source="obj_servidor" target="obj_cliente" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;dashed=1;endArrow=open;exitX=0;exitY=0.7;entryX=1;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_cliente_servidor_ret" connectable="0" parent="edge_cliente_servidor_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1.1: BEM-VINDO...&lt;br&gt;2: Apresentar MENU e ler comando&lt;br&gt;3.1: SALDO ATUAL: &lt;valor&gt;&lt;br&gt;4.1: SUCESSO: Deposito realizado&lt;br&gt;5.1: SUCESSO: Saque realizado / ERRO" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="32" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 2: servidor to contas (Map operations) -->
+        <mxCell id="edge_servidor_contas" edge="1" parent="1" source="obj_servidor" target="obj_contas" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;exitX=1;exitY=0.3;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_servidor_contas" connectable="0" parent="edge_servidor_contas" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1.3: containsKey(conta)&lt;br&gt;3: get(conta)&lt;br&gt;4: put(conta, saldo + valor)&lt;br&gt;5: put(conta, saldo - valor)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-30" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 2 Return: contas to servidor -->
+        <mxCell id="edge_servidor_contas_ret" edge="1" parent="1" source="obj_contas" target="obj_servidor" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;dashed=1;endArrow=open;exitX=0;exitY=0.7;entryX=1;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_servidor_contas_ret" connectable="0" parent="edge_servidor_contas_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1.4: Retorna booleano&lt;br&gt;retornos de get / put" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

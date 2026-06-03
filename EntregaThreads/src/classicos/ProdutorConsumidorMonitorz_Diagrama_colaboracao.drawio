@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" pages="1">
+  <diagram id="produtor_consumidor_monitor_collaboration" name="Collaboration Diagram">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Frame container -->
+        <mxCell id="frame_container" value="co Produtor Consumidor (Monitor - Diagrama de Colaboração)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=410;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1000" height="650" as="geometry" />
+        </mxCell>
+
+        <!-- Objects (Nodes) -->
+        
+        <!-- produtor : ProdutorM (Active Object) -->
+        <mxCell id="obj_produtor" value="&lt;u&gt;produtor : Produtor&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- buffer : BufferMonitor (Passive Object - monitor) -->
+        <mxCell id="obj_buffer" value="&lt;u&gt;buffer : BufferMonitor&lt;/u&gt;" style="whiteSpace=wrap;html=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- consumidor : ConsumidorM (Active Object) -->
+        <mxCell id="obj_consumidor" value="&lt;u&gt;consumidor : Consumidor&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Note Box: Concurrency & Monitor notes -->
+        <mxCell id="note_concurrency" value="&lt;b&gt;Produtor-Consumidor via Monitor:&lt;/b&gt;&lt;br&gt;- &lt;b&gt;produtor:&lt;/b&gt; Thread ativa (Active Object) que insere itens sequenciais no buffer (método &lt;i&gt;produzir()&lt;/i&gt;). Dorme se o buffer estiver cheio.&lt;br&gt;- &lt;b&gt;consumidor:&lt;/b&gt; Thread ativa (Active Object) que remove itens do buffer (método &lt;i&gt;consumir()&lt;/i&gt;). Dorme via &lt;i&gt;wait()&lt;/i&gt; se o buffer estiver vazio.&lt;br&gt;- &lt;b&gt;buffer:&lt;/b&gt; Monitor compartilhado (recurso passivo). Cooordena a sincronização usando exclusão mútua nativa do Java (&lt;i&gt;synchronized&lt;/i&gt;).&lt;br&gt;- &lt;b&gt;Comunicação e Sinalização:&lt;/b&gt; A thread produtora chama &lt;i&gt;notifyAll()&lt;/i&gt; após inserir um item, acordando o consumidor que estava bloqueado esperando por dados." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="420" width="450" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="note_legend" value="&lt;b&gt;Legenda de Cores e Símbolos:&lt;/b&gt;&lt;br&gt;- &lt;font color=&quot;#d79b00&quot;&gt;&lt;b&gt;Laranja:&lt;/b&gt;&lt;/font&gt; Classes Ativas (Threads do Produtor e Consumidor)&lt;br&gt;- &lt;font color=&quot;#6c8ebf&quot;&gt;&lt;b&gt;Azul:&lt;/b&gt;&lt;/font&gt; Monitor Compartilhado (Recurso Sincronizado)&lt;br&gt;- &lt;b&gt;Setas Sólidas:&lt;/b&gt; Chamadas de Métodos (Síncronas/Bloqueantes)&lt;br&gt;- &lt;b&gt;Setas Tracejadas:&lt;/b&gt; Retornos e Sinalização (acordar de threads)&lt;br&gt;- &lt;b&gt;[bloqueia wait()]:&lt;/b&gt; Indica suspensão temporária da thread liberando o lock do monitor." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="420" width="370" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Edges (Links with Messages) -->
+
+        <!-- Link 1: Produtor to Buffer (produzir, returns) -->
+        <mxCell id="edge_p_to_buf" edge="1" parent="1" source="obj_produtor" target="obj_buffer" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;exitX=1;exitY=0.3;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_p_to_buf" connectable="0" parent="edge_p_to_buf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1: produzir(1)&lt;br&gt;4: produzir(2) [notifica Consumidor]" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 1 Return: Buffer to Produtor -->
+        <mxCell id="edge_p_to_buf_ret" edge="1" parent="1" source="obj_buffer" target="obj_produtor" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;dashed=1;endArrow=open;exitX=0;exitY=0.7;entryX=1;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_p_to_buf_ret" connectable="0" parent="edge_p_to_buf_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="retorno" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 2: Consumidor to Buffer (consumir, wait) -->
+        <mxCell id="edge_c_to_buf" edge="1" parent="1" source="obj_consumidor" target="obj_buffer" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;exitX=0;exitY=0.3;entryX=1;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_c_to_buf" connectable="0" parent="edge_c_to_buf" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="2: consumir()&lt;br&gt;3: consumir() [bloqueia wait()]" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 2 Return: Buffer to Consumidor -->
+        <mxCell id="edge_c_to_buf_ret" edge="1" parent="1" source="obj_buffer" target="obj_consumidor" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;dashed=1;endArrow=open;exitX=1;exitY=0.7;entryX=0;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_c_to_buf_ret" connectable="0" parent="edge_c_to_buf_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="retorno (item: 1)&lt;br&gt;retorno (item: 2)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

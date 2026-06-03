@@ -1,0 +1,126 @@
+<mxfile host="app.diagrams.net" pages="1">
+  <diagram id="bar_collaboration" name="Collaboration Diagram">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Frame container -->
+        <mxCell id="frame_container" value="co Funcionamento do Bar (Diagrama de Colaboração)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=310;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1000" height="700" as="geometry" />
+        </mxCell>
+
+        <!-- Objects (Nodes) -->
+        
+        <!-- fregueses : Fregues (Multi-object representing client collection) -->
+        <mxCell id="obj_fregueses" value="&lt;u&gt;fregueses : Fregues&lt;/u&gt;" style="shape=umlMultiObject;whiteSpace=wrap;html=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- bar : Bar (Monitor - passive shared resource) -->
+        <mxCell id="obj_bar" value="&lt;u&gt;bar : Bar&lt;/u&gt;" style="whiteSpace=wrap;html=1;align=center;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- garcons : Garcom (Multi-object representing thread pool of waiters) -->
+        <mxCell id="obj_garcons" value="&lt;u&gt;garcons : Garcom&lt;/u&gt;" style="shape=umlMultiObject;whiteSpace=wrap;html=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- bartender : Bartender (Active Object - thread) -->
+        <mxCell id="obj_bartender" value="&lt;u&gt;bartender : Bartender&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Note Box: Concurrency notes -->
+        <mxCell id="note_concurrency" value="&lt;b&gt;Notas de Concorrência:&lt;/b&gt;&lt;br&gt;- &lt;b&gt;fregueses:&lt;/b&gt; Coleção de Clientes (Multi-objeto). Cada cliente é uma thread ativa.&lt;br&gt;- &lt;b&gt;garcons:&lt;/b&gt; Pool de Threads (Multi-objeto / Active Objects). Executam em paralelo.&lt;br&gt;- &lt;b&gt;bartender:&lt;/b&gt; Objeto Ativo (Active Object) único responsável por preparar as bebidas.&lt;br&gt;- &lt;b&gt;bar:&lt;/b&gt; Monitor compartilhado (Recurso passivo). Controla a sincronização e exclusão mútua via &lt;i&gt;Monitor&lt;/i&gt; (synchronized, wait, notifyAll).&lt;br&gt;- &lt;b&gt;Algoritmo de Escalonamento (Roleta):&lt;/b&gt; Fregueses escolhem o garçom com a menor fila de pedidos atual no método &lt;i&gt;fazerPedido()&lt;/i&gt;." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="470" width="450" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="note_legend" value="&lt;b&gt;Legenda de Cores e Estereótipos:&lt;/b&gt;&lt;br&gt;- &lt;font color=&quot;#d79b00&quot;&gt;&lt;b&gt;Laranja:&lt;/b&gt;&lt;/font&gt; Classe Multi-objeto Fregues (Thread Cliente)&lt;br&gt;- &lt;font color=&quot;#6c8ebf&quot;&gt;&lt;b&gt;Azul:&lt;/b&gt;&lt;/font&gt; Classe Multi-objeto Garcom (Thread Garçom)&lt;br&gt;- &lt;font color=&quot;#82b366&quot;&gt;&lt;b&gt;Verde:&lt;/b&gt;&lt;/font&gt; Classe Ativa Bartender (Thread Bartender)&lt;br&gt;- &lt;font color=&quot;#666666&quot;&gt;&lt;b&gt;Cinza:&lt;/b&gt;&lt;/font&gt; Monitor Bar (Recurso Sincronizado)&lt;br&gt;- &lt;font color=&quot;#333333&quot;&gt;&lt;b&gt;Setas Sólidas:&lt;/b&gt;&lt;/font&gt; Chamadas de Métodos (Síncronas/Bloqueantes)&lt;br&gt;- &lt;font color=&quot;#666666&quot;&gt;&lt;b&gt;Setas Tracejadas:&lt;/b&gt;&lt;/font&gt; Retornos e Acordar de Threads" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="470" width="370" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Edges (Links with Messages) -->
+
+        <!-- Link 1: Fregues to Bar (fazerPedido) -->
+        <mxCell id="edge_f_ped" edge="1" parent="1" source="obj_fregueses" target="obj_bar" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;exitX=1;exitY=0.3;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f_ped" connectable="0" parent="edge_f_ped" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="1: fazerPedido(id)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 1 Return: Bar to Fregues (Acordar Freguês) -->
+        <mxCell id="edge_f_ped_ret" edge="1" parent="1" source="obj_bar" target="obj_fregueses" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;dashed=1;endArrow=open;exitX=0;exitY=0.7;entryX=1;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f_ped_ret" connectable="0" parent="edge_f_ped_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="retorno (Freguês acordado)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 2: Garcom to Bar (coletarPedidos, pedirCopa, entregarPedidos, incrementarRodada) -->
+        <mxCell id="edge_g_calls" edge="1" parent="1" source="obj_garcons" target="obj_bar" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;exitX=0.3;exitY=1;entryX=0.3;entryY=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_g_calls" connectable="0" parent="edge_g_calls" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="2: coletarPedidos(id)&lt;br&gt;3: pedirCopa(id, pedidos)&lt;br&gt;6: entregarPedidos(pedidos)&lt;br&gt;7: incrementarRodada()" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="-95" y="0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 2 Return: Bar to Garcom (pedidos, garcom acordado) -->
+        <mxCell id="edge_g_rets" edge="1" parent="1" source="obj_bar" target="obj_garcons" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;dashed=1;endArrow=open;exitX=0.7;exitY=0;entryX=0.7;entryY=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_g_rets" connectable="0" parent="edge_g_rets" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="pedidos&lt;br&gt;retorno (Garçom acordado)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="85" y="0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 3: Bartender to Bar (pegarTrabalhoCopa, finalizarCopa) -->
+        <mxCell id="edge_b_calls" edge="1" parent="1" source="obj_bartender" target="obj_bar" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#82b366;fillColor=#d5e8d4;exitX=0;exitY=0.3;entryX=1;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_b_calls" connectable="0" parent="edge_b_calls" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="4: pegarTrabalhoCopa()&lt;br&gt;5: finalizarCopa(job)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 3 Return: Bar to Bartender (job) -->
+        <mxCell id="edge_b_rets" edge="1" parent="1" source="obj_bar" target="obj_bartender" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#82b366;fillColor=#d5e8d4;dashed=1;endArrow=open;exitX=1;exitY=0.7;entryX=0;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_b_rets" connectable="0" parent="edge_b_rets" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="job" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- self-call: prepararBebida -->
+        <mxCell id="edge_b_prep" edge="1" parent="1" source="obj_bartender" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;strokeColor=#82b366;strokeWidth=1.5;" target="obj_bartender">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="290" />
+              <mxPoint x="960" y="290" />
+              <mxPoint x="960" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_b_prep" connectable="0" parent="edge_b_prep" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];fontSize=12;" value="4.1: Preparar bebida (sleep)" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint x="55" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,91 @@
+<mxfile host="app.diagrams.net" pages="1">
+  <diagram id="forca_collaboration" name="Collaboration Diagram">
+    <mxGraphModel dx="1000" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1019" pageHeight="1320" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Frame container -->
+        <mxCell id="frame_container" value="co Jogo da Forca via Sockets (Diagrama de Colaboração)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=410;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="800" height="520" as="geometry" />
+        </mxCell>
+
+        <!-- Objects (Nodes) -->
+        
+        <!-- cliente : Cliente (Active Object - user console) -->
+        <mxCell id="obj_cliente" value="&lt;u&gt;cliente : Cliente&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="180" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- servidor : Servidor (Active Object - socket listener) -->
+        <mxCell id="obj_servidor" value="&lt;u&gt;servidor : Servidor&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- jogo : ThreadJogo (Active Object - game daemon instance) -->
+        <mxCell id="obj_jogo" value="&lt;u&gt;jogo : ThreadJogo&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="450" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Note Box: Concurrency & Threads notes -->
+        <mxCell id="note_concurrency" value="&lt;b&gt;Jogo da Forca Multithread via Sockets:&lt;/b&gt;&lt;br&gt;- &lt;b&gt;cliente:&lt;/b&gt; Terminal local de console onde o jogador insere os palpites.&lt;br&gt;- &lt;b&gt;servidor:&lt;/b&gt; Listener principal. Apenas aceita a conexão TCP (passo 1) e delega imediatamente para uma nova thread.&lt;br&gt;- &lt;b&gt;jogo (ThreadJogo):&lt;/b&gt; Thread ativa independente que mantém o estado da palavra, erros e realiza o processamento de palpites isoladamente para o cliente conectado, liberando o servidor para aceitar novos jogos." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="360" width="320" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="note_legend" value="&lt;b&gt;Legenda de Cores e Símbolos:&lt;/b&gt;&lt;br&gt;- &lt;font color=&quot;#d79b00&quot;&gt;&lt;b&gt;Laranja:&lt;/b&gt;&lt;/font&gt; Classe Ativa Cliente (Console do Jogador)&lt;br&gt;- &lt;font color=&quot;#6c8ebf&quot;&gt;&lt;b&gt;Azul:&lt;/b&gt;&lt;/font&gt; Classe Ativa Servidor (Socket Listener)&lt;br&gt;- &lt;font color=&quot;#82b366&quot;&gt;&lt;b&gt;Verde:&lt;/b&gt;&lt;/font&gt; Thread Ativa do Jogo (Instância isolada)&lt;br&gt;- &lt;b&gt;Setas (↗ ↘ ↙ ↖):&lt;/b&gt; Sentido das mensagens nos links.&lt;br&gt;- &lt;b&gt;Self-Loop (↻):&lt;/b&gt; Processamento lógico interno da palavra." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="360" width="320" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Edges (Links with Messages) -->
+
+        <!-- Link 1: cliente to servidor (connect) -->
+        <mxCell id="edge_cliente_servidor" edge="1" parent="1" source="obj_cliente" target="obj_servidor" style="endArrow=none;html=1;fontSize=12;strokeWidth=1.5;strokeColor=#d79b00;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_cliente_servidor" connectable="0" parent="edge_cliente_servidor" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1: Conectar ↗" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="-20" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 2: servidor to jogo (spawn thread) -->
+        <mxCell id="edge_servidor_jogo" edge="1" parent="1" source="obj_servidor" target="obj_jogo" style="endArrow=none;html=1;fontSize=12;strokeWidth=1.5;strokeColor=#6c8ebf;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_servidor_jogo" connectable="0" parent="edge_servidor_jogo" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1.1: new ThreadJogo().start() ⬇" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="80" y="0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 3: cliente to jogo (game interaction) -->
+        <mxCell id="edge_cliente_jogo" edge="1" parent="1" source="obj_cliente" target="obj_jogo" style="endArrow=none;html=1;fontSize=12;strokeWidth=1.5;strokeColor=#82b366;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_cliente_jogo" connectable="0" parent="edge_cliente_jogo" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="1.2: BEM-VINDO... ↖&lt;br&gt;1.3: TAMANHO:len ↖&lt;br&gt;2: ESTADO:est ERROS:X/6 ↖&lt;br&gt;2.1: Envia letra (palpite) ↘&lt;br&gt;2.2: AVISO:Letra já tentada ↖&lt;br&gt;3, 3.1: VITORIA / DERROTA ↖" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="-30" y="35" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- self-call: jogo (processarPalpite) -->
+        <mxCell id="edge_jogo_self" edge="1" parent="1" source="obj_jogo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;strokeColor=#82b366;strokeWidth=1.5;" target="obj_jogo">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="200" />
+              <mxPoint x="600" y="200" />
+              <mxPoint x="600" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_jogo_self" connectable="0" parent="edge_jogo_self" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="2.3: Processar palpite" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint x="55" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

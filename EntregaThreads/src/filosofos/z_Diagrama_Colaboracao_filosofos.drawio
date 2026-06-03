@@ -1,0 +1,157 @@
+<mxfile host="app.diagrams.net" pages="1">
+  <diagram id="filosofos_collaboration" name="Collaboration Diagram">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Frame container -->
+        <mxCell id="frame_container" value="co Jantar dos Filósofos (Prevenção de Deadlock - Diagrama de Colaboração)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=450;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1000" height="650" as="geometry" />
+        </mxCell>
+
+        <!-- Objects (Nodes) -->
+        
+        <!-- h1 : Hashi (Chopstick 1 - passive resource) -->
+        <mxCell id="obj_h1" value="&lt;u&gt;h1 : Hashi&lt;/u&gt;" style="whiteSpace=wrap;html=1;align=center;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- f0 : Filosofo_0 (Active Object - thread) -->
+        <mxCell id="obj_f0" value="&lt;u&gt;f0 : Filosofo&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- h0 : Hashi (Chopstick 0 - passive shared resource) -->
+        <mxCell id="obj_h0" value="&lt;u&gt;h0 : Hashi&lt;/u&gt;&lt;br&gt;(Compartilhado)" style="whiteSpace=wrap;html=1;align=center;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- f4 : Filosofo_4 (Active Object - thread último) -->
+        <mxCell id="obj_f4" value="&lt;u&gt;f4 : Filosofo&lt;/u&gt;&lt;br&gt;(Último)" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- h4 : Hashi (Chopstick 4 - passive resource) -->
+        <mxCell id="obj_h4" value="&lt;u&gt;h4 : Hashi&lt;/u&gt;" style="whiteSpace=wrap;html=1;align=center;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="860" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Note Box: Concurrency & Deadlock Prevention notes -->
+        <mxCell id="note_concurrency" value="&lt;b&gt;Exclusão Mútua e Deadlock no Jantar dos Filósofos:&lt;/b&gt;&lt;br&gt;- &lt;b&gt;f0 e f4:&lt;/b&gt; Threads ativas concorrentes que executam um ciclo de meditar, tentar adquirir recursos, comer e liberar recursos.&lt;br&gt;- &lt;b&gt;h0, h1 e h4 (Hashis):&lt;/b&gt; Recursos passivos compartilhados de uso exclusivo (Monitores/Objects).&lt;br&gt;- &lt;b&gt;Prevenção de Deadlock:&lt;/b&gt; Em um jantar clássico, se todos os filósofos pegassem o hashi esquerdo ao mesmo tempo, haveria deadlock. Para evitar isso, o último filósofo (&lt;i&gt;f4&lt;/i&gt;) inverte a ordem de aquisição: pega o hashi direito (&lt;i&gt;h0&lt;/i&gt;) primeiro e depois o esquerdo (&lt;i&gt;h4&lt;/i&gt;).&lt;br&gt;- &lt;b&gt;Resultado:&lt;/b&gt; Quebra a espera circular no hashi &lt;i&gt;h0&lt;/i&gt; compartilhado entre &lt;i&gt;f0&lt;/i&gt; e &lt;i&gt;f4&lt;/i&gt;." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="420" width="450" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="note_legend" value="&lt;b&gt;Legenda de Cores e Estereótipos:&lt;/b&gt;&lt;br&gt;- &lt;font color=&quot;#d79b00&quot;&gt;&lt;b&gt;Laranja:&lt;/b&gt;&lt;/font&gt; Classe Ativa Filosofo 0 (Thread)&lt;br&gt;- &lt;font color=&quot;#6c8ebf&quot;&gt;&lt;b&gt;Azul:&lt;/b&gt;&lt;/font&gt; Classe Ativa Filosofo 4 (Thread Último)&lt;br&gt;- &lt;font color=&quot;#666666&quot;&gt;&lt;b&gt;Cinza:&lt;/b&gt;&lt;/font&gt; Hashis (Monitores de Recurso)&lt;br&gt;- &lt;b&gt;Setas Direcionadas (➔ e ←):&lt;/b&gt; Chamadas de travamento.&lt;br&gt;- &lt;b&gt;Setas Tracejadas (-->):&lt;/b&gt; Operações de liberação (Unlock)." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="420" width="370" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Edges (Links with Messages) -->
+
+        <!-- self-call: f0 (Meditando, Comendo) -->
+        <mxCell id="edge_f0_sleep" edge="1" parent="1" source="obj_f0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontSize=12;strokeColor=#d79b00;strokeWidth=1.5;" target="obj_f0">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="310" y="200" />
+              <mxPoint x="370" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_f0_sleep" connectable="0" parent="edge_f0_sleep" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="1: Meditando...&lt;br&gt;4: Comendo arroz..." vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link: f0 to h1 (Right) -->
+        <mxCell id="edge_f0_h1" edge="1" parent="1" source="obj_f0" target="obj_h1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;exitX=0;exitY=0.3;entryX=1;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f0_h1" connectable="0" parent="edge_f0_h1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="3: Lock (hachiDireito)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_f0_h1_ret" edge="1" parent="1" source="obj_f0" target="obj_h1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;dashed=1;endArrow=open;exitX=0;exitY=0.7;entryX=1;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f0_h1_ret" connectable="0" parent="edge_f0_h1_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="5: Unlock" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link: f0 to h0 (Left) -->
+        <mxCell id="edge_f0_h0" edge="1" parent="1" source="obj_f0" target="obj_h0" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;exitX=1;exitY=0.3;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f0_h0" connectable="0" parent="edge_f0_h0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="2: Lock (hachiEsquerdo)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_f0_h0_ret" edge="1" parent="1" source="obj_f0" target="obj_h0" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;dashed=1;endArrow=open;exitX=1;exitY=0.7;entryX=0;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f0_h0_ret" connectable="0" parent="edge_f0_h0_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="6: Unlock" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- self-call: f4 (Meditando, Comendo) -->
+        <mxCell id="edge_f4_sleep" edge="1" parent="1" source="obj_f4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontSize=12;strokeColor=#6c8ebf;strokeWidth=1.5;" target="obj_f4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="200" />
+              <mxPoint x="770" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_f4_sleep" connectable="0" parent="edge_f4_sleep" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="7: Meditando...&lt;br&gt;10: Comendo arroz..." vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link: f4 to h0 (Right first) -->
+        <mxCell id="edge_f4_h0" edge="1" parent="1" source="obj_f4" target="obj_h0" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;exitX=0;exitY=0.3;entryX=1;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f4_h0" connectable="0" parent="edge_f4_h0" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="8: Lock (hachiDireito)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_f4_h0_ret" edge="1" parent="1" source="obj_f4" target="obj_h0" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;dashed=1;endArrow=open;exitX=0;exitY=0.7;entryX=1;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f4_h0_ret" connectable="0" parent="edge_f4_h0_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="12: Unlock" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link: f4 to h4 (Left second) -->
+        <mxCell id="edge_f4_h4" edge="1" parent="1" source="obj_f4" target="obj_h4" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;exitX=1;exitY=0.3;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f4_h4" connectable="0" parent="edge_f4_h4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="9: Lock (hachiEsquerdo)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_f4_h4_ret" edge="1" parent="1" source="obj_f4" target="obj_h4" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;dashed=1;endArrow=open;exitX=1;exitY=0.7;entryX=0;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_f4_h4_ret" connectable="0" parent="edge_f4_h4_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="11: Unlock" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

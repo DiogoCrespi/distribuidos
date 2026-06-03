@@ -1,0 +1,115 @@
+<mxfile host="app.diagrams.net" pages="1">
+  <diagram id="arquivos_collaboration" name="Collaboration Diagram">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Frame container -->
+        <mxCell id="frame_container" value="co Transferência de Arquivos via Sockets (Diagrama de Colaboração)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=450;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1000" height="650" as="geometry" />
+        </mxCell>
+
+        <!-- Objects (Nodes) -->
+        
+        <!-- cliente : Cliente (Active Object - local process) -->
+        <mxCell id="obj_cliente" value="&lt;u&gt;cliente : Cliente&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- servidor : Servidor (Active Object - remote daemon / thread) -->
+        <mxCell id="obj_servidor" value="&lt;u&gt;servidor : Servidor&lt;/u&gt;" style="shape=umlActiveClass;whiteSpace=wrap;html=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- armazenamento : Armazenamento (Passive Object - filesystem) -->
+        <mxCell id="obj_armazenamento" value="&lt;u&gt;armazenamento :&lt;/u&gt;&lt;br&gt;&lt;u&gt;Armazenamento&lt;/u&gt;" style="whiteSpace=wrap;html=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="810" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Note Box: Concurrency & Sockets notes -->
+        <mxCell id="note_concurrency" value="&lt;b&gt;Transferência de Arquivos via Sockets (TCP):&lt;/b&gt;&lt;br&gt;- &lt;b&gt;cliente:&lt;/b&gt; Processo cliente ativo (Thread principal) executando no console, interagindo com o usuário.&lt;br&gt;- &lt;b&gt;servidor:&lt;/b&gt; Processo servidor ativo que escuta conexões na porta 8350 e gera uma &lt;i&gt;ThreadProcesso&lt;/i&gt; independente para cada cliente.&lt;br&gt;- &lt;b&gt;armazenamento:&lt;/b&gt; Diretório local no servidor (armazenamento de arquivos isolado por subpastas de usuário).&lt;br&gt;- &lt;b&gt;Sincronização de Fluxo (Sockets):&lt;/b&gt; O protocolo de comunicação é sequencial (síncrono por socket). As operações de UPLOAD e DOWNLOAD são concorrentes em relação a diferentes clientes." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="420" width="450" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Legend Box -->
+        <mxCell id="note_legend" value="&lt;b&gt;Legenda de Cores e Estereótipos:&lt;/b&gt;&lt;br&gt;- &lt;font color=&quot;#d79b00&quot;&gt;&lt;b&gt;Laranja:&lt;/b&gt;&lt;/font&gt; Classe Ativa Cliente (Processo Local)&lt;br&gt;- &lt;font color=&quot;#6c8ebf&quot;&gt;&lt;b&gt;Azul:&lt;/b&gt;&lt;/font&gt; Classe Ativa Servidor (Processo Remoto)&lt;br&gt;- &lt;font color=&quot;#82b366&quot;&gt;&lt;b&gt;Verde:&lt;/b&gt;&lt;/font&gt; Diretório/Sistema de Arquivos do Servidor&lt;br&gt;- &lt;b&gt;Setas Sólidas:&lt;/b&gt; Chamadas Síncronas ou Envio de Comandos de Rede&lt;br&gt;- &lt;b&gt;Setas Tracejadas:&lt;/b&gt; Retornos de Dados ou Respostas de Rede" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="420" width="370" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Edges (Links with Messages) -->
+
+        <!-- self-call: cliente (salvarLocal) -->
+        <mxCell id="edge_cliente_save" edge="1" parent="1" source="obj_cliente" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontSize=12;strokeColor=#d79b00;strokeWidth=1.5;" target="obj_cliente">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="200" />
+              <mxPoint x="240" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_cliente_save" connectable="0" parent="edge_cliente_save" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="3.3: salvarLocal(baixado_nome)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 1: cliente to servidor (login, upload, download calls) -->
+        <mxCell id="edge_cliente_servidor" edge="1" parent="1" source="obj_cliente" target="obj_servidor" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;exitX=1;exitY=0.3;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_cliente_servidor" connectable="0" parent="edge_cliente_servidor" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1: LOGIN(user, senha)&lt;br&gt;2: UPLOAD(nome, tamanho, bytes)&lt;br&gt;3: DOWNLOAD(nome)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 1 Return: servidor to cliente (responses) -->
+        <mxCell id="edge_cliente_servidor_ret" edge="1" parent="1" source="obj_servidor" target="obj_cliente" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#d79b00;fillColor=#ffe6cc;dashed=1;endArrow=open;exitX=0;exitY=0.7;entryX=1;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_cliente_servidor_ret" connectable="0" parent="edge_cliente_servidor_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1.2: Retorno (SUCESSO / ERRO)&lt;br&gt;2.2: SUCESSO: Arquivo recebido&lt;br&gt;3.2: Retorno (tamanho, bytes ou -1)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- self-call: servidor (autenticar) -->
+        <mxCell id="edge_servidor_auth" edge="1" parent="1" source="obj_servidor" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontSize=12;strokeColor=#6c8ebf;strokeWidth=1.5;" target="obj_servidor">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="510" y="200" />
+              <mxPoint x="570" y="200" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_servidor_auth" connectable="0" parent="edge_servidor_auth" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="1.1: autenticar(user, pass)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 2: servidor to armazenamento (ler, gravar) -->
+        <mxCell id="edge_servidor_armazenamento" edge="1" parent="1" source="obj_servidor" target="obj_armazenamento" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;exitX=1;exitY=0.3;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_servidor_armazenamento" connectable="0" parent="edge_servidor_armazenamento" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="2.1: gravarArquivo(usuario, nome, bytes)&lt;br&gt;3.1: lerArquivo(usuario, nome)" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Link 2 Return: armazenamento to servidor -->
+        <mxCell id="edge_servidor_armazenamento_ret" edge="1" parent="1" source="obj_armazenamento" target="obj_servidor" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;strokeWidth=1.5;strokeColor=#6c8ebf;fillColor=#dae8fc;dashed=1;endArrow=open;exitX=0;exitY=0.7;entryX=1;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_servidor_armazenamento_ret" connectable="0" parent="edge_servidor_armazenamento_ret" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="retorno" vertex="1">
+          <mxGeometry relative="1" x="0.0" as="geometry">
+            <mxPoint x="0" y="15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
