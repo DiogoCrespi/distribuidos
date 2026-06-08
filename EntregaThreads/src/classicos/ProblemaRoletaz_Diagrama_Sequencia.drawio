@@ -11,78 +11,84 @@
                     <mxGeometry x="60" y="80" width="100" height="320" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_r0" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lifeline_r0" vertex="1">
-                    <mxGeometry x="45" y="70" width="10" height="220" as="geometry"/>
+                    <mxGeometry x="45" y="40" width="10" height="260" as="geometry"/>
                 </mxCell>
                 <mxCell id="lifeline_r1" value=":Roleta_1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
                     <mxGeometry x="240" y="80" width="100" height="320" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_r1" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lifeline_r1" vertex="1">
-                    <mxGeometry x="45" y="70" width="10" height="220" as="geometry"/>
+                    <mxGeometry x="45" y="40" width="10" height="260" as="geometry"/>
                 </mxCell>
                 <mxCell id="lifeline_lock" value="lock:Object" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
                     <mxGeometry x="440" y="80" width="120" height="320" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_lock" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#f5f5f5;strokeColor=#666666;" parent="lifeline_lock" vertex="1">
-                    <mxGeometry x="55" y="70" width="10" height="220" as="geometry"/>
+                    <mxGeometry x="55" y="40" width="10" height="260" as="geometry"/>
                 </mxCell>
                 <mxCell id="lifeline_class" value="ProblemaRoletas" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
                     <mxGeometry x="620" y="80" width="120" height="320" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_class" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lifeline_class" vertex="1">
-                    <mxGeometry x="55" y="70" width="10" height="220" as="geometry"/>
+                    <mxGeometry x="55" y="40" width="10" height="260" as="geometry"/>
                 </mxCell>
-                <mxCell id="msg_r0_lock" value="1: synchronized(lock)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" source="act_r0" target="act_lock" edge="1">
+                <mxCell id="msg_r0_lock" value="1: synchronized(lock)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="115" y="150" as="sourcePoint"/>
-                        <mxPoint x="505" y="150" as="targetPoint"/>
+                        <mxPoint x="115" y="130" as="sourcePoint"/>
+                        <mxPoint x="505" y="130" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg_r0_lock_ret" value="lock adquirido" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" source="act_lock" target="act_r0" edge="1">
+                <mxCell id="msg_r0_lock_ret" value="lock adquirido" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="505" y="180" as="sourcePoint"/>
-                        <mxPoint x="115" y="180" as="targetPoint"/>
+                        <mxPoint x="505" y="155" as="sourcePoint"/>
+                        <mxPoint x="115" y="155" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg_r0_inc" value="1.1: contadorGlobal++" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" source="act_r0" target="act_class" edge="1">
+                <mxCell id="msg_r0_inc" value="1.1: contadorGlobal++" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="115" y="210" as="sourcePoint"/>
-                        <mxPoint x="685" y="210" as="targetPoint"/>
+                        <mxPoint x="115" y="180" as="sourcePoint"/>
+                        <mxPoint x="685" y="180" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg_r0_inc_ret" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" source="act_class" target="act_r0" edge="1">
+                <mxCell id="msg_r0_inc_ret" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="685" y="240" as="sourcePoint"/>
-                        <mxPoint x="115" y="240" as="targetPoint"/>
+                        <mxPoint x="685" y="205" as="sourcePoint"/>
+                        <mxPoint x="115" y="205" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg_r0_unlock" value="libera lock (fim do bloco)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" source="act_r0" target="act_lock" edge="1">
+                <mxCell id="msg_r0_unlock" value="libera lock (fim do bloco)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="115" y="270" as="sourcePoint"/>
-                        <mxPoint x="505" y="270" as="targetPoint"/>
+                        <mxPoint x="115" y="230" as="sourcePoint"/>
+                        <mxPoint x="505" y="230" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg_r1_lock" value="2: synchronized(lock)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" source="act_r1" target="act_lock" edge="1">
+                <mxCell id="msg_r1_lock" value="2: synchronized(lock)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="295" y="290" as="sourcePoint"/>
-                        <mxPoint x="505" y="290" as="targetPoint"/>
+                        <mxPoint x="295" y="260" as="sourcePoint"/>
+                        <mxPoint x="505" y="260" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg_r1_lock_ret" value="lock adquirido" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" source="act_lock" target="act_r1" edge="1">
+                <mxCell id="msg_r1_lock_ret" value="lock adquirido" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="505" y="320" as="sourcePoint"/>
-                        <mxPoint x="295" y="320" as="targetPoint"/>
+                        <mxPoint x="505" y="285" as="sourcePoint"/>
+                        <mxPoint x="295" y="285" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg_r1_inc" value="2.1: contadorGlobal++" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" source="act_r1" target="act_class" edge="1">
+                <mxCell id="msg_r1_inc" value="2.1: contadorGlobal++" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="295" y="350" as="sourcePoint"/>
-                        <mxPoint x="685" y="350" as="targetPoint"/>
+                        <mxPoint x="295" y="310" as="sourcePoint"/>
+                        <mxPoint x="685" y="310" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="msg_r1_inc_ret" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" source="act_class" target="act_r1" edge="1">
+                <mxCell id="msg_r1_inc_ret" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="685" y="380" as="sourcePoint"/>
-                        <mxPoint x="295" y="380" as="targetPoint"/>
+                        <mxPoint x="685" y="335" as="sourcePoint"/>
+                        <mxPoint x="295" y="335" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="msg_r1_unlock" value="libera lock (fim do bloco)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" parent="1" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="295" y="360" as="sourcePoint"/>
+                        <mxPoint x="505" y="360" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
             </root>

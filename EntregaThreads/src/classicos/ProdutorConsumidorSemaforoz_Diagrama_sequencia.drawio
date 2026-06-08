@@ -63,61 +63,61 @@
         <!-- Messages -->
         
         <!-- Phase 1: Produtor produces item 1 -->
-        <mxCell id="msg_1" value="1: semVazio.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_sem_vazio">
+        <mxCell id="msg_1" value="1: semVazio.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="130" as="sourcePoint" />
             <mxPoint x="275" y="130" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_2" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_sem_vazio" target="act_prod">
+        <mxCell id="msg_2" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="275" y="150" as="sourcePoint" />
             <mxPoint x="85" y="150" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_3" value="2: mutex.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_mutex">
+        <mxCell id="msg_3" value="2: mutex.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="170" as="sourcePoint" />
             <mxPoint x="455" y="170" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_4" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_mutex" target="act_prod">
+        <mxCell id="msg_4" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="455" y="190" as="sourcePoint" />
             <mxPoint x="85" y="190" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_5" value="3: buffer.add(1)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_buf">
+        <mxCell id="msg_5" value="3: buffer.add(1)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="210" as="sourcePoint" />
             <mxPoint x="635" y="210" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_6" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_buf" target="act_prod">
+        <mxCell id="msg_6" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="635" y="230" as="sourcePoint" />
             <mxPoint x="85" y="230" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_7" value="4: mutex.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_mutex">
+        <mxCell id="msg_7" value="4: mutex.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="250" as="sourcePoint" />
             <mxPoint x="455" y="250" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_8" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_mutex" target="act_prod">
+        <mxCell id="msg_8" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="455" y="270" as="sourcePoint" />
             <mxPoint x="85" y="270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_9" value="5: semCheio.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_sem_cheio">
+        <mxCell id="msg_9" value="5: semCheio.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="290" as="sourcePoint" />
             <mxPoint x="815" y="290" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_10" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_sem_cheio" target="act_prod">
+        <mxCell id="msg_10" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="815" y="310" as="sourcePoint" />
             <mxPoint x="85" y="310" as="targetPoint" />
@@ -125,61 +125,61 @@
         </mxCell>
 
         <!-- Phase 2: Consumidor consumes item 1 -->
-        <mxCell id="msg_11" value="6: semCheio.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_sem_cheio">
+        <mxCell id="msg_11" value="6: semCheio.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="330" as="sourcePoint" />
             <mxPoint x="815" y="330" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_12" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_sem_cheio" target="act_cons">
+        <mxCell id="msg_12" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="815" y="350" as="sourcePoint" />
             <mxPoint x="985" y="350" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_13" value="7: mutex.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_mutex">
+        <mxCell id="msg_13" value="7: mutex.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="370" as="sourcePoint" />
             <mxPoint x="455" y="370" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_14" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_mutex" target="act_cons">
+        <mxCell id="msg_14" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="455" y="390" as="sourcePoint" />
             <mxPoint x="985" y="390" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_15" value="8: buffer.poll()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_buf">
+        <mxCell id="msg_15" value="8: buffer.poll()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="410" as="sourcePoint" />
             <mxPoint x="635" y="410" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_16" value="retorno (item: 1)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_buf" target="act_cons">
+        <mxCell id="msg_16" value="retorno (item: 1)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="635" y="430" as="sourcePoint" />
             <mxPoint x="985" y="430" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_17" value="9: mutex.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_mutex">
+        <mxCell id="msg_17" value="9: mutex.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="450" as="sourcePoint" />
             <mxPoint x="455" y="450" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_18" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_mutex" target="act_cons">
+        <mxCell id="msg_18" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="455" y="470" as="sourcePoint" />
             <mxPoint x="985" y="470" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_19" value="10: semVazio.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_sem_vazio">
+        <mxCell id="msg_19" value="10: semVazio.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="490" as="sourcePoint" />
             <mxPoint x="275" y="490" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_20" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_sem_vazio" target="act_cons">
+        <mxCell id="msg_20" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="275" y="510" as="sourcePoint" />
             <mxPoint x="985" y="510" as="targetPoint" />
@@ -187,7 +187,7 @@
         </mxCell>
 
         <!-- Phase 3: Consumidor tries to consume again (blocks on semCheio) -->
-        <mxCell id="msg_21" value="11: semCheio.acquire() [bloqueia]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_sem_cheio">
+        <mxCell id="msg_21" value="11: semCheio.acquire() [bloqueia]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="540" as="sourcePoint" />
             <mxPoint x="815" y="540" as="targetPoint" />
@@ -195,31 +195,31 @@
         </mxCell>
 
         <!-- Phase 4: Produtor produces item 2 -->
-        <mxCell id="msg_22" value="12: semVazio.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_sem_vazio">
+        <mxCell id="msg_22" value="12: semVazio.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="570" as="sourcePoint" />
             <mxPoint x="275" y="570" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_23" value="13: mutex.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_mutex">
+        <mxCell id="msg_23" value="13: mutex.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="600" as="sourcePoint" />
             <mxPoint x="455" y="600" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_24" value="14: buffer.add(2)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_buf">
+        <mxCell id="msg_24" value="14: buffer.add(2)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="630" as="sourcePoint" />
             <mxPoint x="635" y="630" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_25" value="15: mutex.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_mutex">
+        <mxCell id="msg_25" value="15: mutex.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="660" as="sourcePoint" />
             <mxPoint x="455" y="660" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_26" value="16: semCheio.release() [desbloqueia]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_prod" target="act_sem_cheio">
+        <mxCell id="msg_26" value="16: semCheio.release() [desbloqueia]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="85" y="690" as="sourcePoint" />
             <mxPoint x="815" y="690" as="targetPoint" />
@@ -227,37 +227,37 @@
         </mxCell>
 
         <!-- Phase 5: Consumidor wakes up and completes -->
-        <mxCell id="msg_27" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_sem_cheio" target="act_cons">
+        <mxCell id="msg_27" value="retorno" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="815" y="710" as="sourcePoint" />
             <mxPoint x="985" y="710" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_28" value="17: mutex.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_mutex">
+        <mxCell id="msg_28" value="17: mutex.acquire()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="730" as="sourcePoint" />
             <mxPoint x="455" y="730" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_29" value="18: buffer.poll()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_buf">
+        <mxCell id="msg_29" value="18: buffer.poll()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="760" as="sourcePoint" />
             <mxPoint x="635" y="760" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_30" value="retorno (item: 2)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_buf" target="act_cons">
+        <mxCell id="msg_30" value="retorno (item: 2)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="635" y="780" as="sourcePoint" />
             <mxPoint x="985" y="780" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_31" value="19: mutex.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_mutex">
+        <mxCell id="msg_31" value="19: mutex.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="800" as="sourcePoint" />
             <mxPoint x="455" y="800" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_32" value="20: semVazio.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cons" target="act_sem_vazio">
+        <mxCell id="msg_32" value="20: semVazio.release()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="985" y="830" as="sourcePoint" />
             <mxPoint x="275" y="830" as="targetPoint" />

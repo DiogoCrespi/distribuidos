@@ -50,7 +50,7 @@
         <!-- Messages -->
         
         <!-- 1: Fregues fazerPedido() -->
-        <mxCell id="msg_f_ped" value="1: fazerPedido(id) [bloqueia thread]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_fregues" target="act_bar">
+        <mxCell id="msg_f_ped" value="1: fazerPedido(id) [bloqueia thread]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="115" y="150" as="sourcePoint" />
             <mxPoint x="725" y="150" as="targetPoint" />
@@ -58,13 +58,13 @@
         </mxCell>
 
         <!-- 2: Garcom coletarPedidos() -->
-        <mxCell id="msg_g_col" value="2: coletarPedidos(id)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_garcom" target="act_bar">
+        <mxCell id="msg_g_col" value="2: coletarPedidos(id)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="315" y="180" as="sourcePoint" />
             <mxPoint x="725" y="180" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_g_col_ret" value="pedidos" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_bar" target="act_garcom">
+        <mxCell id="msg_g_col_ret" value="pedidos" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="725" y="210" as="sourcePoint" />
             <mxPoint x="315" y="210" as="targetPoint" />
@@ -72,7 +72,7 @@
         </mxCell>
 
         <!-- 3: Garcom pedirCopa() -->
-        <mxCell id="msg_g_cop" value="3: pedirCopa(id, pedidos) [bloqueia thread]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_garcom" target="act_bar">
+        <mxCell id="msg_g_cop" value="3: pedirCopa(id, pedidos) [bloqueia thread]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="315" y="250" as="sourcePoint" />
             <mxPoint x="725" y="250" as="targetPoint" />
@@ -80,13 +80,13 @@
         </mxCell>
 
         <!-- 4: Bartender pegarTrabalhoCopa() -->
-        <mxCell id="msg_b_peg" value="4: pegarTrabalhoCopa()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_bartender" target="act_bar">
+        <mxCell id="msg_b_peg" value="4: pegarTrabalhoCopa()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="515" y="290" as="sourcePoint" />
             <mxPoint x="725" y="290" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_b_peg_ret" value="job" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_bar" target="act_bartender">
+        <mxCell id="msg_b_peg_ret" value="job" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="725" y="320" as="sourcePoint" />
             <mxPoint x="515" y="320" as="targetPoint" />
@@ -104,13 +104,13 @@
         </mxCell>
 
         <!-- 5: Bartender finalizarCopa() -->
-        <mxCell id="msg_b_fin" value="5: finalizarCopa(job)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_bartender" target="act_bar">
+        <mxCell id="msg_b_fin" value="5: finalizarCopa(job)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="515" y="410" as="sourcePoint" />
             <mxPoint x="725" y="410" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_g_cop_ret" value="retorno (Garçom acordado)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_bar" target="act_garcom">
+        <mxCell id="msg_g_cop_ret" value="retorno (Garçom acordado)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="725" y="440" as="sourcePoint" />
             <mxPoint x="315" y="440" as="targetPoint" />
@@ -118,13 +118,13 @@
         </mxCell>
 
         <!-- 6: Garcom entregarPedidos() -->
-        <mxCell id="msg_g_ent" value="6: entregarPedidos(pedidos)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_garcom" target="act_bar">
+        <mxCell id="msg_g_ent" value="6: entregarPedidos(pedidos)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="315" y="480" as="sourcePoint" />
             <mxPoint x="725" y="480" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="msg_f_ped_ret" value="retorno (Freguês acordado)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_bar" target="act_fregues">
+        <mxCell id="msg_f_ped_ret" value="retorno (Freguês acordado)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="725" y="510" as="sourcePoint" />
             <mxPoint x="115" y="510" as="targetPoint" />
@@ -132,7 +132,7 @@
         </mxCell>
 
         <!-- 7: Garcom incrementarRodada() -->
-        <mxCell id="msg_g_inc" value="7: incrementarRodada()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_garcom" target="act_bar">
+        <mxCell id="msg_g_inc" value="7: incrementarRodada()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="315" y="550" as="sourcePoint" />
             <mxPoint x="725" y="550" as="targetPoint" />

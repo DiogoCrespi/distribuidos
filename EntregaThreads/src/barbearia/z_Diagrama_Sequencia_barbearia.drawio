@@ -42,7 +42,7 @@
         <!-- Messages -->
         
         <!-- 1: Cliente entrarNaBarbearia() -->
-        <mxCell id="msg_c_ent" value="1: entrarNaBarbearia(nome) [sentar na espera]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_cliente" target="act_barbearia">
+        <mxCell id="msg_c_ent" value="1: entrarNaBarbearia(nome) [sentar na espera]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="135" y="150" as="sourcePoint" />
             <mxPoint x="705" y="150" as="targetPoint" />
@@ -50,7 +50,7 @@
         </mxCell>
 
         <!-- 2: Barbeiro cortarCabelo() -->
-        <mxCell id="msg_b_cort" value="2: cortarCabelo() [bloqueia se fila vazia]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_barbeiro" target="act_barbearia">
+        <mxCell id="msg_b_cort" value="2: cortarCabelo() [bloqueia se fila vazia]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="415" y="180" as="sourcePoint" />
             <mxPoint x="705" y="180" as="targetPoint" />
@@ -58,7 +58,7 @@
         </mxCell>
 
         <!-- 3: Barbeiro acorda do cortarCabelo() -->
-        <mxCell id="msg_b_wake" value="3: retorno (Barbeiro acorda)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_barbearia" target="act_barbeiro">
+        <mxCell id="msg_b_wake" value="3: retorno (Barbeiro acorda)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="705" y="240" as="sourcePoint" />
             <mxPoint x="415" y="240" as="targetPoint" />
@@ -88,7 +88,7 @@
         </mxCell>
 
         <!-- 6: Barbeiro finalizarCorte() -->
-        <mxCell id="msg_b_fin" value="6: finalizarCorte() [libera barbeiro]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="act_barbeiro" target="act_barbearia">
+        <mxCell id="msg_b_fin" value="6: finalizarCorte() [libera barbeiro]" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="415" y="420" as="sourcePoint" />
             <mxPoint x="705" y="420" as="targetPoint" />
@@ -96,7 +96,7 @@
         </mxCell>
 
         <!-- 7: Cliente acorda e vai embora -->
-        <mxCell id="msg_c_leave" value="7: retorno (Corte concluído)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1" source="act_barbearia" target="act_cliente">
+        <mxCell id="msg_c_leave" value="7: retorno (Corte concluído)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;rounded=0;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="705" y="440" as="sourcePoint" />
             <mxPoint x="135" y="440" as="targetPoint" />
