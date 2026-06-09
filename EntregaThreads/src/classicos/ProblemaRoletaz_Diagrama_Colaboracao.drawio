@@ -1,65 +1,44 @@
-<mxfile host="app.diagrams.net" pages="1">
-  <diagram id="roletas_collaboration" name="Collaboration Diagram">
-    <mxGraphModel dx="1000" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1019" pageHeight="1320" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        
-        <!-- Frame container -->
-        <mxCell id="frame_container" value="co Problema das Roletas (Exclusão Mútua - Diagrama de Colaboração)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=410;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
-          <mxGeometry x="40" y="40" width="800" height="520" as="geometry" />
-        </mxCell>
-
-        <!-- Objects (Nodes) -->
-        
-        <!-- roletas : Thread (Multi-object representing roleta threads) -->
-        <mxCell id="obj_roletas" value="&lt;u&gt;roletas : Thread&lt;/u&gt;&lt;br&gt;(Roletas)" style="shape=umlMultiObject;whiteSpace=wrap;html=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="180" width="120" height="60" as="geometry" />
-        </mxCell>
-
-        <!-- lock : Object (Passive Object - monitor) -->
-        <mxCell id="obj_lock" value="&lt;u&gt;lock : Object&lt;/u&gt;" style="whiteSpace=wrap;html=1;align=center;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="450" y="100" width="120" height="60" as="geometry" />
-        </mxCell>
-
-        <!-- ProblemaRoletas (Passive Object - class holding resource) -->
-        <mxCell id="obj_class" value="&lt;u&gt;ProblemaRoletas&lt;/u&gt;&lt;br&gt;(contadorGlobal)" style="whiteSpace=wrap;html=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="450" y="260" width="120" height="60" as="geometry" />
-        </mxCell>
-
-        <!-- Note Box: Concurrency & Mutual Exclusion notes -->
-        <mxCell id="note_concurrency" value="&lt;b&gt;Exclusão Mútua no Problema das Roletas:&lt;/b&gt;&lt;br&gt;- &lt;b&gt;roletas:&lt;/b&gt; Múltiplas threads rodando em paralelo, simulando roletas de entrada.&lt;br&gt;- &lt;b&gt;lock:&lt;/b&gt; Objeto passivo compartilhado usado como Monitor para exclusão mútua.&lt;br&gt;- &lt;b&gt;ProblemaRoletas:&lt;/b&gt; Classe que contém o contador compartilhado (recurso crítico).&lt;br&gt;- &lt;b&gt;Sincronização:&lt;/b&gt; O bloco &lt;i&gt;synchronized(lock)&lt;/i&gt; garante que apenas uma thread possa incrementar o contador por vez, prevenindo condições de corrida (Race Conditions) e inconsistência no resultado final." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
-          <mxGeometry x="80" y="360" width="320" height="140" as="geometry" />
-        </mxCell>
-
-        <!-- Legend Box -->
-        <mxCell id="note_legend" value="&lt;b&gt;Legenda de Cores e Símbolos:&lt;/b&gt;&lt;br&gt;- &lt;font color=&quot;#d79b00&quot;&gt;&lt;b&gt;Laranja:&lt;/b&gt;&lt;/font&gt; Classes Ativas (Threads Roletas)&lt;br&gt;- &lt;font color=&quot;#6c8ebf&quot;&gt;&lt;b&gt;Azul:&lt;/b&gt;&lt;/font&gt; Recursos Compartilhados / Variáveis&lt;br&gt;- &lt;font color=&quot;#666666&quot;&gt;&lt;b&gt;Cinza:&lt;/b&gt;&lt;/font&gt; Objeto de Lock (Monitor)&lt;br&gt;- &lt;b&gt;Setas (↗ ↙ ↘ ↖):&lt;/b&gt; Sentido das mensagens nos links.&lt;br&gt;- &lt;b&gt;[retorno]:&lt;/b&gt; Confirmação ou liberação da chamada." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;spacingRight=10;" vertex="1" parent="1">
-          <mxGeometry x="420" y="360" width="320" height="140" as="geometry" />
-        </mxCell>
-
-        <!-- Edges (Links with Messages) -->
-
-        <!-- Link 1: roletas to lock (synchronized, acquired, unlock) -->
-        <mxCell id="edge_roletas_lock" edge="1" parent="1" source="obj_roletas" target="obj_lock" style="endArrow=none;html=1;fontSize=12;strokeWidth=1.5;strokeColor=#d79b00;">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="lbl_roletas_lock" connectable="0" parent="edge_roletas_lock" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1, 2: synchronized(lock) ↗&lt;br&gt;[retorno] lock adquirido ↙&lt;br&gt;libera lock (fim do bloco) ↗" vertex="1">
-          <mxGeometry relative="1" x="0.0" as="geometry">
-            <mxPoint x="-20" y="-20" as="offset" />
-          </mxGeometry>
-        </mxCell>
-
-        <!-- Link 2: roletas to class (increment counter, return) -->
-        <mxCell id="edge_roletas_class" edge="1" parent="1" source="obj_roletas" target="obj_class" style="endArrow=none;html=1;fontSize=12;strokeWidth=1.5;strokeColor=#d79b00;">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="lbl_roletas_class" connectable="0" parent="edge_roletas_class" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="1.1, 2.1: contadorGlobal++ ↘&lt;br&gt;[retorno] ↖" vertex="1">
-          <mxGeometry relative="1" x="0.0" as="geometry">
-            <mxPoint x="-20" y="20" as="offset" />
-          </mxGeometry>
-        </mxCell>
-
-      </root>
-    </mxGraphModel>
-  </diagram>
+<mxfile host="65bd71144e" pages="1">
+    <diagram id="roletas_collaboration" name="Collaboration Diagram">
+        <mxGraphModel dx="1108" dy="455" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1019" pageHeight="1320" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="frame_container" value="co Problema das Roletas (Exclusão Mútua - Diagrama de Colaboração)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=410;height=30;boundedLbl=1;verticalAlign=middle;align=left;spacingLeft=5;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="800" height="520" as="geometry"/>
+                </mxCell>
+                <mxCell id="obj_roletas" value="&lt;u&gt;roletas : Thread&lt;/u&gt;&lt;br&gt;(Roletas)" style="shape=umlMultiObject;whiteSpace=wrap;html=1;align=center;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="180" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="obj_lock" value="&lt;u&gt;lock : Object&lt;/u&gt;" style="whiteSpace=wrap;html=1;align=center;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="100" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="obj_class" value="&lt;u&gt;ProblemaRoletas&lt;/u&gt;&lt;br&gt;(contadorGlobal)" style="whiteSpace=wrap;html=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="260" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="note_concurrency" value="&lt;b&gt;Exclusão Mútua no Problema das Roletas:&lt;/b&gt;&lt;br&gt;- &lt;b&gt;roletas:&lt;/b&gt; Múltiplas threads rodando em paralelo, simulando varias entradas.&lt;br&gt;- &lt;b&gt;lock:&lt;/b&gt; Objeto passivo compartilhado usado como Monitor para exclusão lmútua.&lt;br&gt;- &lt;b&gt;ProblemaRoletas:&lt;/b&gt; Classe que contém o contador compartilhado (recurso crítico).&lt;br&gt;- &lt;b&gt;Sincronização:&lt;/b&gt; O bloco &lt;i&gt;synchronized(lock)&lt;/i&gt; garante que apenas uma thread possa incrementar o contador por vez, prevenindo condições de corrida (Race Conditions) e inconsistência no resultado final." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=10;spacingRight=10;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="360" width="320" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="note_legend" value="&lt;b&gt;Legenda de Cores e Símbolos:&lt;/b&gt;&lt;br&gt;- &lt;font color=&quot;#d79b00&quot;&gt;&lt;b&gt;Laranja:&lt;/b&gt;&lt;/font&gt; Classes Ativas (Threads Roletas)&lt;br&gt;- &lt;font color=&quot;#6c8ebf&quot;&gt;&lt;b&gt;Azul:&lt;/b&gt;&lt;/font&gt; Recursos Compartilhados / Variáveis&lt;br&gt;- &lt;font color=&quot;#666666&quot;&gt;&lt;b&gt;Cinza:&lt;/b&gt;&lt;/font&gt; Objeto de Lock (Monitor)&lt;br&gt;- &lt;b&gt;Setas (↗ ↙ ↘ ↖):&lt;/b&gt; Sentido das mensagens nos links.&lt;br&gt;- &lt;b&gt;[retorno]:&lt;/b&gt; Confirmação ou liberação da chamada." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=10;spacingRight=10;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="360" width="320" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge_roletas_lock" style="endArrow=none;html=1;fontSize=12;strokeWidth=1.5;strokeColor=#d79b00;" parent="1" source="obj_roletas" target="obj_lock" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lbl_roletas_lock" value="1, 2: synchronized(lock) ↗&lt;br&gt;[retorno] lock adquirido ↙&lt;br&gt;libera lock (fim do bloco) ↗" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" parent="edge_roletas_lock" connectable="0" vertex="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-20" y="-20" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge_roletas_class" style="endArrow=none;html=1;fontSize=12;strokeWidth=1.5;strokeColor=#d79b00;" parent="1" source="obj_roletas" target="obj_class" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lbl_roletas_class" value="1.1, 2.1: contadorGlobal++ ↘&lt;br&gt;[retorno] ↖" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" parent="edge_roletas_class" connectable="0" vertex="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-20" y="20" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
 </mxfile>

@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" pages="1">
     <diagram id="produtor_consumidor_monitor_sequence" name="Sequence Diagram">
-        <mxGraphModel dx="942" dy="387" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1019" pageHeight="1320" math="0" shadow="0">
+        <mxGraphModel dx="942" dy="611" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1019" pageHeight="1320" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -17,7 +17,7 @@
                     <mxGeometry x="280" y="80" width="100" height="320" as="geometry"/>
                 </mxCell>
                 <mxCell id="act_cons" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lifeline_consumidor" vertex="1">
-                    <mxGeometry x="45" y="70" width="10" height="220" as="geometry"/>
+                    <mxGeometry x="45" y="70" width="10" height="240" as="geometry"/>
                 </mxCell>
                 <mxCell id="lifeline_buffer" value="buffer:BufferMonitor" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
                     <mxGeometry x="520" y="80" width="160" height="320" as="geometry"/>
