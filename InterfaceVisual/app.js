@@ -828,6 +828,35 @@ document.addEventListener('DOMContentLoaded', () => {
             if (match) {
                 roletasEsperado.textContent = match[1];
             }
+        } else if (line.match(/Roleta\s+(\d+)\s+girou\.\s+Contador:\s+(\d+)/)) {
+            const match = line.match(/Roleta\s+(\d+)\s+girou\.\s+Contador:\s+(\d+)/);
+            const id = parseInt(match[1]);
+            const count = parseInt(match[2]);
+            
+            roletasContador.textContent = count;
+            
+            const grid = document.getElementById('roletas-grid');
+            if (grid) {
+                let node = document.getElementById(`roleta-${id}`);
+                if (!node) {
+                    node = document.createElement('div');
+                    node.className = 'roleta-node';
+                    node.id = `roleta-${id}`;
+                    node.innerHTML = `
+                        <span class="roleta-name">Roleta ${id}</span>
+                        <span class="roleta-status-text">Inativo</span>
+                    `;
+                    grid.appendChild(node);
+                    
+                    const titleEl = document.querySelector('.roletas-threads-visual h4');
+                    if (titleEl) {
+                        const activeCount = grid.querySelectorAll('.roleta-node').length;
+                        titleEl.textContent = `Threads de Roletas (${activeCount} ativas)`;
+                    }
+                }
+                node.classList.add('active-roleta');
+                node.querySelector('.roleta-status-text').textContent = 'Girando...';
+            }
         }
     }
 

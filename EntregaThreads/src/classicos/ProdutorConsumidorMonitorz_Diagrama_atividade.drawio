@@ -1,100 +1,243 @@
 <mxfile host="65bd71144e" pages="1">
-    <diagram id="roletas_activity" name="Activity Diagram">
-        <mxGraphModel dx="622" dy="611" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1100" math="0" shadow="0">
+    <diagram id="produtor_consumidor_monitor_activity" name="Activity Diagram">
+        <mxGraphModel dx="390" dy="349" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1400" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="swimlanes" value="Exclusão Mútua de Roletas" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;horizontalStack=1;" parent="1" vertex="1">
-                    <mxGeometry x="40" y="40" width="760" height="740" as="geometry"/>
+                <mxCell id="swimlanes" value="Produtor-Consumidor com Monitores" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;horizontalStack=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="840" height="1300" as="geometry"/>
                 </mxCell>
-                <mxCell id="lane_roleta" value="Thread de Roleta (Roleta)" style="swimlane;startSize=20;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="swimlanes" vertex="1">
-                    <mxGeometry x="20" y="20" width="370" height="720" as="geometry"/>
+                <mxCell id="lane_produtor" value="Thread Produtor (Produtor)" style="swimlane;startSize=20;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="swimlanes" vertex="1">
+                    <mxGeometry y="20" width="270" height="1280" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" parent="lane_roleta" vertex="1">
-                    <mxGeometry x="170" y="30" width="30" height="30" as="geometry"/>
+                <mxCell id="prod_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" parent="lane_produtor" vertex="1">
+                    <mxGeometry x="120" y="30" width="30" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_init_loop" value="j = 0" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_roleta" vertex="1">
-                    <mxGeometry x="135" y="90" width="100" height="40" as="geometry"/>
+                <mxCell id="prod_item" value="Produzir Item&#10;(i = ++i)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_produtor" vertex="1">
+                    <mxGeometry x="60" y="90" width="150" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="dec_loop_cond" value="j &lt; girosPorRoleta?" style="rhombus;" parent="lane_roleta" vertex="1">
-                    <mxGeometry x="110" y="160" width="150" height="50" as="geometry"/>
+                <mxCell id="prod_call_prod" value="Chamar produzir()&#10;(buffer.produzir(i))" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_produtor" vertex="1">
+                    <mxGeometry x="60" y="160" width="150" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_lock_req" value="Tentar entrar no bloco&#xa;(synchronized(lock))" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_roleta" vertex="1">
-                    <mxGeometry x="95" y="230" width="180" height="40" as="geometry"/>
+                <mxCell id="prod_check_full" value="fila.size() == limite?" style="rhombus;fillColor=#fff2cc;strokeColor=#d6b656;" parent="lane_produtor" vertex="1">
+                    <mxGeometry x="60" y="320" width="150" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_entered" value="Entrar no bloco crítico" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_roleta" vertex="1">
-                    <mxGeometry x="110" y="380" width="150" height="40" as="geometry"/>
+                <mxCell id="prod_call_wait" value="Chamar wait()&#10;(bloqueia e libera lock)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_produtor" vertex="1">
+                    <mxGeometry x="60" y="400" width="150" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_inc_counter" value="Incrementar contador&#xa;(contadorGlobal++)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_roleta" vertex="1">
-                    <mxGeometry x="110" y="450" width="150" height="40" as="geometry"/>
+                <mxCell id="prod_insert" value="Inserir na Fila&#10;(fila.add(item))" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_produtor" vertex="1">
+                    <mxGeometry x="60" y="480" width="150" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_unlock_req" value="Sair do synchronized" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_roleta" vertex="1">
-                    <mxGeometry x="110" y="520" width="150" height="40" as="geometry"/>
+                <mxCell id="prod_call_notify" value="Notificar Outros&#10;(notifyAll())" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_produtor" vertex="1">
+                    <mxGeometry x="60" y="560" width="150" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_inc_j" value="j = j + 1" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_roleta" vertex="1">
-                    <mxGeometry x="135" y="600" width="100" height="40" as="geometry"/>
+                <mxCell id="prod_sleep" value="Dormir 1200ms&#10;(Thread.sleep(1200))" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_produtor" vertex="1">
+                    <mxGeometry x="60" y="720" width="150" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_end" value="End" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" parent="lane_roleta" vertex="1">
-                    <mxGeometry x="170" y="670" width="30" height="30" as="geometry"/>
+                <mxCell id="lane_recursos" value="Monitor (BufferMonitor)" style="swimlane;startSize=20;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="swimlanes" vertex="1">
+                    <mxGeometry x="270" y="20" width="300" height="1280" as="geometry"/>
                 </mxCell>
-                <mxCell id="lane_monitor" value="Monitor (lock:Object)" style="swimlane;startSize=20;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="swimlanes" vertex="1">
-                    <mxGeometry x="390" y="20" width="370" height="720" as="geometry"/>
+                <mxCell id="mon_acq_lock_prod" value="Adquirir Lock Exclusivo&#10;(synchronized)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="240" width="180" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_lock_acq" value="Adquirir lock exclusivo&#xa;(bloqueia outras threads)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_monitor" vertex="1">
-                    <mxGeometry x="95" y="300" width="180" height="40" as="geometry"/>
+                <mxCell id="mon_wait_prod" value="Suspender Thread&#10;(Espera notificação)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="400" width="180" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="act_lock_rel" value="Liberar lock exclusivo&#xa;(acorda próxima thread)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_monitor" vertex="1">
-                    <mxGeometry x="95" y="520" width="180" height="40" as="geometry"/>
+                <mxCell id="mon_add" value="Adicionar Item ao Buffer&#10;(Exclusão Mútua)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="480" width="180" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="act_start" target="act_init_loop" edge="1">
+                <mxCell id="mon_notify_prod" value="Sinalizar Alteração&#10;(Acorda threads suspensas)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="560" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="mon_release_lock_prod" value="Liberar Lock Exclusivo&#10;(Fim do método produzir)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="640" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="mon_acq_lock_cons" value="Adquirir Lock Exclusivo&#10;(synchronized)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="720" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="mon_wait_cons" value="Suspender Thread&#10;(Espera notificação)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="880" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="mon_rem" value="Remover Item do Buffer&#10;(Exclusão Mútua)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="960" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="mon_notify_cons" value="Sinalizar Alteração&#10;(Acorda threads suspensas)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="1040" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="mon_release_lock_cons" value="Liberar Lock Exclusivo&#10;(Fim do método consumir)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_recursos" vertex="1">
+                    <mxGeometry x="60" y="1120" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="lane_consumidor" value="Thread Consumidor (Consumidor)" style="swimlane;startSize=20;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="swimlanes" vertex="1">
+                    <mxGeometry x="570" y="20" width="270" height="1280" as="geometry"/>
+                </mxCell>
+                <mxCell id="cons_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" parent="lane_consumidor" vertex="1">
+                    <mxGeometry x="120" y="30" width="30" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="cons_call_cons" value="Chamar consumir()&#10;(buffer.consumir())" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_consumidor" vertex="1">
+                    <mxGeometry x="60" y="640" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="cons_check_empty" value="fila.isEmpty()?" style="rhombus;fillColor=#fff2cc;strokeColor=#d6b656;" parent="lane_consumidor" vertex="1">
+                    <mxGeometry x="60" y="800" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="cons_call_wait" value="Chamar wait()&#10;(bloqueia e libera lock)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_consumidor" vertex="1">
+                    <mxGeometry x="60" y="880" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="cons_remove" value="Remover da Fila&#10;(item = fila.poll())" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_consumidor" vertex="1">
+                    <mxGeometry x="60" y="960" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="cons_call_notify" value="Notificar Outros&#10;(notifyAll())" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_consumidor" vertex="1">
+                    <mxGeometry x="60" y="1040" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="cons_sleep" value="Dormir 1800ms&#10;(Thread.sleep(1800))" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_consumidor" vertex="1">
+                    <mxGeometry x="60" y="1200" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ep1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="prod_start" target="prod_item" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="act_init_loop" target="dec_loop_cond" edge="1">
+                <mxCell id="ep2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="prod_item" target="prod_call_prod" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="e3" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="dec_loop_cond" target="act_lock_req" edge="1">
+                <mxCell id="ep3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="prod_call_prod" target="mon_acq_lock_prod" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="e4" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="dec_loop_cond" target="act_end" edge="1">
+                <mxCell id="ep4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="mon_acq_lock_prod" target="prod_check_full" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="370" y="245"/>
-                            <mxPoint x="370" y="745"/>
+                            <mxPoint x="420" y="300"/>
+                            <mxPoint x="175" y="300"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="act_lock_req" target="act_lock_acq" edge="1">
+                <mxCell id="ep5_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="prod_check_full" target="prod_call_wait" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="act_lock_acq" target="act_entered" edge="1">
+                <mxCell id="ep6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="prod_call_wait" target="mon_wait_prod" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="act_entered" target="act_inc_counter" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="act_inc_counter" target="act_unlock_req" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="act_unlock_req" target="act_lock_rel" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="act_lock_rel" target="act_inc_j" edge="1">
+                <mxCell id="ep7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="mon_wait_prod" target="prod_check_full" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="615" y="650"/>
-                            <mxPoint x="245" y="650"/>
+                            <mxPoint x="420" y="460"/>
+                            <mxPoint x="40" y="460"/>
+                            <mxPoint x="40" y="345"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="act_inc_j" edge="1">
+                <mxCell id="ep5_no" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="prod_check_full" target="prod_insert" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="245" y="650"/>
-                            <mxPoint x="80" y="650"/>
-                            <mxPoint x="80" y="240"/>
-                            <mxPoint x="170" y="240"/>
+                            <mxPoint x="250" y="405"/>
+                            <mxPoint x="270" y="405"/>
+                            <mxPoint x="270" y="520"/>
+                            <mxPoint x="175" y="520"/>
                         </Array>
-                        <mxPoint x="170" y="245" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ep8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="prod_insert" target="mon_add" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ep9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="mon_add" target="prod_call_notify" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="420" y="600"/>
+                            <mxPoint x="175" y="600"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ep10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="prod_call_notify" target="mon_notify_prod" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ep11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="mon_notify_prod" target="mon_release_lock_prod" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ep12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="mon_release_lock_prod" target="prod_sleep" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="420" y="760"/>
+                            <mxPoint x="175" y="760"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ep13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="prod_sleep" target="prod_item" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="175" y="840"/>
+                            <mxPoint x="80" y="840"/>
+                            <mxPoint x="80" y="170"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ec1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cons_start" target="cons_call_cons" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ec2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cons_call_cons" target="mon_acq_lock_cons" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ec3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="mon_acq_lock_cons" target="cons_check_empty" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="420" y="840"/>
+                            <mxPoint x="745" y="840"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ec4_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cons_check_empty" target="cons_call_wait" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ec5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cons_call_wait" target="mon_wait_cons" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ec6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="mon_wait_cons" target="cons_check_empty" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="420" y="1000"/>
+                            <mxPoint x="830" y="1000"/>
+                            <mxPoint x="830" y="885"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ec4_no" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cons_check_empty" target="cons_remove" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="670" y="885"/>
+                            <mxPoint x="650" y="885"/>
+                            <mxPoint x="650" y="1000"/>
+                            <mxPoint x="745" y="1000"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ec7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cons_remove" target="mon_rem" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ec8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="mon_rem" target="cons_call_notify" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="420" y="1080"/>
+                            <mxPoint x="745" y="1080"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ec9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="cons_call_notify" target="mon_notify_cons" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ec10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="mon_notify_cons" target="mon_release_lock_cons" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ec11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="mon_release_lock_cons" target="cons_sleep" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="420" y="1240"/>
+                            <mxPoint x="745" y="1240"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ec12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="cons_sleep" target="cons_call_cons" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="745" y="1320"/>
+                            <mxPoint x="830" y="1320"/>
+                            <mxPoint x="830" y="720"/>
+                        </Array>
                     </mxGeometry>
                 </mxCell>
             </root>
