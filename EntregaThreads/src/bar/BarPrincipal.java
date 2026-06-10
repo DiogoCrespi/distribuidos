@@ -8,7 +8,7 @@ public class BarPrincipal {
         int nClientes = 10;
         int xGarcons = 3;
         int cCapacidade = 3;
-        int nRodadas = 5;
+        int nRodadas = 1;
 
         // Leitura dinâmica dos parametros passados por argumento no console
         if (args.length >= 4) {
