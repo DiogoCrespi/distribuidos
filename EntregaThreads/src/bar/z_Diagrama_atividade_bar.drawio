@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" pages="1">
     <diagram id="bar_activity" name="Activity Diagram">
-        <mxGraphModel dx="622" dy="611" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="942" dy="387" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -176,8 +176,7 @@
                 <mxCell id="e_syn_g_to_b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" parent="1" source="act_g_pedir_copa" target="act_b_pegar" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="670" y="362"/>
-                            <mxPoint x="670" y="242"/>
+                            <mxPoint x="670" y="303"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>

@@ -22,12 +22,12 @@ public class ProdutorConsumidorSemaforo {
             try {
                 int item = 0;
                 while (true) {
-                    semVazio.acquire();
-                    mutex.acquire();
+                    semVazio.acquire();//espera
+                    mutex.acquire();//tranca do buffer.
                     buffer.add(++item);
                     System.out.println("Produtor inseriu: " + item);
-                    mutex.release();
-                    semCheio.release();
+                    mutex.release();//libera o buffer.
+                    semCheio.release();//notifyAll
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException e) {}
@@ -39,10 +39,10 @@ public class ProdutorConsumidorSemaforo {
             try {
                 while (true) {
                     semCheio.acquire();
-                    mutex.acquire();
+                    mutex.acquire();//tranca do buffer.
                     int item = buffer.poll();
                     System.out.println("Consumidor removeu: " + item);
-                    mutex.release();
+                    mutex.release();//libera o buffer.
                     semVazio.release();
                     Thread.sleep(2000);
                 }
