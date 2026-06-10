@@ -1,0 +1,201 @@
+<mxfile host="65bd71144e">
+    <diagram id="jantar-filosofos" name="Jantar dos Filosofos">
+        <mxGraphModel dx="1626" dy="702" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="jf" value="JantarFilosofos&#xa;main()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="485" y="40" width="190" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="h0" value="Hachi 0&#xa;Object lock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="410" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="h1" value="Hachi 1&#xa;Object lock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="290" y="410" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="h2" value="Hachi 2&#xa;Object lock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="410" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="h3" value="Hachi 3&#xa;Object lock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="710" y="410" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="h4" value="Hachi 4&#xa;Object lock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="410" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="f0" value="Filosofo 0&#xa;Thread Filosofo-0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="210" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="f1" value="Filosofo 1&#xa;Thread Filosofo-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="210" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="f2" value="Filosofo 2&#xa;Thread Filosofo-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="490" y="210" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="f3" value="Filosofo 3&#xa;Thread Filosofo-3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="210" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="f4" value="Filosofo 4&#xa;Thread Filosofo-4&#xa;ordem invertida" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="910" y="200" width="160" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="note-f" value="Cada filosofo repete:&#xa;meditar -&gt; pegar hashis -&gt; comer -&gt; liberar hashis&#xa;&#xa;O ultimo filosofo inverte a ordem para evitar deadlock." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="530" width="380" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-jf-f0" value="1. instancia e inicia" style="endArrow=block;html=1;rounded=0;strokeColor=#666666;" parent="1" source="jf" target="f0" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-jf-f1" value="1. instancia e inicia" style="endArrow=block;html=1;rounded=0;strokeColor=#666666;" parent="1" source="jf" target="f1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-jf-f2" value="1. instancia e inicia" style="endArrow=block;html=1;rounded=0;strokeColor=#666666;" parent="1" source="jf" target="f2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-jf-f3" value="1. instancia e inicia" style="endArrow=block;html=1;rounded=0;strokeColor=#666666;" parent="1" source="jf" target="f3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-jf-f4" value="1. instancia e inicia" style="endArrow=block;html=1;rounded=0;strokeColor=#666666;" parent="1" source="jf" target="f4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-f0-h0" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="f0" target="h0" edge="1">
+                    <mxGeometry x="0.0769" y="-75" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-f0-h1" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="f0" target="h1" edge="1">
+                    <mxGeometry x="0.7766" y="48" relative="1" as="geometry">
+                        <mxPoint y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-f1-h1" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="f1" target="h1" edge="1">
+                    <mxGeometry x="-0.2308" y="-45" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-f1-h2" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="f1" target="h2" edge="1">
+                    <mxGeometry x="-0.0508" y="16" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-f2-h2" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="f2" target="h2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-f2-h3" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="f2" target="h3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-f3-h3" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="f3" target="h3" edge="1">
+                    <mxGeometry x="0.2308" y="75" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-f3-h4" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="f3" target="h4" edge="1">
+                    <mxGeometry x="0.1793" y="36" relative="1" as="geometry">
+                        <mxPoint y="-1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-f4-h0" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#b85450;" parent="1" source="f4" target="h0" edge="1">
+                    <mxGeometry x="0.2206" y="-12" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-f4-h4" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#b85450;" parent="1" source="f4" target="h4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="contas-bancarias" name="Contas Bancarias">
+        <mxGraphModel dx="2795" dy="702" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="cb" value="ContasBancarias&#xa;main()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="490" y="40" width="190" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="lista" value="Lista de Threads&#xa;Collections.shuffle()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="485" y="165" width="200" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="ta" value="10 Threads de Transferencia&#xa;Transf-A-B / Transf-B-A" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="315" width="210" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="dep" value="6 Threads de Deposito&#xa;Dep-A / Dep-B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="330" y="315" width="180" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="saq" value="9 Threads de Saque&#xa;Saq-A / Saq-B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="570" y="315" width="180" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="jur" value="1 Thread de Juros&#xa;Juros-B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="810" y="315" width="180" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="ca" value="Conta-A&#xa;saldo inicial: 1000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="330" y="560" width="190" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="cc" value="Conta-B&#xa;saldo inicial: 500" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="560" width="190" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="note-c" value="Transferencia: trava as duas contas em ordem alfabetica.&#xa;Deposito, saque, juros e getSaldo usam synchronized.&#xa;main() usa start() e depois join() para esperar terminar." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="620" width="250" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-cb-ca" value="1. cria" style="endArrow=block;html=1;rounded=0;strokeColor=#666666;" parent="1" source="cb" target="ca" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-40" y="340"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-cb-cc" value="1. cria" style="endArrow=block;html=1;rounded=0;strokeColor=#666666;" parent="1" source="cb" target="cc" edge="1">
+                    <mxGeometry x="-0.0738" y="27" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1140" y="330"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-cb-lista" value="2. monta operacoes concorrentes" style="endArrow=block;html=1;rounded=0;strokeColor=#666666;" parent="1" source="cb" target="lista" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-lista-ta" value="3. adiciona" style="endArrow=block;html=1;rounded=0;strokeColor=#9673a6;" parent="1" source="lista" target="ta" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-lista-dep" value="3. adiciona" style="endArrow=block;html=1;rounded=0;strokeColor=#9673a6;" parent="1" source="lista" target="dep" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-lista-saq" value="3. adiciona" style="endArrow=block;html=1;rounded=0;strokeColor=#9673a6;" parent="1" source="lista" target="saq" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-lista-jur" value="3. adiciona" style="endArrow=block;html=1;rounded=0;strokeColor=#9673a6;" parent="1" source="lista" target="jur" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-ta-ca" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="ta" target="ca" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-ta-cc" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="ta" target="cc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-dep-ca" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="dep" target="ca" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-dep-cc" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="dep" target="cc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-saq-ca" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="saq" target="ca" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-saq-cc" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="saq" target="cc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-jur-cc" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#82b366;" parent="1" source="jur" target="cc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-ca-cc" value="8. transferencia trava as duas contas em ordem alfabetica" style="startArrow=block;endArrow=block;html=1;rounded=0;strokeColor=#b85450;fontColor=#b85450;" parent="1" source="ca" target="cc" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="600" y="680"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-lista-cb" value="9. start() em todas / join() espera finalizar" style="endArrow=block;html=1;rounded=0;strokeColor=#666666;dashed=1;" parent="1" source="lista" target="cb" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
