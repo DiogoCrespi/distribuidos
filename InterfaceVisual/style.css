@@ -137,6 +137,8 @@ body {
     transform: rotate(0deg); /* points right when collapsed */
 }
 
+#threads-menu-list,
+#rmi-menu-list,
 #sockets-menu-list {
     display: flex;
     flex-direction: column;
@@ -146,6 +148,8 @@ body {
     opacity: 1;
 }
 
+#threads-menu-list.collapsed,
+#rmi-menu-list.collapsed,
 #sockets-menu-list.collapsed {
     max-height: 0 !important;
     opacity: 0 !important;

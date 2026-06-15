@@ -176,6 +176,13 @@ const EXERCISES = {
         class: 'classicos.ProdutorConsumidorSemaforo',
         dir: 'EntregaThreads',
         description: 'Produtor e Consumidor compartilhando um buffer limitado usando Semáforos.'
+    },
+    rmi_whatsut: {
+        id: 'rmi_whatsut',
+        name: 'WhatsUT (Chat RMI)',
+        class: 'server.ServidorMain',
+        dir: 'EntregaRMI',
+        description: 'Sistema de chat distribuído com interface gráfica utilizando Java RMI e o padrão Callback.'
     }
 };
 
@@ -304,7 +311,7 @@ const server = http.createServer((req, res) => {
             fs.mkdirSync(binPath, { recursive: true });
         }
 
-        const javac = spawn('javac', ['-d', 'bin', ...javaFiles], { cwd: exercisePath });
+        const javac = spawn('javac', ['-encoding', 'UTF-8', '-d', 'bin', ...javaFiles], { cwd: exercisePath });
         
         let compileErrors = '';
         javac.stderr.on('data', (data) => {
@@ -320,7 +327,7 @@ const server = http.createServer((req, res) => {
 
             broadcast('status', { msg: `Compilação concluída com sucesso! Iniciando Java...`, type: 'run' });
 
-            activeJavaProcess = spawn('java', ['-cp', 'bin', exercise.class], { cwd: exercisePath });
+            activeJavaProcess = spawn('java', ['-Dfile.encoding=UTF-8', '-cp', 'bin', exercise.class], { cwd: exercisePath });
 
             activeJavaProcess.stdout.on('data', (data) => {
                 broadcast('stdout', { text: data.toString() });
@@ -652,6 +659,30 @@ const server = http.createServer((req, res) => {
                 multicastSocket.close();
                 multicastSocket = null;
             }
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: true }));
+        } catch (e) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: e.message }));
+        }
+        return;
+    }
+
+    if (pathname === '/api/rmi/run-client' && req.method === 'POST') {
+        try {
+            const exercisePath = path.join(WORKSPACE_DIR, 'EntregaRMI');
+            broadcast('stdout', { text: `[Cliente RMI] Iniciando client.ClienteMain...` });
+            const clientProc = spawn('java', ['-Dfile.encoding=UTF-8', '-cp', 'bin', 'client.ClienteMain'], { cwd: exercisePath });
+
+            clientProc.stdout.on('data', (data) => {
+                broadcast('stdout', { text: `[Cliente RMI] ${data.toString()}` });
+            });
+            clientProc.stderr.on('data', (data) => {
+                broadcast('stdout', { text: `[Cliente RMI] ${data.toString()}`, isError: true });
+            });
+            clientProc.on('close', (exitCode) => {
+                broadcast('stdout', { text: `[Cliente RMI] Finalizado com código ${exitCode}` });
+            });
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ success: true }));
         } catch (e) {

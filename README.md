@@ -67,3 +67,34 @@ node server.js
 ### No navegador:
 
 [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 4. Projeto WhatsUT (RMI)
+
+**Local da pasta:** `C:\Users\Admin\Desktop\com1034\distribuidos\EntregaRMI\src`
+
+O WhatsUT é um sistema de chat distribuído com interface gráfica utilizando Java RMI e o padrão Callback.
+
+### Compilação:
+
+```bash
+# Na pasta EntregaRMI\src
+javac common/*.java server/*.java client/*.java
+```
+
+### Execução:
+
+**1. Iniciar o Servidor (RMI Registry + UI de Administração):**
+Em um terminal na pasta `EntregaRMI\src`, execute:
+
+```bash
+java server.ServidorMain
+```
+
+**2. Iniciar os Clientes (Chat UI):**
+Abra novos terminais na mesma pasta (`EntregaRMI\src`) e execute o comando abaixo para cada cliente que deseja conectar:
+
+```bash
+java client.ClienteMain
+```

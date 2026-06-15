@@ -140,6 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'Produtor / Consumidor',
             desc: 'Problema clássico do produtor/consumidor com buffer compartilhado de 5 posições.',
             panelId: 'panel-prodcons'
+        },
+        rmi_whatsut: {
+            title: 'WhatsUT (Chat RMI)',
+            desc: 'Sistema de chat distribuído com interface gráfica utilizando Java RMI e o padrão Callback.',
+            panelId: 'panel-rmi',
+            isSocket: false
         }
     };
 
@@ -182,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initMenuNavigation() {
-        const originalButtons = document.querySelectorAll('.nav-menu > button.menu-btn');
+        const originalButtons = document.querySelectorAll('.nav-menu .menu-btn');
         originalButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 selectExercise(btn.getAttribute('data-id'), btn);
@@ -223,6 +229,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initMenuNavigation();
+
+    // Toggle menu de threads
+    const categoryThreads = document.getElementById('category-threads');
+    const threadsMenuList = document.getElementById('threads-menu-list');
+    if (categoryThreads && threadsMenuList) {
+        categoryThreads.addEventListener('click', () => {
+            const isCollapsed = categoryThreads.classList.toggle('collapsed');
+            if (isCollapsed) {
+                threadsMenuList.classList.add('collapsed');
+            } else {
+                threadsMenuList.classList.remove('collapsed');
+            }
+        });
+    }
+
+    // Toggle menu de rmi
+    const categoryRmi = document.getElementById('category-rmi');
+    const rmiMenuList = document.getElementById('rmi-menu-list');
+    if (categoryRmi && rmiMenuList) {
+        categoryRmi.addEventListener('click', () => {
+            const isCollapsed = categoryRmi.classList.toggle('collapsed');
+            if (isCollapsed) {
+                rmiMenuList.classList.add('collapsed');
+            } else {
+                rmiMenuList.classList.remove('collapsed');
+            }
+        });
+    }
 
     // Toggle menu de sockets
     const categorySockets = document.getElementById('category-sockets');
@@ -2070,5 +2104,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnClearConsole.addEventListener('click', () => {
         consoleOutput.innerHTML = '';
+    });
+
+    document.addEventListener('click', (e) => {
+        if (e.target && e.target.id === 'btn-run-rmi-client') {
+            fetch('/api/rmi/run-client', { method: 'POST' })
+                .catch(err => appendLog(`[Erro] ${err.message}`, 'stderr'));
+        }
     });
 });

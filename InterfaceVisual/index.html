@@ -20,7 +20,11 @@
             </div>
             
             <nav class="nav-menu">
-                <div class="menu-category">ATIV. THREADS</div>
+                <div class="menu-category collapsible collapsed" id="category-threads">
+                    <span>ATIV. THREADS</span>
+                    <span class="category-arrow">▶</span>
+                </div>
+                <div id="threads-menu-list" class="collapsed">
                 
                 <button class="menu-btn active" data-id="bar">
                     <span class="btn-label">Atendimento no Bar</span>
@@ -40,7 +44,17 @@
                 <button class="menu-btn" data-id="prodcons">
                     <span class="btn-label">Produtor / Consumidor</span>
                 </button>
+                </div>
 
+                <div class="menu-category collapsible collapsed" id="category-rmi" style="margin-top: 24px;">
+                    <span>ENTREGA RMI</span>
+                    <span class="category-arrow">▶</span>
+                </div>
+                <div id="rmi-menu-list" class="collapsed">
+                    <button class="menu-btn" data-id="rmi_whatsut">
+                        <span class="btn-label">WhatsUT (Chat RMI)</span>
+                    </button>
+                </div>
                 <div class="menu-category collapsible collapsed" id="category-sockets" style="margin-top: 24px;">
                     <span>ATIV. SOCKETS</span>
                     <span class="category-arrow">▶</span>
@@ -281,6 +295,21 @@
                         </div>
                         <div id="socket-client-container" style="padding: 12px 0;">
                             <!-- Gerado dinamicamente via JS de acordo com o exercício ativo -->
+                        </div>
+                    </div>
+
+                    <!-- 8. Painel RMI -->
+                    <div id="panel-rmi" class="sim-panel">
+                        <div class="sim-header">
+                            <h3>WhatsUT - RMI</h3>
+                        </div>
+                        <div style="padding: 12px; color: white;">
+                            <p>O WhatsUT é uma aplicação Swing com interface gráfica própria.</p>
+                            <br/>
+                            <p>Clique em <strong>Iniciar</strong> (no topo) para iniciar o Servidor RMI e o Registry na porta 1099. A interface do Servidor abrirá em seguida.</p>
+                            <br/>
+                            <p>Para iniciar clientes e testar o chat, clique no botão abaixo quantas vezes quiser:</p>
+                            <button id="btn-run-rmi-client" class="btn btn-primary" style="margin-top: 15px;">Abrir Cliente WhatsUT</button>
                         </div>
                     </div>
 
