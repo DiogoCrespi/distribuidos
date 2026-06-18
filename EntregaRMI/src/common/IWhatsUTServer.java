@@ -24,9 +24,9 @@ public interface IWhatsUTServer extends Remote {
     void enviarMensagemPrivada(String de, String para, String texto) throws RemoteException;
     void enviarMensagemGrupo(String de, String grupo, String texto) throws RemoteException;
     
-    // 5. Transferência de Arquivos
+    // 5. Transferencia de Arquivos
     void enviarArquivo(String de, String para, ArquivoInfo arquivo) throws RemoteException;
     
-    // 6. Gerência de Grupos e Sistema
+    // 6. Gerencia de Grupos e Sistema
     void banirDoGrupo(String adminUsername, String nomeGrupo, String userBanido) throws RemoteException;
 }

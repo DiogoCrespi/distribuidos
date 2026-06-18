@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTServer {
 
-    // Simulação de banco de dados (users / senhas-hashes)
+    // Simulacao de banco de dados (users / senhas-hashes)
     private Map<String, String> registeredUsers = new HashMap<>();
     
     // Usuarios logados no momento e seus stubs (callbacks)
@@ -162,6 +162,9 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
     public void enviarMensagemGrupo(String de, String grupo, String texto) throws RemoteException {
         Grupo g = grupos.get(grupo);
         if (g != null) {
+            if (!g.getMembros().contains(de)) {
+                throw new RemoteException("Voce nao eh membro deste grupo!");
+            }
             Mensagem msg = new Mensagem(de, grupo, texto, true);
             for (String membro : g.getMembros()) {
                 if (!membro.equals(de)) { // Nao mandar para si mesmo? ou mandar pra ver que enviou, vamos mandar pra todos os outros
@@ -176,11 +179,26 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
 
     @Override
     public void enviarArquivo(String de, String para, ArquivoInfo arquivo) throws RemoteException {
-        IWhatsUTClient client = activeClients.get(para);
-        if (client != null) {
-            client.receberArquivo(arquivo);
+        Grupo g = grupos.get(para);
+        if (g != null) {
+            if (!g.getMembros().contains(de)) {
+                throw new RemoteException("Voce nao eh membro deste grupo!");
+            }
+            for (String membro : g.getMembros()) {
+                if (!membro.equals(de)) {
+                    IWhatsUTClient c = activeClients.get(membro);
+                    if (c != null) {
+                        c.receberArquivo(arquivo);
+                    }
+                }
+            }
         } else {
-            throw new RemoteException("Usuario destino nao esta logado para receber arquivo.");
+            IWhatsUTClient client = activeClients.get(para);
+            if (client != null) {
+                client.receberArquivo(arquivo);
+            } else {
+                throw new RemoteException("Usuario destino nao esta logado para receber arquivo.");
+            }
         }
     }
 

@@ -89,12 +89,12 @@ javac common/*.java server/*.java client/*.java
 Em um terminal na pasta `EntregaRMI\src`, execute:
 
 ```bash
-java server.ServidorMain
+java -cp bin server.ServidorMain
 ```
 
 **2. Iniciar os Clientes (Chat UI):**
 Abra novos terminais na mesma pasta (`EntregaRMI\src`) e execute o comando abaixo para cada cliente que deseja conectar:
 
 ```bash
-java client.ClienteMain
+java -cp bin client.ClienteMain
 ```

@@ -21,19 +21,19 @@ public class LoginUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
-        getContentPane().setBackground(new Color(40, 44, 52));
+        getContentPane().setBackground(new Color(245, 245, 245));
         setLayout(new GridLayout(5, 1, 10, 10));
 
         JPanel pnlIp = criarPainelComLabel("IP Servidor:", "localhost");
         txtIp = (JTextField) pnlIp.getComponent(1);
         
-        JPanel pnlUser = criarPainelComLabel("Usuário:", "");
+        JPanel pnlUser = criarPainelComLabel("Usuario:", "");
         txtUser = (JTextField) pnlUser.getComponent(1);
         
         JPanel pnlPass = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnlPass.setOpaque(false);
         JLabel lblPass = new JLabel("Senha:");
-        lblPass.setForeground(Color.WHITE);
+        lblPass.setForeground(Color.BLACK);
         txtPass = new JPasswordField(15);
         pnlPass.add(lblPass);
         pnlPass.add(txtPass);
@@ -51,7 +51,7 @@ public class LoginUI extends JFrame {
 
         JLabel lblTitle = new JLabel("WhatsUT", SwingConstants.CENTER);
         lblTitle.setFont(new Font("SansSerif", Font.BOLD, 22));
-        lblTitle.setForeground(new Color(97, 175, 239));
+        lblTitle.setForeground(new Color(0, 102, 204));
 
         add(lblTitle);
         add(pnlIp);
@@ -64,7 +64,7 @@ public class LoginUI extends JFrame {
         JPanel pnl = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnl.setOpaque(false);
         JLabel lbl = new JLabel(text);
-        lbl.setForeground(Color.WHITE);
+        lbl.setForeground(Color.BLACK);
         JTextField txt = new JTextField(defaultVal, 15);
         pnl.add(lbl);
         pnl.add(txt);
@@ -72,8 +72,8 @@ public class LoginUI extends JFrame {
     }
 
     private JButton estilizarBotao(JButton btn) {
-        btn.setBackground(new Color(97, 175, 239));
-        btn.setForeground(Color.BLACK);
+        btn.setBackground(new Color(0, 120, 215));
+        btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
         btn.setFont(new Font("SansSerif", Font.BOLD, 12));
         return btn;
@@ -102,18 +102,18 @@ public class LoginUI extends JFrame {
             
             String user = txtUser.getText().trim();
             if (user.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Usuário não pode ser vazio.");
+                JOptionPane.showMessageDialog(this, "Usuario nao pode ser vazio.");
                 return;
             }
 
             boolean res = server.registrarUsuario(user, getPasswordHash());
             if (res) {
-                JOptionPane.showMessageDialog(this, "Registrado com sucesso! Faça login.");
+                JOptionPane.showMessageDialog(this, "Registrado com sucesso! Faca login.");
             } else {
-                JOptionPane.showMessageDialog(this, "Nome de usuário já existe.");
+                JOptionPane.showMessageDialog(this, "Nome de usuario ja existe.");
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro de conexão: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro de conexao: " + ex.getMessage());
         }
     }
 
@@ -132,7 +132,7 @@ public class LoginUI extends JFrame {
                 chatUi.setVisible(true);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Credenciais inválidas.");
+                JOptionPane.showMessageDialog(this, "Credenciais invalidas.");
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro no login: " + ex.getMessage());
