@@ -563,9 +563,11 @@ public class ClientUI extends JFrame {
 
     private void fazerLogout() {
         try {
+            System.out.println("[CLIENTE AÇÃO] Efetuando logout do usuário: " + me.getUsername());
             server.logout(me.getUsername());
             System.exit(0);
         } catch (Exception ex) {
+            System.out.println("[CLIENTE ERRO] Falha no logout: " + ex.getMessage());
             System.exit(1);
         }
     }
@@ -574,9 +576,16 @@ public class ClientUI extends JFrame {
         String nome = JOptionPane.showInputDialog(this, "Nome do novo grupo:");
         if (nome != null && !nome.trim().isEmpty()) {
             try {
+                System.out.println("[CLIENTE AÇÃO] Criando grupo: '" + nome.trim() + "'");
                 boolean criado = server.criarGrupo(nome.trim(), me.getUsername());
-                if (!criado) exibirNotificacao("Grupo ja existe!");
+                if (!criado) {
+                    System.out.println("[CLIENTE INFO] Criação de grupo falhou: Grupo já existe.");
+                    exibirNotificacao("Grupo ja existe!");
+                } else {
+                    System.out.println("[CLIENTE INFO] Grupo '" + nome.trim() + "' criado com sucesso.");
+                }
             } catch (Exception e) {
+                System.out.println("[CLIENTE ERRO] Erro ao criar grupo: " + e.getMessage());
                 exibirNotificacao("Erro ao criar grupo.");
             }
         }
@@ -586,9 +595,11 @@ public class ClientUI extends JFrame {
         Grupo g = listGroups.getSelectedValue();
         if (g != null) {
             try {
+                System.out.println("[CLIENTE AÇÃO] Solicitando entrada no grupo: '" + g.getNome() + "'");
                 server.pedirEntradaGrupo(g.getNome(), me.getUsername());
                 exibirNotificacao("Pedido enviado ao admin do grupo " + g.getNome());
             } catch (Exception e) {
+                System.out.println("[CLIENTE ERRO] Erro ao solicitar entrada no grupo: " + e.getMessage());
                 exibirNotificacao("Erro: " + e.getMessage());
             }
         } else {
@@ -600,8 +611,11 @@ public class ClientUI extends JFrame {
         Grupo g = listGroups.getSelectedValue();
         if (g != null) {
             try {
+                System.out.println("[CLIENTE AÇÃO] Saindo do grupo: '" + g.getNome() + "'");
                 server.sairDoGrupo(g.getNome(), me.getUsername());
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                System.out.println("[CLIENTE ERRO] Erro ao sair do grupo: " + e.getMessage());
+            }
         }
     }
 
@@ -619,14 +633,17 @@ public class ClientUI extends JFrame {
                         "Você não é membro do grupo " + g.getNome() + ". Deseja solicitar entrada?",
                         "Solicitar Entrada", JOptionPane.YES_NO_OPTION);
                     if (resp == JOptionPane.YES_OPTION) {
+                        System.out.println("[CLIENTE AÇÃO] Solicitando entrada no grupo '" + g.getNome() + "' para enviar mensagem.");
                         server.pedirEntradaGrupo(g.getNome(), me.getUsername());
                         exibirNotificacao("Pedido enviado ao admin do grupo " + g.getNome());
                     }
                     return;
                 }
+                System.out.println("[CLIENTE AÇÃO] Enviando mensagem para grupo '" + g.getNome() + "': \"" + text + "\"");
                 server.enviarMensagemGrupo(me.getUsername(), g.getNome(), text);
                 exibirMensagemLocal(new Mensagem(me.getUsername(), g.getNome(), text, true));
             } else if (u != null) {
+                System.out.println("[CLIENTE AÇÃO] Enviando mensagem privada para '" + u.getUsername() + "': \"" + text + "\"");
                 server.enviarMensagemPrivada(me.getUsername(), u.getUsername(), text);
                 exibirMensagemLocal(new Mensagem(me.getUsername(), u.getUsername(), text, false));
             } else {
@@ -634,6 +651,7 @@ public class ClientUI extends JFrame {
             }
             txtInput.setText("");
         } catch (Exception e) {
+            System.out.println("[CLIENTE ERRO] Erro ao enviar mensagem: " + e.getMessage());
             exibirNotificacao("Erro: " + e.getMessage());
         }
     }
@@ -659,12 +677,14 @@ public class ClientUI extends JFrame {
                 String dest = (g != null) ? g.getNome() : u.getUsername();
                 boolean isGrp = (g != null);
                 
+                System.out.println("[CLIENTE AÇÃO] Enviando arquivo '" + f.getName() + "' (" + data.length + " bytes) para " + (isGrp ? "grupo '" + dest + "'" : "usuário '" + dest + "'"));
                 ArquivoInfo ai = new ArquivoInfo(me.getUsername(), dest, f.getName(), data, isGrp);
                 server.enviarArquivo(me.getUsername(), dest, ai);
                 
                 Mensagem msg = new Mensagem(me.getUsername(), dest, "[Arquivo] " + f.getName(), isGrp, ai);
                 exibirMensagemLocal(msg);
             } catch (Exception e) {
+                System.out.println("[CLIENTE ERRO] Erro ao enviar arquivo: " + e.getMessage());
                 exibirNotificacao("Erro ao ler/enviar arquivo: " + e.getMessage());
             }
         }

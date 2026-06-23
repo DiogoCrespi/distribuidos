@@ -98,6 +98,7 @@ public class LoginUI extends JFrame {
     private void tentarRegistro() {
         try {
             String url = "rmi://" + txtIp.getText().trim() + ":1099/WhatsUTServer";
+            System.out.println("[CLIENTE LOGINUI] Conectando ao servidor para registro: " + url);
             IWhatsUTServer server = (IWhatsUTServer) Naming.lookup(url);
             
             String user = txtUser.getText().trim();
@@ -106,13 +107,17 @@ public class LoginUI extends JFrame {
                 return;
             }
 
+            System.out.println("[CLIENTE LOGINUI] Tentando registrar usuário '" + user + "'...");
             boolean res = server.registrarUsuario(user, getPasswordHash());
             if (res) {
+                System.out.println("[CLIENTE LOGINUI] Registro do usuário '" + user + "' efetuado com sucesso.");
                 JOptionPane.showMessageDialog(this, "Registrado com sucesso! Faca login.");
             } else {
+                System.out.println("[CLIENTE LOGINUI] Falha no registro: usuário '" + user + "' já existe.");
                 JOptionPane.showMessageDialog(this, "Nome de usuario ja existe.");
             }
         } catch (Exception ex) {
+            System.out.println("[CLIENTE LOGINUI] Erro na tentativa de registro: " + ex.getMessage());
             JOptionPane.showMessageDialog(this, "Erro de conexao: " + ex.getMessage());
         }
     }
@@ -120,21 +125,26 @@ public class LoginUI extends JFrame {
     private void tentarLogin() {
         try {
             String url = "rmi://" + txtIp.getText().trim() + ":1099/WhatsUTServer";
+            System.out.println("[CLIENTE LOGINUI] Conectando ao servidor para login: " + url);
             IWhatsUTServer server = (IWhatsUTServer) Naming.lookup(url);
             
             String user = txtUser.getText().trim();
             WhatsUTClientImpl clientCallback = new WhatsUTClientImpl();
             
+            System.out.println("[CLIENTE LOGINUI] Tentando login do usuário '" + user + "'...");
             Usuario usuario = server.login(user, getPasswordHash(), clientCallback);
             if (usuario != null) {
+                System.out.println("[CLIENTE LOGINUI] Login do usuário '" + user + "' efetuado com sucesso.");
                 ClientUI chatUi = new ClientUI(usuario, server, clientCallback);
                 clientCallback.setUI(chatUi);
                 chatUi.setVisible(true);
                 this.dispose();
             } else {
+                System.out.println("[CLIENTE LOGINUI] Falha no login: credenciais inválidas para '" + user + "'.");
                 JOptionPane.showMessageDialog(this, "Credenciais invalidas.");
             }
         } catch (Exception ex) {
+            System.out.println("[CLIENTE LOGINUI] Erro na tentativa de login: " + ex.getMessage());
             JOptionPane.showMessageDialog(this, "Erro no login: " + ex.getMessage());
         }
     }
