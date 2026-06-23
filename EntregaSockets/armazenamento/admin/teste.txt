@@ -1,1 +1,0 @@
-Ola Mundo! Este e um arquivo de teste para o servidor de arquivos.
