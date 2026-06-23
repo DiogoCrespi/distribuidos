@@ -82,9 +82,10 @@
                 </mxCell>
                 <mxCell id="e_decLoginOk_no" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="lane_clientA" source="decA_loginOk" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="180" y="350" as="targetPoint"/>
+                        <mxPoint x="120" y="350" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="178" y="325"/>
+                            <mxPoint x="120" y="325"/>
+                            <mxPoint x="120" y="350"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -145,15 +146,15 @@
                     <mxGeometry x="125" y="1490" width="30" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_exception" value="Lançar Exceção&#xa;throw new RemoteException(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="lane_server" vertex="1">
-                    <mxGeometry x="-20" y="1630" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="160" y="1640" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_forward" value="Encaminhar Mensagem Grupo&#xa;for (membro) : c.receberMensagem(msg)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="135" y="1557.5" width="220" height="45" as="geometry"/>
+                    <mxGeometry x="-10" y="1560" width="220" height="45" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_isMember_yes_fwd" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="lane_server" source="decS_isMember" target="actS_forward" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="250" y="1500"/>
+                            <mxPoint x="90" y="1500"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -331,7 +332,7 @@
                 <mxCell id="e_isMember_no_exc" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decS_isMember" target="actS_exception" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="550" y="1565"/>
+                            <mxPoint x="740" y="1565"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
