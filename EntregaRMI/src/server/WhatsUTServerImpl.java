@@ -49,30 +49,38 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
 
     @Override
     public synchronized boolean registrarUsuario(String username, String passwordHash) throws RemoteException {
+        System.out.println("[REGISTRO] Tentativa de registrar o usuário: " + username);
         if (registeredUsers.containsKey(username)) {
+            System.out.println("[REGISTRO] Falhou. Usuário " + username + " já existe.");
             return false;
         }
         registeredUsers.put(username, passwordHash);
+        System.out.println("[REGISTRO] Usuário " + username + " registrado com sucesso.");
         return true;
     }
 
     @Override
     public synchronized Usuario login(String username, String passwordHash, IWhatsUTClient clientInterface) throws RemoteException {
+        System.out.println("[LOGIN] Tentativa de login do usuário: " + username);
         if (registeredUsers.containsKey(username) && registeredUsers.get(username).equals(passwordHash)) {
             if (activeClients.containsKey(username)) {
+                System.out.println("[LOGIN] Falhou. Usuário " + username + " já logado em outro local.");
                 throw new RemoteException("Usuario ja esta logado noutro local!");
             }
             activeClients.put(username, clientInterface);
             Usuario u = new Usuario(username);
+            System.out.println("[LOGIN] Login bem-sucedido para: " + username);
             broadcastUsuarios();
             broadcastGrupos();
             return u;
         }
+        System.out.println("[LOGIN] Falhou. Credenciais incorretas para: " + username);
         return null;
     }
 
     @Override
     public synchronized void logout(String username) throws RemoteException {
+        System.out.println("[LOGOUT] Usuário " + username + " desconectou.");
         activeClients.remove(username);
         broadcastUsuarios();
     }
@@ -89,23 +97,28 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
 
     @Override
     public synchronized boolean criarGrupo(String nomeGrupo, String adminUsername) throws RemoteException {
+        System.out.println("[GRUPO] Tentativa de criar grupo '" + nomeGrupo + "' por " + adminUsername);
         if (grupos.containsKey(nomeGrupo)) {
+            System.out.println("[GRUPO] Falhou. Grupo '" + nomeGrupo + "' já existe.");
             return false;
         }
         Grupo novo = new Grupo(nomeGrupo, adminUsername);
         grupos.put(nomeGrupo, novo);
+        System.out.println("[GRUPO] Grupo '" + nomeGrupo + "' criado com sucesso por " + adminUsername);
         broadcastGrupos();
         return true;
     }
 
     @Override
     public synchronized void pedirEntradaGrupo(String nomeGrupo, String username) throws RemoteException {
+        System.out.println("[GRUPO] Usuário '" + username + "' pediu entrada no grupo '" + nomeGrupo + "'");
         Grupo grupo = grupos.get(nomeGrupo);
         if (grupo != null) {
             IWhatsUTClient adminClient = activeClients.get(grupo.getAdminUsername());
             if (adminClient != null) {
                 adminClient.pedirPermissaoGrupo(nomeGrupo, username);
             } else {
+                System.out.println("[GRUPO] Entrada falhou: administrador " + grupo.getAdminUsername() + " está offline.");
                 throw new RemoteException("Admin do grupo nao esta online para aprovar.");
             }
         }
@@ -113,6 +126,7 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
 
     @Override
     public synchronized void responderEntradaGrupo(String nomeGrupo, String username, boolean aprovado) throws RemoteException {
+        System.out.println("[GRUPO] Resposta à solicitação de '" + username + "' para entrar no grupo '" + nomeGrupo + "': Aprovado = " + aprovado);
         if (aprovado) {
             Grupo g = grupos.get(nomeGrupo);
             if (g != null) {
@@ -133,15 +147,19 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
 
     @Override
     public synchronized void sairDoGrupo(String nomeGrupo, String username) throws RemoteException {
+        System.out.println("[GRUPO] Usuário '" + username + "' saiu do grupo '" + nomeGrupo + "'");
         Grupo g = grupos.get(nomeGrupo);
         if (g != null) {
             g.removerMembro(username);
             if (g.getAdminUsername().equals(username)) {
                 // Admin saiu. Escolher novo admin ou deletar
                 if (g.getMembros().isEmpty()) {
+                    System.out.println("[GRUPO] Grupo '" + nomeGrupo + "' foi excluído pois o último membro/admin saiu.");
                     grupos.remove(nomeGrupo);
                 } else {
-                    g.setAdminUsername(g.getMembros().get(0));
+                    String novoAdmin = g.getMembros().get(0);
+                    g.setAdminUsername(novoAdmin);
+                    System.out.println("[GRUPO] Novo admin para '" + nomeGrupo + "': " + novoAdmin);
                 }
             }
             broadcastGrupos();
@@ -150,19 +168,23 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
 
     @Override
     public void enviarMensagemPrivada(String de, String para, String texto) throws RemoteException {
+        System.out.println("[CHAT PRIVADO] De " + de + " para " + para + ": \"" + texto + "\"");
         IWhatsUTClient client = activeClients.get(para);
         if (client != null) {
             client.receberMensagem(new Mensagem(de, para, texto, false));
         } else {
+            System.out.println("[CHAT PRIVADO] Falhou. " + para + " está offline.");
             throw new RemoteException("Usuario destino nao esta logado.");
         }
     }
 
     @Override
     public void enviarMensagemGrupo(String de, String grupo, String texto) throws RemoteException {
+        System.out.println("[CHAT GRUPO] No grupo '" + grupo + "', de " + de + ": \"" + texto + "\"");
         Grupo g = grupos.get(grupo);
         if (g != null) {
             if (!g.getMembros().contains(de)) {
+                System.out.println("[CHAT GRUPO] Falhou. " + de + " não é membro do grupo '" + grupo + "'.");
                 throw new RemoteException("Voce nao eh membro deste grupo!");
             }
             Mensagem msg = new Mensagem(de, grupo, texto, true);
@@ -179,9 +201,12 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
 
     @Override
     public void enviarArquivo(String de, String para, ArquivoInfo arquivo) throws RemoteException {
+        String nomeArq = (arquivo != null) ? arquivo.getNomeArquivo() : "null";
         Grupo g = grupos.get(para);
         if (g != null) {
+            System.out.println("[ARQUIVO GRUPO] Envio de '" + nomeArq + "' de " + de + " para grupo '" + para + "'");
             if (!g.getMembros().contains(de)) {
+                System.out.println("[ARQUIVO GRUPO] Falhou. " + de + " não é membro do grupo '" + para + "'.");
                 throw new RemoteException("Voce nao eh membro deste grupo!");
             }
             for (String membro : g.getMembros()) {
@@ -193,10 +218,12 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
                 }
             }
         } else {
+            System.out.println("[ARQUIVO PRIVADO] Envio de '" + nomeArq + "' de " + de + " para " + para);
             IWhatsUTClient client = activeClients.get(para);
             if (client != null) {
                 client.receberArquivo(arquivo);
             } else {
+                System.out.println("[ARQUIVO PRIVADO] Falhou. " + para + " está offline.");
                 throw new RemoteException("Usuario destino nao esta logado para receber arquivo.");
             }
         }
@@ -204,6 +231,7 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
 
     @Override
     public synchronized void banirDoGrupo(String adminUsername, String nomeGrupo, String userBanido) throws RemoteException {
+        System.out.println("[GRUPO BAN] Administrador '" + adminUsername + "' baniu '" + userBanido + "' do grupo '" + nomeGrupo + "'");
         Grupo g = grupos.get(nomeGrupo);
         if (g != null && g.getAdminUsername().equals(adminUsername)) {
             g.removerMembro(userBanido);
@@ -217,6 +245,7 @@ public class WhatsUTServerImpl extends UnicastRemoteObject implements IWhatsUTSe
 
     // Funcao extra para o ServerUI kikar do app geral
     public synchronized void banirAplicacao(String username) {
+        System.out.println("[APP BAN] Usuário '" + username + "' foi banido globalmente da aplicação.");
         registeredUsers.remove(username); // Banido msm
         IWhatsUTClient c = activeClients.remove(username);
         if (c != null) {

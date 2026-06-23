@@ -15,7 +15,7 @@ public class ServidorMain {
 
             // Registra o servente no Registry com nome publico
             Naming.rebind("rmi://localhost:1099/WhatsUTServer", serverImpl);
-            System.out.println("Servidor WhatsUT registrado com sucesso!");
+            System.out.println("Servidor registrado com sucesso!");
 
             // Inicia a interface grafica do servidor
             ServerUI ui = new ServerUI(serverImpl);
