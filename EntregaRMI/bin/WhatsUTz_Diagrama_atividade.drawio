@@ -1,71 +1,71 @@
 <mxfile host="65bd71144e" pages="1">
     <diagram id="whatsut_activity" name="Activity Diagram">
-        <mxGraphModel dx="949" dy="611" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="2050" math="0" shadow="0">
+        <mxGraphModel dx="2335" dy="1198" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="2050" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="swimlanes" value="WhatsUT RMI - Fluxo Completo: Registro, Login, Chat Privado e Chat em Grupo" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;horizontalStack=1;" parent="1" vertex="1">
-                    <mxGeometry x="30" y="40" width="1045" height="2000" as="geometry"/>
+                    <mxGeometry x="30" y="40" width="1700" height="2080" as="geometry"/>
                 </mxCell>
                 <mxCell id="lane_clientA" value="Cliente A (Solicitante)" style="swimlane;startSize=20;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="swimlanes" vertex="1">
-                    <mxGeometry y="20" width="430" height="1980" as="geometry"/>
+                    <mxGeometry y="20" width="580" height="2060" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_start" value="Start" style="ellipse;fillColor=#000000;strokeColor=none;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="15" y="30" width="30" height="30" as="geometry"/>
+                    <mxGeometry x="60" y="30" width="30" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="decA_hasAccount" value="Já possui conta?" style="rhombus;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="10" y="90" width="40" height="40" as="geometry"/>
+                    <mxGeometry x="55" y="80" width="40" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_register" value="Registrar Conta&#xa;server.registrarUsuario(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="210" y="100" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="280" y="80" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="decA_regOk" value="Registrado?" style="rhombus;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="320" y="160" width="30" height="30" as="geometry"/>
+                    <mxGeometry x="470" y="160" width="30" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_login" value="Efetuar Login&#xa;server.login(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="45" y="230" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="180" y="260" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="decA_loginOk" value="Login OK?" style="rhombus;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="230" y="310" width="30" height="30" as="geometry"/>
+                    <mxGeometry x="470" y="340" width="30" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="decA_action" value="Qual tipo de chat?" style="rhombus;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="230" y="470" width="40" height="40" as="geometry"/>
+                    <mxGeometry x="465" y="440" width="40" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_privMsg" value="Enviar Msg Privada&#xa;server.enviarMensagemPrivada(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="0" y="580" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="200" y="580" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="decA_isGrpMember" value="É membro?" style="rhombus;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="145" y="630" width="30" height="30" as="geometry"/>
+                    <mxGeometry x="80" y="500" width="30" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_req" value="Solicitar Entrada&#xa;server.pedirEntradaGrupo(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="150" y="820" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="180" y="650" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_notify" value="Exibir Notificação&#xa;ui.exibirNotificacao(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="150" y="1270" width="180" height="40" as="geometry"/>
+                    <mxGeometry x="360" y="1270" width="180" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_msg" value="Enviar Mensagem Grupo&#xa;server.enviarMensagemGrupo(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="210" y="1420" width="210" height="40" as="geometry"/>
+                    <mxGeometry x="330" y="1360" width="210" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_success" value="Exibir Mensagem Local&#xa;ui.exibirMensagemLocal(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="30" y="1562.5" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="270" y="1602.5" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_error" value="Exibir Erro&#xa;ui.exibirNotificacao(erro)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="170" y="1750" width="180" height="40" as="geometry"/>
+                    <mxGeometry x="360" y="1790" width="180" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="mergeA_end" value="" style="rhombus;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="115" y="1850" width="30" height="30" as="geometry"/>
+                    <mxGeometry x="180" y="1960" width="40" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_end" value="End" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="115" y="1910" width="30" height="30" as="geometry"/>
+                    <mxGeometry x="80" y="1965" width="30" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="actA_regFail" value="Exibir Erro Registro&#xa;ui.exibirNotificacao(erro)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="40" y="155" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="140" y="155" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_decRegOk_no" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="lane_clientA" source="decA_regOk" target="actA_regFail" edge="1">
                     <mxGeometry x="-0.1426" relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="270" y="175"/>
-                            <mxPoint x="270" y="190"/>
+                            <mxPoint x="290" y="175"/>
+                            <mxPoint x="290" y="175"/>
                         </Array>
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -73,7 +73,7 @@
                 <mxCell id="e_regFail_to_hasAccount" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="lane_clientA" source="actA_regFail" target="decA_hasAccount" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="150" y="140"/>
+                            <mxPoint x="75" y="175"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -92,92 +92,129 @@
                 <mxCell id="e_loginFail_to_login" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="lane_clientA" source="actA_loginFail" target="actA_login" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="50" y="330"/>
-                            <mxPoint x="50" y="330"/>
+                            <mxPoint x="50" y="290"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="e_decLoginOk_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="lane_clientA" source="decA_loginOk" target="decA_action" edge="1">
+                <mxCell id="e_decLoginOk_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="lane_clientA" source="decA_loginOk" target="decA_action" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="240" y="364.97" as="sourcePoint"/>
                         <mxPoint x="140.030303030303" y="620.000303030303" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="250" y="325"/>
+                            <mxPoint x="485" y="420"/>
+                            <mxPoint x="485" y="420"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="lane_server" value="Servidor RMI (WhatsUTServerImpl)" style="swimlane;startSize=20;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="swimlanes" vertex="1">
-                    <mxGeometry x="430" y="20" width="355" height="1980" as="geometry"/>
+                <mxCell id="decA_privChoice" value="Tipo Envio?" style="rhombus;" parent="lane_clientA" vertex="1">
+                    <mxGeometry x="180" y="500" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="decA_grpChoice" value="Tipo Envio?" style="rhombus;" parent="lane_clientA" vertex="1">
+                    <mxGeometry x="75" y="1360" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="actA_privFile" value="Upload de Arquivo Privado&#xa;server.enviarArquivo(..., arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
+                    <mxGeometry x="340" y="500" width="220" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="actA_grpFile" value="Upload de Arquivo Grupo&#xa;server.enviarArquivo(..., arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
+                    <mxGeometry y="1460" width="190" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="actA_successGrpFile" value="Exibir Sucesso Local&#xa;ui.exibirMensagemLocal(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
+                    <mxGeometry x="360" y="1700" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="lane_server" value="&lt;h3&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;WhatsUTServer&lt;/span&gt;&lt;span style=&quot;font-size: 12px; background-color: transparent;&quot;&gt;&amp;nbsp;(Servidor RMI)&lt;/span&gt;&lt;/h3&gt;" style="swimlane;startSize=20;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="swimlanes" vertex="1">
+                    <mxGeometry x="580" y="20" width="520" height="2060" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_register" value="Validar e Salvar Registro&#xa;!registeredUsers.containsKey(user)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="50" y="100" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="150" y="80" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="decS_regOk" value="Sucesso?" style="rhombus;" parent="lane_server" vertex="1">
-                    <mxGeometry x="145" y="160" width="30" height="30" as="geometry"/>
+                    <mxGeometry x="245" y="160" width="30" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_login" value="Validar Credenciais&#xa;activeClients.put(user, callback)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="40" y="230" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="150" y="260" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="decS_loginOk" value="Válido?" style="rhombus;" parent="lane_server" vertex="1">
-                    <mxGeometry x="135" y="310" width="30" height="30" as="geometry"/>
+                    <mxGeometry x="245" y="340" width="30" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_forwardPriv" value="Encaminhar Msg Privada&#xa;c = activeClients.get(para)&#xa;c.receberMensagem(msg)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="30" y="660" width="220" height="50" as="geometry"/>
+                    <mxGeometry x="150" y="575" width="220" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_req" value="Encaminhar Pedido&#xa;adminClient.pedirPermissaoGrupo(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="30" y="820" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="150" y="650" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_resp" value="Processar Resposta&#xa;responderEntradaGrupo(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="30" y="1060" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="150" y="1000" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="decS_approved" value="Aprovado?" style="rhombus;" parent="lane_server" vertex="1">
-                    <mxGeometry x="120" y="1130" width="40" height="40" as="geometry"/>
+                    <mxGeometry x="240" y="1120" width="40" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_add" value="Adicionar Membro&#xa;g.adicionarMembro(...)&#xa;solicitante.notificar(&quot;Aprovado&quot;)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="lane_server" vertex="1">
-                    <mxGeometry x="10" y="1200" width="260" height="50" as="geometry"/>
+                    <mxGeometry x="10" y="1200" width="230" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="actS_reject" value="Notificar Recusa&#xa;solicitante.notificar(&quot;Recusado&quot;)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="lane_server" vertex="1">
-                    <mxGeometry x="180" y="1270" width="260" height="40" as="geometry"/>
+                <mxCell id="actS_reject" value="Notificar Recusa&lt;br&gt;solicitante.notificar&amp;nbsp;&lt;span style=&quot;color: rgb(63, 63, 63); background-color: transparent;&quot;&gt;(&quot;Recusado&quot;)&lt;/span&gt;" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="lane_server" vertex="1">
+                    <mxGeometry x="290" y="1200" width="220" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_validate" value="Validar Membro&#xa;g.getMembros().contains(de)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="30" y="1420" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="255" y="1360" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="decS_isMember" value="Membro?" style="rhombus;" parent="lane_server" vertex="1">
-                    <mxGeometry x="125" y="1490" width="30" height="30" as="geometry"/>
+                    <mxGeometry x="350" y="1480" width="30" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_exception" value="Lançar Exceção&#xa;throw new RemoteException(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="lane_server" vertex="1">
-                    <mxGeometry x="160" y="1640" width="220" height="40" as="geometry"/>
+                    <mxGeometry x="25" y="1790" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="actS_forward" value="Encaminhar Mensagem Grupo&#xa;for (membro) : c.receberMensagem(msg)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="-10" y="1560" width="220" height="45" as="geometry"/>
+                    <mxGeometry x="255" y="1600" width="220" height="45" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_isMember_yes_fwd" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="lane_server" source="decS_isMember" target="actS_forward" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="90" y="1500"/>
+                            <mxPoint x="365" y="1590"/>
+                            <mxPoint x="365" y="1590"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="lane_clientB" value="Cliente B (Admin / Destinatário)" style="swimlane;startSize=20;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="swimlanes" vertex="1">
-                    <mxGeometry x="785" y="20" width="260" height="1980" as="geometry"/>
+                <mxCell id="actS_forwardPrivFile" value="Encaminhar Arquivo Privado&#xa;c.receberArquivo(arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
+                    <mxGeometry x="150" y="497.5" width="220" height="45" as="geometry"/>
                 </mxCell>
-                <mxCell id="actB_recvPriv" value="Exibir Msg Recebida&#xa;ui.exibirMensagem(msg)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="lane_clientB" vertex="1">
-                    <mxGeometry x="20" y="665" width="220" height="40" as="geometry"/>
+                <mxCell id="actS_validateGrpFile" value="Validar Membro Grupo&#xa;g.getMembros().contains(de)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
+                    <mxGeometry x="25" y="1460" width="220" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="actB_popup" value="Pedir Confirmação&#xa;ui.lidarComPedidoGrupo(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="lane_clientB" vertex="1">
-                    <mxGeometry x="20" y="820" width="220" height="40" as="geometry"/>
+                <mxCell id="decS_isGrpFileMember" value="Membro?" style="rhombus;" parent="lane_server" vertex="1">
+                    <mxGeometry x="120" y="1540" width="30" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="decB_approve" value="Aprovar?" style="rhombus;" parent="lane_clientB" vertex="1">
-                    <mxGeometry x="115" y="890" width="30" height="30" as="geometry"/>
+                <mxCell id="actS_forwardGrpFile" value="Encaminhar Arquivo Grupo&#xa;for (membro) : c.receberArquivo(arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
+                    <mxGeometry x="150" y="1697.5" width="220" height="45" as="geometry"/>
                 </mxCell>
-                <mxCell id="actB_yes" value="Responder Sim&#xa;server.responderEntradaGrupo(..., true)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="lane_clientB" vertex="1">
-                    <mxGeometry x="10" y="950" width="110" height="40" as="geometry"/>
-                </mxCell>
-                <mxCell id="actB_no" value="Responder Não&#xa;server.responderEntradaGrupo(..., false)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="lane_clientB" vertex="1">
-                    <mxGeometry x="140" y="1010" width="120" height="40" as="geometry"/>
+                <mxCell id="4" style="edgeStyle=none;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="lane_server" source="decS_isMember" target="decS_isMember">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_forward_to_success" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="swimlanes" source="actS_forward" target="actA_success" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lane_clientB" value="Cliente B (Admin / Destinatário)" style="swimlane;startSize=20;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="swimlanes" vertex="1">
+                    <mxGeometry x="1100" y="20" width="600" height="2060" as="geometry"/>
+                </mxCell>
+                <mxCell id="actB_recvPriv" value="Exibir Msg Recebida&#xa;ui.exibirMensagem(msg)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="lane_clientB" vertex="1">
+                    <mxGeometry x="182.5" y="580" width="220" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="actB_popup" value="Pedir Confirmação&#xa;ui.lidarComPedidoGrupo(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="lane_clientB" vertex="1">
+                    <mxGeometry x="182.5" y="650" width="220" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="decB_approve" value="Aprovar?" style="rhombus;" parent="lane_clientB" vertex="1">
+                    <mxGeometry x="277.5" y="790" width="30" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="actB_yes" value="Responder Sim&#xa;server.responderEntradaGrupo(..., true)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="lane_clientB" vertex="1">
+                    <mxGeometry x="40" y="890" width="230" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="actB_no" value="Responder Não&#xa;server.responderEntradaGrupo(..., false)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#f8cecc;strokeColor=#b85450;" parent="lane_clientB" vertex="1">
+                    <mxGeometry x="300" y="890" width="240" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="actB_recvPrivFile" value="Receber e Salvar Arquivo&#xa;ui.salvarEAbrirArquivo(arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="lane_clientB" vertex="1">
+                    <mxGeometry x="182.5" y="500" width="220" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="actB_downloadGrpFile" value="Receber e Salvar Arquivo&#xa;ui.salvarEAbrirArquivo(arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="lane_clientB" vertex="1">
+                    <mxGeometry x="182.5" y="1910" width="220" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_start_to_hasAccount" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actA_start" target="decA_hasAccount" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -202,15 +239,16 @@
                 <mxCell id="e_decRegOk_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decA_regOk" target="actA_login" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="360" y="270"/>
-                            <mxPoint x="185" y="270"/>
+                            <mxPoint x="515" y="290"/>
+                            <mxPoint x="320" y="290"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_hasAccount_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decA_hasAccount" target="actA_login" edge="1">
                     <mxGeometry x="0.0003" y="-10" relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="50" y="310"/>
+                            <mxPoint x="50" y="160"/>
+                            <mxPoint x="50" y="330"/>
                         </Array>
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -223,24 +261,29 @@
                 </mxCell>
                 <mxCell id="e_decLogin_to_clientDec" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decS_loginOk" target="decA_loginOk" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <Array as="points">
-                            <mxPoint x="320" y="385"/>
-                            <mxPoint x="320" y="385"/>
-                        </Array>
+                        <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_action_priv" value="Privado" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decA_action" target="decA_privChoice" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="230" y="530"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_action_group" value="Grupo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decA_action" target="decA_isGrpMember" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="190" y="550"/>
+                            <mxPoint x="125" y="510"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_privMsg_to_server" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actA_privMsg" target="actS_forwardPriv" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="690" y="660"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_server_to_recvPriv" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actS_forwardPriv" target="actB_recvPriv" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -248,21 +291,27 @@
                 <mxCell id="e_recvPriv_to_merge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actB_recvPriv" target="mergeA_end" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="870" y="790"/>
-                            <mxPoint x="410" y="790"/>
-                            <mxPoint x="410" y="1925"/>
+                            <mxPoint x="1690" y="660"/>
+                            <mxPoint x="1690" y="2080"/>
+                            <mxPoint x="230" y="2080"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_isMember_no" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decA_isGrpMember" target="actA_req" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="280" y="705"/>
+                            <mxPoint x="170" y="575"/>
+                            <mxPoint x="170" y="730"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_isMember_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decA_isGrpMember" target="decA_grpChoice" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="125" y="1380"/>
+                            <mxPoint x="125" y="1380"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_req_to_server" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actA_req" target="actS_req" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -271,29 +320,38 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_popup_to_decApprove" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actB_popup" target="decB_approve" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1423" y="820"/>
+                            <mxPoint x="1423" y="820"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_approve_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decB_approve" target="actB_yes" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="880" y="965"/>
+                            <mxPoint x="1285" y="865"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_approve_no" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decB_approve" target="actB_no" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1015" y="965"/>
+                            <mxPoint x="1550" y="865"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_yes_to_server" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actB_yes" target="actS_resp" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1285" y="1070"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_no_to_server" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actB_no" target="actS_resp" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="650" y="1090"/>
+                            <mxPoint x="1550" y="1090"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -301,19 +359,40 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_approved_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decS_approved" target="actS_add" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="730" y="1200"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_approved_no" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decS_approved" target="actS_reject" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1020" y="1200"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_add_to_notify" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actS_add" target="actA_notify" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="730" y="1340"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_reject_to_notify" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actS_reject" target="actA_notify" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1020" y="1360"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_notify_to_msg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actA_notify" target="actA_msg" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="420" y="1420"/>
+                            <mxPoint x="420" y="1420"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_msg_to_validate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actA_msg" target="actS_validate" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -324,74 +403,35 @@
                 <mxCell id="e_isMember_no_exc" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decS_isMember" target="actS_exception" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="740" y="1565"/>
+                            <mxPoint x="1110" y="1555"/>
+                            <mxPoint x="1110" y="1870"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_exception_to_error" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actS_exception" target="actA_error" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="500" y="1860"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_success_to_merge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actA_success" target="mergeA_end" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="160" y="1700"/>
-                            <mxPoint x="160" y="1700"/>
+                            <mxPoint x="220" y="1683"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_error_to_merge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actA_error" target="mergeA_end" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="170" y="1830"/>
+                            <mxPoint x="240" y="1870"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="e_merge_to_end" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="mergeA_end" target="actA_end" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                
-                <!-- Novas Decisões de Envio (Mensagem ou Arquivo) -->
-                <mxCell id="decA_privChoice" value="Tipo Envio?" style="rhombus;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="90" y="500" width="40" height="40" as="geometry"/>
-                </mxCell>
-                <mxCell id="decA_grpChoice" value="Tipo Envio?" style="rhombus;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="220" y="1350" width="40" height="40" as="geometry"/>
-                </mxCell>
-
-                <!-- Nós de Upload de Arquivo do Cliente A -->
-                <mxCell id="actA_privFile" value="Upload de Arquivo Privado&#xa;server.enviarArquivo(..., arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="200" y="580" width="220" height="40" as="geometry"/>
-                </mxCell>
-                <mxCell id="actA_grpFile" value="Upload de Arquivo Grupo&#xa;server.enviarArquivo(..., arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="0" y="1420" width="190" height="40" as="geometry"/>
-                </mxCell>
-                <mxCell id="actA_successGrpFile" value="Exibir Sucesso Local&#xa;ui.exibirMensagemLocal(...)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="lane_clientA" vertex="1">
-                    <mxGeometry x="-40" y="1790" width="180" height="40" as="geometry"/>
-                </mxCell>
-
-                <!-- Nós de Encaminhamento e Validação do Servidor RMI -->
-                <mxCell id="actS_forwardPrivFile" value="Encaminhar Arquivo Privado&#xa;c.receberArquivo(arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="30" y="730" width="220" height="45" as="geometry"/>
-                </mxCell>
-                <mxCell id="actS_validateGrpFile" value="Validar Membro Grupo&#xa;g.getMembros().contains(de)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="30" y="1510" width="220" height="40" as="geometry"/>
-                </mxCell>
-                <mxCell id="decS_isGrpFileMember" value="Membro?" style="rhombus;" parent="lane_server" vertex="1">
-                    <mxGeometry x="220" y="1580" width="30" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="actS_forwardGrpFile" value="Encaminhar Arquivo Grupo&#xa;for (membro) : c.receberArquivo(arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="lane_server" vertex="1">
-                    <mxGeometry x="-10" y="1720" width="220" height="45" as="geometry"/>
-                </mxCell>
-
-                <!-- Nós de Recebimento e Download do Cliente B -->
-                <mxCell id="actB_recvPrivFile" value="Receber e Salvar Arquivo&#xa;ui.salvarEAbrirArquivo(arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="lane_clientB" vertex="1">
-                    <mxGeometry x="20" y="730" width="220" height="40" as="geometry"/>
-                </mxCell>
-                <mxCell id="actB_downloadGrpFile" value="Receber e Salvar Arquivo&#xa;ui.salvarEAbrirArquivo(arquivo)" style="html=1;align=center;verticalAlign=top;rounded=1;absoluteArcSize=1;arcSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="lane_clientB" vertex="1">
-                    <mxGeometry x="20" y="1790" width="220" height="40" as="geometry"/>
-                </mxCell>
-
-                <!-- Arestas de Conexão Privadas -->
                 <mxCell id="e_privChoice_msg" value="Texto" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decA_privChoice" target="actA_privMsg" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
@@ -407,51 +447,69 @@
                 <mxCell id="e_recvPrivFile_to_merge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actB_recvPrivFile" target="mergeA_end" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="870" y="800"/>
-                            <mxPoint x="410" y="800"/>
-                            <mxPoint x="410" y="1925"/>
+                            <mxPoint x="1710" y="580"/>
+                            <mxPoint x="1710" y="2090"/>
+                            <mxPoint x="220" y="2090"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-
-                <!-- Arestas de Conexão de Grupo -->
                 <mxCell id="e_grpChoice_msg" value="Texto" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decA_grpChoice" target="actA_msg" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="220" y="1440"/>
+                            <mxPoint x="220" y="1440"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_grpChoice_file" value="Arquivo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decA_grpChoice" target="actA_grpFile" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_grpFile_to_validate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actA_grpFile" target="actS_validateGrpFile" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="670" y="1540"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_validate_to_decGrpFileMember" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actS_validateGrpFile" target="decS_isGrpFileMember" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_isGrpFileMember_no" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decS_isGrpFileMember" target="actS_exception" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="670" y="1615"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_isGrpFileMember_yes" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="decS_isGrpFileMember" target="actS_forwardGrpFile" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="820" y="1615"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_forwardGrpFile_to_success" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actS_forwardGrpFile" target="actA_successGrpFile" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="e_forwardGrpFile_to_download" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actS_forwardGrpFile" target="actB_downloadGrpFile" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="930" y="1990"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="e_successGrpFile_to_merge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actA_successGrpFile" target="mergeA_end" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="160" y="1830"/>
+                            <mxPoint x="230" y="1783"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="e_downloadGrpFile_to_merge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="actB_downloadGrpFile" target="mergeA_end" edge="1">
+                <mxCell id="e_downloadGrpFile_to_merge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=1;entryDx=0;entryDy=0;" parent="1" source="actB_downloadGrpFile" target="mergeA_end" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="870" y="1830"/>
-                            <mxPoint x="410" y="1830"/>
-                            <mxPoint x="410" y="1925"/>
+                            <mxPoint x="1422" y="2070"/>
+                            <mxPoint x="240" y="2070"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
